@@ -18,4 +18,7 @@ const { version: VERSION } = PackageJson;
 const SERVER_PORT = process.env.PORT || "8080";
 const WEBPACK_PORT = 8085; // For dev environment only
 
-export { IS_DEV, VERSION, SERVER_PORT, WEBPACK_PORT };
+// database
+const CONNECTION_STRING = process.env.CONNECTION_STRING;
+
+export { IS_DEV, VERSION, SERVER_PORT, WEBPACK_PORT, CONNECTION_STRING };
