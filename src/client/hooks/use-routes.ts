@@ -2,16 +2,8 @@ import { useMemo, FunctionComponent } from "react";
 import { Users } from "../view/backoffice/users";
 import { Dashboard } from "../view/backoffice/dashboard";
 import { News } from "../view/backoffice/news";
-import {
-    // DesktopOutlined,
-    // PieChartOutlined,
-    FileOutlined,
-    // // TeamOutlined,
-    // UserOutlined,
-    // ShoppingCartOutlined,
-} from "@ant-design/icons";
-// import { SiteTemplate } from "../view/site";
-// import { SiteHomePage } from "../view/site/home";
+import { FileOutlined } from "@ant-design/icons";
+
 import { Products } from "../view/backoffice/products";
 
 interface IRoute {
