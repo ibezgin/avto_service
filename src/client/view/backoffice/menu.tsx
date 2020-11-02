@@ -2,6 +2,7 @@ import { Menu } from "antd";
 import { useRoutes } from "../../hooks/use-routes";
 import React from "react";
 import SubMenu from "antd/lib/menu/SubMenu";
+import { Link } from "react-router-dom";
 
 export const BackofficeMenu = React.memo(() => {
     const routes = useRoutes();
@@ -19,7 +20,12 @@ export const BackofficeMenu = React.memo(() => {
                             key={`menu-item-${categoryIndex}-${menuItemIndex}`}
                             icon={<menuItem.icon />}
                         >
-                            {menuItem.name}
+                            <Link
+                                to={menuItem.path}
+                                key={`menu-item-link-${categoryIndex}-${menuItemIndex}`}
+                            >
+                                {menuItem.name}{" "}
+                            </Link>
                         </Menu.Item>
                     ))}
                 </SubMenu>

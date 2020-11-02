@@ -19,9 +19,10 @@ export const getOrCreateConnection = () => {
             // username: "admin",
             // password: "darkdark",
             useNewUrlParser: true,
-            reconnectTries: Number.MAX_VALUE,
+            // reconnectTries: Number.MAX_VALUE,
             entities: [UserEntity, NewsEntity, ProductsEntity],
             synchronize: true,
+            useUnifiedTopology: true,
         });
     }
     // console.log(connection);

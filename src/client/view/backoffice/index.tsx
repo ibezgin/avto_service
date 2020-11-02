@@ -23,7 +23,7 @@ export const AppTemplate = React.memo((props: IProps) => {
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed}>
                 <div className="logo">
-                    <img src={"assets/images/logo.png"} width={60} />
+                    <img src={"/assets/images/logo.png"} width={60} />
                 </div>
                 <BackofficeMenu />
             </Sider>
