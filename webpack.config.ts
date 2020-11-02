@@ -24,7 +24,10 @@ const config: Configuration = {
         publicPath: "/statics/",
     },
     resolve: {
-        extensions: [".js", ".ts", ".tsx"],
+        extensions: [".js", ".ts", ".tsx", ".graphql", ".gql"],
+        alias: {
+            ejs: "ejs.min.js",
+        },
     },
     optimization: {
         minimize: !IS_DEV,
@@ -36,17 +39,21 @@ const config: Configuration = {
                     chunks: "all",
                     priority: 10,
                 },
-                material: {
-                    test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
-                    name: "material-ui",
-                    chunks: "all",
-                    priority: 20,
-                },
             },
         },
     },
     module: {
         rules: [
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: [/node_modules/, nodeModulesPath],
+                loader: "graphql-tag/loader",
+            },
+            {
+                exclude: [/node_modules/, nodeModulesPath],
+                test: /\.graphql$/,
+                use: [{ loader: "graphql-import-loader" }],
+            },
             {
                 test: /\.tsx?$/,
                 exclude: [/node_modules/, nodeModulesPath],
@@ -70,9 +77,15 @@ const config: Configuration = {
                                 { loose: true },
                             ],
                             "@babel/plugin-proposal-object-rest-spread",
+                            "babel-plugin-graphql-import",
                         ],
                     },
                 },
+            },
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: [/node_modules/, nodeModulesPath],
+                loader: "graphql-tag/loader",
             },
             {
                 test: /\.css$/,
@@ -119,6 +132,11 @@ const config: Configuration = {
             //     ],
             // },
             {
+                test: /\.(graphql|gql)$/,
+                exclude: [/node_modules/, nodeModulesPath],
+                loader: "graphql-tag/loader",
+            },
+            {
                 test: /\.less$/,
                 use: [
                     {
@@ -143,8 +161,18 @@ const config: Configuration = {
                 ],
             },
             {
+                test: /\.(graphql|gql)$/,
+                exclude: [/node_modules/, nodeModulesPath],
+                loader: "graphql-tag/loader",
+            },
+            {
                 test: /.jpe?g$|.gif$|.png$|.svg$|.woff$|.woff2$|.ttf$|.eot$/,
                 use: "url-loader?limit=10000",
+            },
+            {
+                test: /\.(graphql|gql)$/,
+                exclude: [/node_modules/, nodeModulesPath],
+                loader: "graphql-tag/loader",
             },
         ],
     },

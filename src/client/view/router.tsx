@@ -2,6 +2,7 @@ import { useRoutes } from "../hooks/use-routes";
 import { Switch, Route } from "react-router";
 import React from "react";
 import { AppTemplate } from "./backoffice";
+import { GlobalStyles } from "../service/styled-components/global";
 
 export const Router = React.memo(() => {
     const routesList = useRoutes();
@@ -32,6 +33,7 @@ export const Router = React.memo(() => {
                     />
                 ))}
             </Switch>
+            <GlobalStyles />
         </AppTemplate>
     );
 });

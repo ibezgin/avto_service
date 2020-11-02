@@ -14,11 +14,12 @@
         "outDir": "../../dist/server",
         "lib": ["ES2019"],
         "moduleResolution": "node",
-        "types": ["node"],
         "incremental": true,
-        "composite": true
+        "composite": true,
+        "skipLibCheck": true,
     },
     "include": ["**/*.ts"],
     "exclude": ["**/*.test.ts"],
-    "references": [{ "path": "../shared" }]
+    "references": [{ "path": "../shared" }],
+    "typeRoots": ["./node_modules/@types", "./global.d.ts"],
 }

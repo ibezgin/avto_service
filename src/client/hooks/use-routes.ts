@@ -1,4 +1,4 @@
-import { useMemo, ReactNode, FunctionComponent } from "react";
+import { useMemo, FunctionComponent } from "react";
 import { Users } from "../view/backoffice/users";
 import { Dashboard } from "../view/backoffice/dashboard";
 import { News } from "../view/backoffice/news";
@@ -25,6 +25,7 @@ interface IRoute {
         component: FunctionComponent;
         exact?: boolean;
         icon: FunctionComponent;
+        header?: FunctionComponent;
     }>;
 }
 
@@ -46,15 +47,22 @@ export function useRoutes() {
                             icon: FileOutlined,
                         },
                         {
+                            name: "Роли",
+                            path: "/dictionary/roles",
+                            component: Users,
+                            exact: true,
+                            icon: FileOutlined,
+                        },
+                        {
                             name: "Пользователи",
-                            path: "/dictionary/users/",
+                            path: "/dictionary/users",
                             component: Users,
                             exact: true,
                             icon: FileOutlined,
                         },
                         {
                             name: "Марки автомобилей",
-                            path: "/dictionary/brands/",
+                            path: "/dictionary/brands",
                             component: Dashboard,
                             icon: FileOutlined,
                         },
