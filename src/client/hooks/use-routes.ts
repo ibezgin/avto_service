@@ -72,18 +72,6 @@ export function useRoutes() {
                             component: News,
                             icon: FileOutlined,
                         },
-                        {
-                            name: "Клиенты",
-                            path: "/admin/clients",
-                            component: Products,
-                            icon: FileOutlined,
-                        },
-                        {
-                            name: "Обслуживаемые автомобили",
-                            path: "/admin/cars",
-                            component: Products,
-                            icon: FileOutlined,
-                        },
                     ],
                 },
                 {
@@ -100,6 +88,18 @@ export function useRoutes() {
                         {
                             name: "Добавить заявку",
                             path: "/proposal/add",
+                            component: Products,
+                            icon: FileOutlined,
+                        },
+                        {
+                            name: "Клиенты",
+                            path: "/admin/clients",
+                            component: Products,
+                            icon: FileOutlined,
+                        },
+                        {
+                            name: "Обслуживаемые автомобили",
+                            path: "/admin/cars",
                             component: Products,
                             icon: FileOutlined,
                         },
