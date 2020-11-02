@@ -15,7 +15,7 @@ const PackageJson = JSON.parse(rawPackageJson);
 const { version: VERSION } = PackageJson;
 
 // server
-const SERVER_PORT = process.env.PORT || "8080";
+const SERVER_PORT = process.env.PORT || 8080;
 const WEBPACK_PORT = 8085; // For dev environment only
 
 // database

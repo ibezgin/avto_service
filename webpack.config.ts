@@ -45,16 +45,6 @@ const config: Configuration = {
     module: {
         rules: [
             {
-                test: /\.(graphql|gql)$/,
-                exclude: [/node_modules/, nodeModulesPath],
-                loader: "graphql-tag/loader",
-            },
-            {
-                exclude: [/node_modules/, nodeModulesPath],
-                test: /\.graphql$/,
-                use: [{ loader: "graphql-import-loader" }],
-            },
-            {
                 test: /\.tsx?$/,
                 exclude: [/node_modules/, nodeModulesPath],
                 use: {
@@ -95,42 +85,10 @@ const config: Configuration = {
                     },
                     {
                         loader: "css-loader",
-                        options: {
-                            // modules: true,
-                            // localsConvention: "camelCase",
-                            // sourceMap: IS_DEV,
-                        },
+                        options: {},
                     },
-                    // {
-                    //     loader: "postcss-loader",
-                    //     options: {
-                    //         sourceMap: IS_DEV,
-                    //         plugins: IS_DEV ? [cssnano()] : [],
-                    //     },
-                    // },
                 ],
             },
-            // {
-            //     test: /\.less$/,
-            //     use: [
-            //         {
-            //             loader: "style-loader",
-            //         },
-            //         {
-            //             loader: "css-loader",
-            //         },
-            //         {
-            //             loader: "less-loader",
-            //             options: {
-            //                 lessOptions: {
-            //                     strictMath: true,
-            //                     javascriptEnabled: true,
-
-            //                 },
-            //             },
-            //         },
-            //     ],
-            // },
             {
                 test: /\.(graphql|gql)$/,
                 exclude: [/node_modules/, nodeModulesPath],
@@ -161,18 +119,8 @@ const config: Configuration = {
                 ],
             },
             {
-                test: /\.(graphql|gql)$/,
-                exclude: [/node_modules/, nodeModulesPath],
-                loader: "graphql-tag/loader",
-            },
-            {
                 test: /.jpe?g$|.gif$|.png$|.svg$|.woff$|.woff2$|.ttf$|.eot$/,
                 use: "url-loader?limit=10000",
-            },
-            {
-                test: /\.(graphql|gql)$/,
-                exclude: [/node_modules/, nodeModulesPath],
-                loader: "graphql-tag/loader",
             },
         ],
     },
