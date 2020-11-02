@@ -21,4 +21,3 @@ router.post("/api/user", async (req, res) => {
 });
 
 router.use("/api", apiRouter);
-
