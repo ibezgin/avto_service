@@ -29,8 +29,9 @@ export const Router = React.memo(() => {
                         path={route.path}
                         key={`route-${indexRoute}`}
                         exact={route.exact}
-                        component={route.resultRoutes}
-                    />
+                    >
+                        <route.component />
+                    </Route>
                 ))}
             </Switch>
             <GlobalStyles />
