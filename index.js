@@ -1,2 +1,3 @@
-// eslint-disable-next-line no-undef
+/* eslint-disable no-undef */
+require("@babel/register");
 require("./dist/server/main");
