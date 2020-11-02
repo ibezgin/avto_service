@@ -5,7 +5,7 @@ import { BackofficeMenu } from "./menu";
 import React from "react";
 import { HeaderWrapper } from "../../components/header";
 // import { FunctionComponent } from "react";
-// import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { SC } from "./styled";
 interface IProps {
     children?: ReactNode;
@@ -27,16 +27,23 @@ export const AppTemplate = React.memo((props: IProps) => {
                 </div>
                 <BackofficeMenu />
             </Sider>
+            {/* {React.createElement(
+                collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                {
+                    className: "trigger",
+                    onClick: () => setCollapsed(!collapsed),
+                },
+            )} */}
             <Layout className="site-layout">
                 <HeaderWrapper
                     collapsed={collapsed}
                     setCollapsed={memoizedSetCollapsed}
                 />
                 <Content
-                    className="site-layout-background"
                     style={{
                         overflow: "auto",
                     }}
+                    className="site-layout-background"
                 >
                     <SC.Content>{props.children}</SC.Content>
                 </Content>

@@ -3,6 +3,7 @@ import { AbstractRequestContextHelper } from "../../abstract-request-context-hel
 import { NewsContextHelper } from "./news";
 import { ProductsContextHelper } from "./products";
 import { RoleContextHelper } from "./role";
+import { BrandContextHelper } from "./brand";
 
 export class SectionsContextHelper extends AbstractRequestContextHelper {
     public get user() {
@@ -16,5 +17,8 @@ export class SectionsContextHelper extends AbstractRequestContextHelper {
     }
     public get role() {
         return new RoleContextHelper(this.context);
+    }
+    public get brand() {
+        return new BrandContextHelper(this.context);
     }
 }

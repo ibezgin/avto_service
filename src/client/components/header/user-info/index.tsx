@@ -21,13 +21,30 @@ export const UserInfo = React.memo(() => {
             >
                 <div>
                     <SC.UserInfoTitle>{"Язык"}</SC.UserInfoTitle>
-                    <SC.UserInfoValue>{"Русский"}</SC.UserInfoValue>
+                    <SC.UserInfoValue>Русский</SC.UserInfoValue>
                 </div>
             </Menu.Item>
-
             <Menu.Item
                 onClick={() => {
-                    // asd
+                    // setTimeZoneModalVisible(true);
+                }}
+            >
+                <div>
+                    <SC.UserInfoTitle>{"Временная зона"}</SC.UserInfoTitle>
+                    <SC.UserInfoValue>{/* <Timer /> */}</SC.UserInfoValue>
+                </div>
+            </Menu.Item>
+            {/* <Menu.Item disabled={true}>
+                <div>
+                    <SC.UserInfoTitle>{__("Тема")}</SC.UserInfoTitle>
+                    <SC.UserInfoValue>
+                        {__("Тёмный интерфейс")}
+                    </SC.UserInfoValue>
+                </div>
+            </Menu.Item> */}
+            <Menu.Item
+                onClick={() => {
+                    // / some
                 }}
             >
                 <SC.UserInfoLogout>{"Выйти из аккаунта"}</SC.UserInfoLogout>

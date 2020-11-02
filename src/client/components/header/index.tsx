@@ -2,6 +2,7 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { Layout } from "antd";
 import React from "react";
 import { Route, Switch } from "react-router";
+import { useRoutes } from "../../hooks/use-routes";
 import { SC } from "./styled";
 import { UserInfo } from "./user-info";
 const { Header } = Layout;
@@ -14,6 +15,16 @@ interface IProps {
 export const HeaderWrapper = React.memo((props: IProps) => {
     const { collapsed, setCollapsed } = props;
 
+    const routes = useRoutes();
+    const headerRoutes = [];
+    for (const category of routes) {
+        for (const menuItem of category.children) {
+            if (menuItem.header) {
+                headerRoutes.push(menuItem);
+            }
+        }
+    }
+
     return (
         <>
             <Header
@@ -22,15 +33,18 @@ export const HeaderWrapper = React.memo((props: IProps) => {
                 style={{ padding: 0 }}
             >
                 <SC.Header>
-                    {React.createElement(
-                        collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                        {
-                            className: "trigger",
-                            onClick: () => setCollapsed(!collapsed),
-                        },
-                    )}
                     <Switch>
-                        {/* {header} */}
+                        {headerRoutes.map((route, indexRoute) => (
+                            <Route
+                                path={route.path}
+                                key={`route-${indexRoute}`}
+                                exact={route.exact}
+                            >
+                                <div></div>
+                                <route.header />
+                                <div></div>
+                            </Route>
+                        ))}
                         <Route
                             path={""}
                             exact={false}
@@ -42,9 +56,11 @@ export const HeaderWrapper = React.memo((props: IProps) => {
                             )}
                         />
                     </Switch>
-                    <SC.UserInfo>
-                        <UserInfo />
-                    </SC.UserInfo>
+                    <div>
+                        <SC.UserInfo>
+                            <UserInfo />
+                        </SC.UserInfo>
+                    </div>
                 </SC.Header>
             </Header>
         </>

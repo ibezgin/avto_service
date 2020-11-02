@@ -28,7 +28,7 @@ export const MenuIcons = styled.div`
 `;
 
 const Content = styled.div`
-    padding: 0 44px 32px 44px;
+    padding: 32px 44px 32px 44px;
 `;
 
 export const SC = { MenuIcon, MenuIcons, Content };
