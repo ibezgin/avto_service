@@ -1,120 +1,74 @@
-/* eslint-disable @typescript-eslint/interface-name-prefix */
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-    [K in keyof T]: T[K];
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
-export interface Scalars {
-    ID: string;
-    String: string;
-    Boolean: boolean;
-    Int: number;
-    Float: number;
-}
+export type Scalars = {
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+  JSON: any;
+  JSONObject: any;
+  Date: any;
+};
 
-export interface Query {
-    __typename?: "Query";
-    _keep?: Maybe<Scalars["Boolean"]>;
-    users: UsersQuery;
-    news: NewsQuery;
-    products: ProductsQuery;
-}
+export type Query = {
+  __typename?: 'Query';
+  role: RoleQuery;
+  brand: BrandQuery;
+  _keep?: Maybe<Scalars['Boolean']>;
+};
 
-export interface Mutation {
-    __typename?: "Mutation";
-    _keep?: Maybe<Scalars["Boolean"]>;
-    news: NewsMutation;
-    products: ProductsMutation;
-}
+export type Mutation = {
+  __typename?: 'Mutation';
+  role: RoleMutation;
+  brand: BrandMutation;
+  _keep?: Maybe<Scalars['Boolean']>;
+};
 
-export interface UsersQuery {
-    __typename?: "UsersQuery";
-    allUsers?: Maybe<Array<Maybe<UserType>>>;
-}
+export type RoleQuery = {
+  __typename?: 'RoleQuery';
+  allRoles: Array<RoleType>;
+};
 
-export interface UserType {
-    __typename?: "UserType";
-    _id?: Maybe<Scalars["String"]>;
-    firstname?: Maybe<Scalars["String"]>;
-}
+export type RoleMutation = {
+  __typename?: 'RoleMutation';
+  addRole?: Maybe<Scalars['Boolean']>;
+};
 
-export interface NewsQuery {
-    __typename?: "NewsQuery";
-    allNews?: Maybe<Array<Maybe<NewsType>>>;
-}
 
-export interface NewsMutation {
-    __typename?: "NewsMutation";
-    addNews?: Maybe<Scalars["Boolean"]>;
-    updateNews?: Maybe<Scalars["Boolean"]>;
-    deleteNews?: Maybe<Scalars["Boolean"]>;
-}
+export type RoleMutationAddRoleArgs = {
+  title: Scalars['String'];
+  permission?: Maybe<Scalars['JSON']>;
+};
 
-export interface NewsMutationAddNewsArgs {
-    title?: Maybe<Scalars["String"]>;
-    content?: Maybe<Scalars["String"]>;
-}
+export type RoleType = {
+  __typename?: 'RoleType';
+  _id: Scalars['String'];
+  title: Scalars['String'];
+  permission?: Maybe<Scalars['JSON']>;
+};
 
-export interface NewsMutationUpdateNewsArgs {
-    value?: Maybe<NewsInput>;
-}
+export type BrandQuery = {
+  __typename?: 'BrandQuery';
+  allBrands: Array<BrandType>;
+};
 
-export interface NewsMutationDeleteNewsArgs {
-    id?: Maybe<Scalars["String"]>;
-}
+export type BrandMutation = {
+  __typename?: 'BrandMutation';
+  addBrand?: Maybe<Scalars['Boolean']>;
+};
 
-export interface NewsType {
-    __typename?: "NewsType";
-    _id?: Maybe<Scalars["String"]>;
-    title?: Maybe<Scalars["String"]>;
-    content?: Maybe<Scalars["String"]>;
-}
 
-export interface NewsInput {
-    _id?: Maybe<Scalars["String"]>;
-    title?: Maybe<Scalars["String"]>;
-    content?: Maybe<Scalars["String"]>;
-}
+export type BrandMutationAddBrandArgs = {
+  title: Scalars['String'];
+};
 
-export interface ProductsQuery {
-    __typename?: "ProductsQuery";
-    allProducts?: Maybe<Array<Maybe<ProductType>>>;
-}
+export type BrandType = {
+  __typename?: 'BrandType';
+  _id: Scalars['String'];
+  title: Scalars['String'];
+};
 
-export interface ProductsMutation {
-    __typename?: "ProductsMutation";
-    addProduct?: Maybe<Scalars["Boolean"]>;
-    updateProduct?: Maybe<Scalars["Boolean"]>;
-    deleteProduct?: Maybe<Scalars["Boolean"]>;
-}
 
-export interface ProductsMutationAddProductArgs {
-    value?: Maybe<ProductInput>;
-}
 
-export interface ProductsMutationUpdateProductArgs {
-    value?: Maybe<ProductInput>;
-}
-
-export interface ProductsMutationDeleteProductArgs {
-    id?: Maybe<Scalars["String"]>;
-}
-
-export interface ProductType {
-    __typename?: "ProductType";
-    _id?: Maybe<Scalars["String"]>;
-    title?: Maybe<Scalars["String"]>;
-    price?: Maybe<Scalars["String"]>;
-    imagePath?: Maybe<Scalars["String"]>;
-    count?: Maybe<Scalars["Int"]>;
-    isDisplayed?: Maybe<Scalars["Boolean"]>;
-}
-
-export interface ProductInput {
-    _id?: Maybe<Scalars["String"]>;
-    title?: Maybe<Scalars["String"]>;
-    price?: Maybe<Scalars["Float"]>;
-    imagePath?: Maybe<Scalars["String"]>;
-    count?: Maybe<Scalars["Int"]>;
-    isDisplayed?: Maybe<Scalars["Boolean"]>;
-}

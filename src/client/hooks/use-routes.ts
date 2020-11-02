@@ -1,10 +1,9 @@
 import { useMemo, FunctionComponent } from "react";
-import { Users } from "../view/backoffice/users";
-import { Dashboard } from "../view/backoffice/dashboard";
-import { News } from "../view/backoffice/news";
 import { FileOutlined } from "@ant-design/icons";
-import { Products } from "../view/backoffice/products";
 import { AccessEnum } from "../service/enums/access";
+import { DictionaryBrand } from "../view/backoffice/dictionary/brand";
+import { GapPage } from "../components/gap-page";
+import { DictionaryBrandHeader } from "../view/backoffice/dictionary/brand/header";
 
 interface IRoute {
     name: string;
@@ -37,7 +36,7 @@ export function useRoutes() {
                         {
                             name: "Пользователи",
                             path: "/dictionary/users",
-                            component: Users,
+                            component: GapPage,
                             exact: true,
                             icon: FileOutlined,
                             access: AccessEnum.DICTIONARY_USERS,
@@ -45,7 +44,7 @@ export function useRoutes() {
                         {
                             name: "Услуги",
                             path: "/dictionary/service",
-                            component: Users,
+                            component: GapPage,
                             exact: true,
                             icon: FileOutlined,
                             access: AccessEnum.DICTIONARY_SERVICE,
@@ -53,7 +52,7 @@ export function useRoutes() {
                         {
                             name: "Детали",
                             path: "/dictionary/car-part",
-                            component: Users,
+                            component: GapPage,
                             exact: true,
                             icon: FileOutlined,
                             access: AccessEnum.DICTIONARY_CARPART,
@@ -61,14 +60,15 @@ export function useRoutes() {
                         {
                             name: "Марки автомобилей",
                             path: "/dictionary/brands",
-                            component: Dashboard,
+                            component: DictionaryBrand,
                             icon: FileOutlined,
                             access: AccessEnum.DICTIONARY_BRAND,
+                            header: DictionaryBrandHeader,
                         },
                         {
                             name: "Модели автомобилей",
                             path: "/dictionary/models",
-                            component: News,
+                            component: GapPage,
                             icon: FileOutlined,
                             access: AccessEnum.DICTIONARY_MODELS,
                         },
@@ -79,32 +79,34 @@ export function useRoutes() {
                     path: "/proposal/:path?",
                     icon: FileOutlined,
                     access: AccessEnum.PROPOSAL,
+                    exact: true,
                     children: [
                         {
                             name: "Все заявки",
                             path: "/proposal",
-                            component: Products,
+                            component: GapPage,
                             icon: FileOutlined,
                             access: AccessEnum.PROPOSAL_ALL,
+                            exact: true,
                         },
                         {
                             name: "Добавить заявку",
                             path: "/proposal/add",
-                            component: Products,
+                            component: GapPage,
                             icon: FileOutlined,
                             access: AccessEnum.PROPOSAL_ADD,
                         },
                         {
                             name: "Клиенты",
                             path: "/proposal/clients",
-                            component: Products,
+                            component: GapPage,
                             icon: FileOutlined,
                             access: AccessEnum.PROPOSAL_CLIENTS,
                         },
                         {
                             name: "Обслуживаемые автомобили",
                             path: "/proposal/cars",
-                            component: Products,
+                            component: GapPage,
                             icon: FileOutlined,
                             access: AccessEnum.PROPOSAL_CARS,
                         },
@@ -115,13 +117,15 @@ export function useRoutes() {
                     path: "/statistic/:path?",
                     icon: FileOutlined,
                     access: AccessEnum.STATISTIC,
+                    exact: true,
                     children: [
                         {
                             name: "Отчет о постипивших заявках по дням",
                             path: "/statistic",
-                            component: Products,
+                            component: GapPage,
                             icon: FileOutlined,
                             access: AccessEnum.STATISTIC_EVERYDAY,
+                            exact: true,
                         },
                     ],
                 },
