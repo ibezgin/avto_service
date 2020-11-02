@@ -16,9 +16,7 @@ console.log(`config: ${JSON.stringify(config, null, 2)}`);
 // eslint-disable-next-line no-console
 console.log("*******************************************");
 
-
 getOrCreateConnection();
-
 
 const app = express();
 app.set("view engine", "ejs");
@@ -29,7 +27,6 @@ app.use(staticsRouter());
 apolloServer.applyMiddleware({ app });
 
 app.use(pagesRouter());
-
 
 app.listen(config.SERVER_PORT, () => {
     // eslint-disable-next-line no-console
