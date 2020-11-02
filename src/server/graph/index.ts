@@ -1,25 +1,8 @@
-import { ApolloServer, IResolvers } from "apollo-server-express";
-
-import { makeExecutableSchema } from "graphql-tools";
+import { ApolloServer } from "apollo-server-express";
 import { RequestContext } from "../request-context";
-import { schemas } from "./sections";
-import { mergeResolvers } from "@graphql-tools/merge";
-import { mergeTypeDefs } from "@graphql-tools/merge";
+import { buildGraphqlSchema } from "./sections";
 
-const resolvers: Array<IResolvers<any, any>> = [];
-
-const types: any = [];
-
-for (const objects of schemas) {
-    const { resolverMap, typeDefs } = objects;
-    resolvers.push(resolverMap);
-    types.push(typeDefs);
-}
-
-const schema = makeExecutableSchema({
-    typeDefs: mergeTypeDefs(types),
-    resolvers: mergeResolvers(resolvers),
-});
+const schema = buildGraphqlSchema();
 
 export const apolloServer = new ApolloServer({
     schema,
