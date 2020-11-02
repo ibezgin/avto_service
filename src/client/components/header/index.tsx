@@ -33,6 +33,17 @@ export const HeaderWrapper = React.memo((props: IProps) => {
                 style={{ padding: 0 }}
             >
                 <SC.Header>
+                    <div>
+                        <div></div>
+                        {React.createElement(
+                            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                            {
+                                className: "trigger",
+                                onClick: () => setCollapsed(!collapsed),
+                            },
+                        )}
+                        <div></div>
+                    </div>
                     <Switch>
                         {headerRoutes.map((route, indexRoute) => (
                             <Route

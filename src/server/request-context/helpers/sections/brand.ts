@@ -10,13 +10,10 @@ export class BrandContextHelper extends AbstractRequestContextHelper {
     }
 
     public async addBrand(title: string) {
-        let brand = new BrandEntity();
-        brand = {
-            _id: new ObjectID(),
-            title,
-        };
+        const brand = new BrandEntity();
+        brand.title = title;
         const manager = getMongoManager();
-        manager.save(brand);
-        return true;
+        const result = await manager.save(brand);
+        return !!result._id;
     }
 }
