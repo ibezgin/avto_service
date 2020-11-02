@@ -24,10 +24,7 @@ const config: Configuration = {
         publicPath: "/statics/",
     },
     resolve: {
-        extensions: [".js", ".ts", ".tsx", ".graphql", ".gql"],
-        alias: {
-            ejs: "ejs.min.js",
-        },
+        extensions: [".js", ".ts", ".tsx"],
     },
     optimization: {
         minimize: !IS_DEV,
@@ -38,6 +35,12 @@ const config: Configuration = {
                     name: "vendors",
                     chunks: "all",
                     priority: 10,
+                },
+                material: {
+                    test: /[\\/]node_modules[\\/]@material-ui[\\/]/,
+                    name: "material-ui",
+                    chunks: "all",
+                    priority: 20,
                 },
             },
         },
@@ -67,15 +70,9 @@ const config: Configuration = {
                                 { loose: true },
                             ],
                             "@babel/plugin-proposal-object-rest-spread",
-                            "babel-plugin-graphql-import",
                         ],
                     },
                 },
-            },
-            {
-                test: /\.(graphql|gql)$/,
-                exclude: [/node_modules/, nodeModulesPath],
-                loader: "graphql-tag/loader",
             },
             {
                 test: /\.css$/,
@@ -85,15 +82,42 @@ const config: Configuration = {
                     },
                     {
                         loader: "css-loader",
-                        options: {},
+                        options: {
+                            // modules: true,
+                            // localsConvention: "camelCase",
+                            // sourceMap: IS_DEV,
+                        },
                     },
+                    // {
+                    //     loader: "postcss-loader",
+                    //     options: {
+                    //         sourceMap: IS_DEV,
+                    //         plugins: IS_DEV ? [cssnano()] : [],
+                    //     },
+                    // },
                 ],
             },
-            {
-                test: /\.(graphql|gql)$/,
-                exclude: [/node_modules/, nodeModulesPath],
-                loader: "graphql-tag/loader",
-            },
+            // {
+            //     test: /\.less$/,
+            //     use: [
+            //         {
+            //             loader: "style-loader",
+            //         },
+            //         {
+            //             loader: "css-loader",
+            //         },
+            //         {
+            //             loader: "less-loader",
+            //             options: {
+            //                 lessOptions: {
+            //                     strictMath: true,
+            //                     javascriptEnabled: true,
+
+            //                 },
+            //             },
+            //         },
+            //     ],
+            // },
             {
                 test: /\.less$/,
                 use: [
