@@ -4,9 +4,11 @@ import {
     BrandMutationAddBrandArgs,
     BrandMutationDeleteBrandArgs,
     Mutation,
+    BrandMutationUpdateBrandArgs,
 } from "../../../../service/types/types";
 import { ADD_BRAND } from "./gql/add-brand";
 import { DELETE_BRAND } from "./gql/delete-brand";
+import { UPDATE_BRAND } from "./gql/update-brand";
 export function useDictionaryBrandHelper() {
     const options = {
         onCompleted: () => {
@@ -25,6 +27,10 @@ export function useDictionaryBrandHelper() {
         Mutation,
         BrandMutationDeleteBrandArgs
     >(DELETE_BRAND, options);
+    const [updateBrand, updateBrandProps] = useMutation<
+        Mutation,
+        BrandMutationUpdateBrandArgs
+    >(UPDATE_BRAND, options);
 
     const sendAddBrand = (
         title: string,
@@ -48,9 +54,28 @@ export function useDictionaryBrandHelper() {
             refetchQueries: ["AllBrand"],
         });
     };
+    const sendUpdateBrand = (
+        id: string,
+        title: string,
+        setVisible: (value: boolean) => void,
+    ) => {
+        updateBrand({
+            variables: {
+                id,
+                title,
+            },
+            refetchQueries: ["AllBrand"],
+        }).then(() => {
+            setVisible(false);
+        });
+    };
     return {
         sendAddBrand,
         sendDeleteBrand,
-        loadingMutation: addBrandProps.loading || deleteBrandProps.loading,
+        sendUpdateBrand,
+        loadingMutation:
+            addBrandProps.loading ||
+            deleteBrandProps.loading ||
+            updateBrandProps.loading,
     };
 }
