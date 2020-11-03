@@ -94,7 +94,6 @@
         "less-loader": "^7.0.1",
         "lodash": "^4.17.20",
         "mongodb": "^3.6.2",
-        "react-query": "^2.23.0",
         "reflect-metadata": "^0.1.13",
         "styled-components": "^5.2.1",
         "styled-normalize": "^8.0.7",

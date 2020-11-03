@@ -1,9 +1,11 @@
 import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
 
-@Entity({ name: "brand" })
-export class BrandEntity {
+@Entity({ name: "models" })
+export class ModelsEntity {
     @ObjectIdColumn()
-    public id: ObjectID | undefined;
+    public id: ObjectID;
+    @Column()
+    public brandId: string;
     @Column()
     public title: string | undefined;
 }

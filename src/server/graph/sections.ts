@@ -1,5 +1,4 @@
 import { querySubSchema } from "./query";
-import { roleSubSchema } from "./sections/role";
 import { SubSchema } from "./sub-schema";
 import { IResolvers } from "apollo-server-express";
 
@@ -8,7 +7,7 @@ import { mergeResolvers } from "@graphql-tools/merge";
 import { mergeTypeDefs } from "@graphql-tools/merge";
 import { dictionaryBrandSubSchema } from "./sections/dictionary/brand";
 
-export const sections: SubSchema[] = [roleSubSchema, dictionaryBrandSubSchema];
+export const sections: SubSchema[] = [dictionaryBrandSubSchema];
 
 export const schemas: SubSchema[] = [...sections, querySubSchema];
 

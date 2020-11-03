@@ -5,7 +5,7 @@ export const All_BRAND = gql`
     query AllBrand {
         brand {
             allBrands {
-                _id
+                id
                 title
             }
         }

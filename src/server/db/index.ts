@@ -1,15 +1,13 @@
 import { createConnection } from "typeorm";
-import { UserEntity } from "./entities/users";
-import { NewsEntity } from "./entities/news";
-import { ProductsEntity } from "./entities/products";
 import { CONNECTION_STRING } from "../config";
 import { BrandEntity } from "./entities/brand";
+import { ModelsEntity } from "./entities/models";
 
 // const connectionManager = new ConnectionManager();
 
 let connection: ReturnType<typeof createConnection> | undefined;
 
-const entities = [UserEntity, NewsEntity, ProductsEntity, BrandEntity];
+const entities = [BrandEntity, ModelsEntity];
 
 export const getOrCreateConnection = () => {
     if (!connection) {

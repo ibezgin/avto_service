@@ -19,7 +19,7 @@ const types = gql`
     }
 
     type BrandType {
-        _id: String!
+        id: String!
         title: String!
     }
 `;

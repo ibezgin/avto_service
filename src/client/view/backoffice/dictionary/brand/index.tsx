@@ -13,7 +13,7 @@ const { confirm } = Modal;
 export const DictionaryBrand = React.memo(() => {
     const brandsQuery = useQuery<Query>(All_BRAND);
 
-    const { sendDeleteBrand } = useDictionaryBrandHelper();
+    const { sendDeleteBrand, loadingMutation } = useDictionaryBrandHelper();
 
     const brands = useMemo(() => brandsQuery.data?.brand.allBrands, [
         brandsQuery.data?.brand.allBrands,
@@ -37,7 +37,7 @@ export const DictionaryBrand = React.memo(() => {
                 render: (edit: any, record: any) => (
                     <>
                         <DictionaryBrandModal
-                            _id={record._id}
+                            id={record.id}
                             titleBrand={record.title}
                         >
                             {setVisible => (
@@ -52,9 +52,9 @@ export const DictionaryBrand = React.memo(() => {
                             style={coursorPointer}
                             onClick={() => {
                                 confirm({
-                                    title: "Подтвердите удаление",
+                                    title: `Подтвердите удаление [${record.title}]`,
                                     onOk: () => {
-                                        sendDeleteBrand(record._id);
+                                        sendDeleteBrand(record.id);
                                     },
                                 });
                             }}
@@ -70,7 +70,7 @@ export const DictionaryBrand = React.memo(() => {
         <Table
             columns={columns}
             dataSource={brands}
-            loading={brandsQuery.loading}
+            loading={brandsQuery.loading || loadingMutation}
         />
     );
 });
