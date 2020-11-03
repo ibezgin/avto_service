@@ -27,13 +27,13 @@ export const AppTemplate = React.memo((props: IProps) => {
                 </div>
                 <BackofficeMenu />
             </Sider>
-            {/* {React.createElement(
+            {React.createElement(
                 collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                 {
                     className: "trigger",
                     onClick: () => setCollapsed(!collapsed),
                 },
-            )} */}
+            )}
             <Layout className="site-layout">
                 <HeaderWrapper
                     collapsed={collapsed}

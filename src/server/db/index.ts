@@ -3,10 +3,13 @@ import { UserEntity } from "./entities/users";
 import { NewsEntity } from "./entities/news";
 import { ProductsEntity } from "./entities/products";
 import { CONNECTION_STRING } from "../config";
+import { BrandEntity } from "./entities/brand";
 
 // const connectionManager = new ConnectionManager();
 
 let connection: ReturnType<typeof createConnection> | undefined;
+
+const entities = [UserEntity, NewsEntity, ProductsEntity, BrandEntity];
 
 export const getOrCreateConnection = () => {
     if (!connection) {
@@ -19,10 +22,9 @@ export const getOrCreateConnection = () => {
             // username: "admin",
             // password: "darkdark",
             useNewUrlParser: true,
-            // reconnectTries: Number.MAX_VALUE,
-            entities: [UserEntity, NewsEntity, ProductsEntity],
+            reconnectTries: Number.MAX_VALUE,
+            entities,
             synchronize: true,
-            useUnifiedTopology: true,
         });
     }
     // console.log(connection);
