@@ -1,4 +1,4 @@
-import { getMongoManager, ObjectID } from "typeorm";
+import { getMongoManager } from "typeorm";
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 import { BrandEntity } from "../../../db/entities/brand";
 import _ from "lodash";

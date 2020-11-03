@@ -1,24 +1,21 @@
 import { Layout } from "antd";
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useState } from "react";
 import "antd/dist/antd.less";
 import { BackofficeMenu } from "./menu";
 import React from "react";
 import { HeaderWrapper } from "../../components/header";
-// import { FunctionComponent } from "react";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { SC } from "./styled";
+
+const { Sider, Content } = Layout;
+
 interface IProps {
     children?: ReactNode;
 }
 
-const { Sider, Content } = Layout;
-
 export const AppTemplate = React.memo((props: IProps) => {
     const [collapsed, setCollapsed] = useState<boolean>(false);
 
-    const memoizedSetCollapsed = useCallback((value: boolean) => {
-        setCollapsed(value);
-    }, []);
     return (
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -35,10 +32,7 @@ export const AppTemplate = React.memo((props: IProps) => {
                 },
             )}
             <Layout className="site-layout">
-                <HeaderWrapper
-                    collapsed={collapsed}
-                    setCollapsed={memoizedSetCollapsed}
-                />
+                <HeaderWrapper />
                 <Content
                     style={{
                         overflow: "auto",

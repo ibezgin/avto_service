@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Radio } from "antd";
 
 const UserInfo = styled.div`
     cursor: pointer;
