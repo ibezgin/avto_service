@@ -1,4 +1,3 @@
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { Layout } from "antd";
 import React from "react";
 import { Route, Switch } from "react-router";
@@ -7,14 +6,9 @@ import { SC } from "./styled";
 import { UserInfo } from "./user-info";
 const { Header } = Layout;
 
-interface IProps {
-    collapsed: boolean;
-    setCollapsed: (value: boolean) => void;
-}
+interface IProps {}
 
 export const HeaderWrapper = React.memo((props: IProps) => {
-    const { collapsed, setCollapsed } = props;
-
     const routes = useRoutes();
     const headerRoutes = [];
     for (const category of routes) {
@@ -29,16 +23,6 @@ export const HeaderWrapper = React.memo((props: IProps) => {
         <>
             <Header id="app-header" className="site-layout-background">
                 <SC.Header>
-                    {/* <div>
-                        {React.createElement(
-                            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                            {
-                                className: "trigger",
-                                onClick: () => setCollapsed(!collapsed),
-                            },
-                        )}
-                        <div></div>
-                    </div> */}
                     <Switch>
                         {headerRoutes.map((route, indexRoute) => (
                             <Route
