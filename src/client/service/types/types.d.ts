@@ -57,11 +57,17 @@ export type BrandQuery = {
 export type BrandMutation = {
   __typename?: 'BrandMutation';
   addBrand?: Maybe<Scalars['Boolean']>;
+  deleteBrand?: Maybe<Scalars['Boolean']>;
 };
 
 
 export type BrandMutationAddBrandArgs = {
   title: Scalars['String'];
+};
+
+
+export type BrandMutationDeleteBrandArgs = {
+  id: Scalars['String'];
 };
 
 export type BrandType = {
