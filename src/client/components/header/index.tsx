@@ -27,14 +27,9 @@ export const HeaderWrapper = React.memo((props: IProps) => {
 
     return (
         <>
-            <Header
-                id="app-header"
-                className="site-layout-background"
-                style={{ padding: 0 }}
-            >
+            <Header id="app-header" className="site-layout-background">
                 <SC.Header>
-                    <div>
-                        <div></div>
+                    {/* <div>
                         {React.createElement(
                             collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
                             {
@@ -43,7 +38,7 @@ export const HeaderWrapper = React.memo((props: IProps) => {
                             },
                         )}
                         <div></div>
-                    </div>
+                    </div> */}
                     <Switch>
                         {headerRoutes.map((route, indexRoute) => (
                             <Route

@@ -3,7 +3,7 @@ import path from "path";
 import { pagesRouter } from "./routes/pages-router";
 import { staticsRouter } from "./routes/statics-router";
 import * as config from "./config";
-import { getOrCreateConnection } from "./db/mongo-db-connection";
+import { getOrCreateConnection } from "./db/index";
 import { router } from "./routes";
 import { apolloServer } from "./graph";
 

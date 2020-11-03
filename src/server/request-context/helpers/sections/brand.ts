@@ -1,6 +1,7 @@
 import { getMongoManager, ObjectID } from "typeorm";
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 import { BrandEntity } from "../../../db/entities/brand";
+import _ from "lodash";
 
 export class BrandContextHelper extends AbstractRequestContextHelper {
     public async allBrands() {
@@ -15,5 +16,11 @@ export class BrandContextHelper extends AbstractRequestContextHelper {
         const manager = getMongoManager();
         const result = await manager.save(brand);
         return !!result._id;
+    }
+    public async deleteBrand(id: string) {
+        const manager = getMongoManager();
+        const result = await manager.delete(BrandEntity, { _id: id });
+
+        return _.isEmpty(result);
     }
 }

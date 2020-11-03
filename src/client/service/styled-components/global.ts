@@ -5,10 +5,10 @@ const globalStylesCss = css`
     ${styledNormalize};
     html,
     body,
-    #root {
+    #app {
         height: 100%;
     }
-    #root > div {
+    #app > div {
         height: 100%;
     }
 
@@ -137,21 +137,17 @@ const globalStylesCss = css`
         }
     }
 
-    #root {
+    #app {
         .site-layout {
             overflow: hidden;
         }
         .ant-layout {
-            height: 100%;
             background: #f8f8fa;
         }
         .ant-layout-header {
             background-color: transparent;
             height: auto;
             line-height: initial;
-        }
-        .ant-layout-sider {
-            height: 100%;
         }
         .ant-table-thead {
             background: rgb(229 229 229 / 0.4);
@@ -387,7 +383,6 @@ const globalStylesCss = css`
 
     .logo {
         height: 32px;
-        /* background: rgba(255, 255, 255, 0.2); */
         margin: 0px;
         align-content: center;
         position: relative;
