@@ -23,4 +23,11 @@ export class BrandContextHelper extends AbstractRequestContextHelper {
 
         return _.isEmpty(result);
     }
+    public async updateBrand(id: string, title: string) {
+        const manager = getMongoManager();
+        const result = await manager.update(BrandEntity, id, {
+            title,
+        });
+        return !result.generatedMaps.length;
+    }
 }
