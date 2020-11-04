@@ -6,8 +6,12 @@ import { makeExecutableSchema } from "graphql-tools";
 import { mergeResolvers } from "@graphql-tools/merge";
 import { mergeTypeDefs } from "@graphql-tools/merge";
 import { dictionaryBrandSubSchema } from "./sections/dictionary/brand";
+import { dictionaryModelsSubSchema } from "./sections/dictionary/models";
 
-export const sections: SubSchema[] = [dictionaryBrandSubSchema];
+export const sections: SubSchema[] = [
+    dictionaryBrandSubSchema,
+    dictionaryModelsSubSchema,
+];
 
 export const schemas: SubSchema[] = [...sections, querySubSchema];
 
