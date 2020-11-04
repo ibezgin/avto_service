@@ -87,6 +87,7 @@ export const DictionaryModelsModal = React.memo((props: IProps) => {
                                         autoComplete="off"
                                         autoCapitalize="off"
                                         autoCorrect="off"
+                                        required
                                     />
                                 </FormikAntd.FormItem>
                                 <FormikAntd.FormItem
