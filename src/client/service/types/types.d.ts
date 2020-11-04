@@ -14,39 +14,16 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  role: RoleQuery;
   brand: BrandQuery;
+  models: ModelsQuery;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  role: RoleMutation;
   brand: BrandMutation;
+  models: ModelsMutation;
   _keep?: Maybe<Scalars['Boolean']>;
-};
-
-export type RoleQuery = {
-  __typename?: 'RoleQuery';
-  allRoles: Array<RoleType>;
-};
-
-export type RoleMutation = {
-  __typename?: 'RoleMutation';
-  addRole?: Maybe<Scalars['Boolean']>;
-};
-
-
-export type RoleMutationAddRoleArgs = {
-  title: Scalars['String'];
-  permission?: Maybe<Scalars['JSON']>;
-};
-
-export type RoleType = {
-  __typename?: 'RoleType';
-  _id: Scalars['String'];
-  title: Scalars['String'];
-  permission?: Maybe<Scalars['JSON']>;
 };
 
 export type BrandQuery = {
@@ -79,7 +56,44 @@ export type BrandMutationUpdateBrandArgs = {
 
 export type BrandType = {
   __typename?: 'BrandType';
-  _id: Scalars['String'];
+  id: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type ModelsQuery = {
+  __typename?: 'ModelsQuery';
+  allModels: Array<ModelType>;
+};
+
+export type ModelsMutation = {
+  __typename?: 'ModelsMutation';
+  addModel?: Maybe<Scalars['Boolean']>;
+  deleteModel?: Maybe<Scalars['Boolean']>;
+  updateModel?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type ModelsMutationAddModelArgs = {
+  title: Scalars['String'];
+  brandId: Scalars['String'];
+};
+
+
+export type ModelsMutationDeleteModelArgs = {
+  id: Scalars['String'];
+};
+
+
+export type ModelsMutationUpdateModelArgs = {
+  id: Scalars['String'];
+  title: Scalars['String'];
+  brandId?: Maybe<Scalars['String']>;
+};
+
+export type ModelType = {
+  __typename?: 'ModelType';
+  id: Scalars['String'];
+  brandId?: Maybe<Scalars['String']>;
   title: Scalars['String'];
 };
 

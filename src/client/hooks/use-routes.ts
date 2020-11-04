@@ -4,6 +4,8 @@ import { AccessEnum } from "../service/enums/access";
 import { DictionaryBrand } from "../view/backoffice/dictionary/brand";
 import { GapPage } from "../components/gap-page";
 import { DictionaryBrandHeader } from "../view/backoffice/dictionary/brand/header";
+import { DictionaryModels } from "../view/backoffice/dictionary/models";
+import { DictionaryModelsHeader } from "../view/backoffice/dictionary/models/header";
 
 interface IRoute {
     name: string;
@@ -68,9 +70,10 @@ export function useRoutes() {
                         {
                             name: "Модели автомобилей",
                             path: "/dictionary/models",
-                            component: GapPage,
+                            component: DictionaryModels,
                             icon: FileOutlined,
                             access: AccessEnum.DICTIONARY_MODELS,
+                            header: DictionaryModelsHeader,
                         },
                     ],
                 },

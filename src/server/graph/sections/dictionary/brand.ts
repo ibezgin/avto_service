@@ -19,7 +19,7 @@ const types = gql`
     }
 
     type BrandType {
-        _id: String!
+        id: String!
         title: String!
     }
 `;
@@ -38,8 +38,8 @@ export const dictionaryBrandSubSchema = new SubSchema(types, {
     BrandMutation: {
         addBrand: async (obj, { title }, { helpers }) =>
             await helpers.sections.brand.addBrand(title),
-        deleteBrand: async (obj, { title }, { helpers }) =>
-            await helpers.sections.brand.deleteBrand(title),
+        deleteBrand: async (obj, { id }, { helpers }) =>
+            await helpers.sections.brand.deleteBrand(id),
         updateBrand: async (obj, { id, title }, { helpers }) =>
             await helpers.sections.brand.updateBrand(id, title),
     },

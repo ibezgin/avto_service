@@ -9,13 +9,13 @@ const { Title } = Typography;
 
 interface IProps {
     children: (setVisible: (state: boolean) => void) => ReactNode;
-    _id?: string;
+    id?: string;
     titleBrand?: string;
 }
 
 export const DictionaryBrandModal = React.memo((props: IProps) => {
     const [visible, setVisible] = useState<boolean>(false);
-    const { _id, titleBrand } = props;
+    const { id, titleBrand } = props;
     const { sendAddBrand, sendUpdateBrand } = useDictionaryBrandHelper();
 
     return (
@@ -33,8 +33,8 @@ export const DictionaryBrandModal = React.memo((props: IProps) => {
                     }}
                     enableReinitialize={true}
                     onSubmit={({ title }) => {
-                        if (_id) {
-                            sendUpdateBrand(_id, title, setVisible);
+                        if (id) {
+                            sendUpdateBrand(id, title, setVisible);
                             return;
                         }
                         sendAddBrand(title, setVisible);
@@ -44,7 +44,7 @@ export const DictionaryBrandModal = React.memo((props: IProps) => {
                         return (
                             <FormikAntd.Form layout="vertical">
                                 <Title level={4}>
-                                    {_id ? "Редактировать" : "Добавить бренд"}
+                                    {id ? "Редактировать" : "Добавить бренд"}
                                 </Title>
                                 <FormikAntd.FormItem
                                     name={"title"}

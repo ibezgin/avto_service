@@ -22,16 +22,18 @@ export const UniversalEditor = React.memo((props: IProps) => {
                 onInit={() => {
                     setLoading(false);
                 }}
-                init={{
-                    ...editorOptions,
-                    init_instance_callback: (editor: any) => {
-                        editor.on("Change", (event: any) => {
-                            // eslint-disable-next-line no-console
-                            console.log(event);
-                            setContent(event);
-                        });
-                    },
-                }}
+                init={
+                    {
+                        ...editorOptions,
+                        init_instance_callback: (editor: any) => {
+                            editor.on("Change", (event: any) => {
+                                // eslint-disable-next-line no-console
+                                console.log(event);
+                                setContent(event);
+                            });
+                        },
+                    } as any
+                }
                 onSaveContent={() => {
                     // eslint-disable-next-line no-console
                     console.log("SaveContent");

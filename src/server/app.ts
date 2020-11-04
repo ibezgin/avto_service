@@ -28,7 +28,5 @@ apolloServer.applyMiddleware({ app });
 
 app.use(pagesRouter());
 
-app.listen(config.SERVER_PORT, () => {
-    // eslint-disable-next-line no-console
-    console.log(`App listening on port ${config.SERVER_PORT}!`);
-});
+// eslint-disable-next-line import/no-default-export
+export default app;
