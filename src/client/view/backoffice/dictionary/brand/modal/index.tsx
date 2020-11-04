@@ -57,6 +57,7 @@ export const DictionaryBrandModal = React.memo((props: IProps) => {
                                         autoComplete="off"
                                         autoCapitalize="off"
                                         autoCorrect="off"
+                                        required
                                     />
                                 </FormikAntd.FormItem>
                                 <FormikAntd.SubmitButton
