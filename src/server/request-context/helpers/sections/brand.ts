@@ -19,7 +19,8 @@ export class BrandContextHelper extends AbstractRequestContextHelper {
     }
     public async deleteBrand(id: string) {
         const manager = getMongoManager();
-        const result = await manager.delete(BrandEntity, { id });
+        // return manager.delete("products", id);
+        const result = await manager.delete(BrandEntity, id);
 
         return _.isEmpty(result);
     }
