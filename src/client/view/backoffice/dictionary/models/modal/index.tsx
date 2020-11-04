@@ -63,9 +63,9 @@ export const DictionaryModelsModal = React.memo((props: IProps) => {
                                 id: edit.id,
                                 ..._.pick(values, ["title", "brandId"]),
                             });
+                            setVisible(false);
+                            resetForm();
                         }
-                        setVisible(false);
-                        resetForm();
                     }}
                 >
                     {() => {
