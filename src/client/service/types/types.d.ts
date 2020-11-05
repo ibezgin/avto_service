@@ -16,6 +16,7 @@ export type Query = {
   __typename?: 'Query';
   brand: BrandQuery;
   models: ModelsQuery;
+  service: ServiceQuery;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -23,6 +24,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   brand: BrandMutation;
   models: ModelsMutation;
+  service: ServiceMutation;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -95,6 +97,43 @@ export type ModelType = {
   id: Scalars['String'];
   brandId?: Maybe<Scalars['String']>;
   title: Scalars['String'];
+};
+
+export type ServiceQuery = {
+  __typename?: 'ServiceQuery';
+  allServices: Array<ServiceType>;
+};
+
+export type ServiceMutation = {
+  __typename?: 'ServiceMutation';
+  addService?: Maybe<Scalars['Boolean']>;
+  deleteService?: Maybe<Scalars['Boolean']>;
+  updateService?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type ServiceMutationAddServiceArgs = {
+  title: Scalars['String'];
+  price: Scalars['Float'];
+};
+
+
+export type ServiceMutationDeleteServiceArgs = {
+  id: Scalars['String'];
+};
+
+
+export type ServiceMutationUpdateServiceArgs = {
+  id: Scalars['String'];
+  title: Scalars['String'];
+  price: Scalars['Float'];
+};
+
+export type ServiceType = {
+  __typename?: 'ServiceType';
+  id: Scalars['String'];
+  title: Scalars['String'];
+  price: Scalars['Float'];
 };
 
 
