@@ -1,11 +1,20 @@
 import { Button, Col, Row } from "antd";
 import React from "react";
-import { DictionaryBrandModal } from "../modal";
+import { formFields } from "..";
+import { ModalForm } from "../../../../../components/modal-form";
+import { useDictionaryBrandHelper } from "../helper";
 
 export const DictionaryBrandHeader = React.memo(() => {
+    const { sendAddBrand } = useDictionaryBrandHelper();
+
     return (
         <>
-            <DictionaryBrandModal>
+            <ModalForm
+                formFields={formFields}
+                onSubmit={values => {
+                    sendAddBrand(values.title, values.setVisible);
+                }}
+            >
                 {setVisible => (
                     <Row gutter={[16, 0]} justify="end">
                         <Col>
@@ -22,7 +31,7 @@ export const DictionaryBrandHeader = React.memo(() => {
                         </Col>
                     </Row>
                 )}
-            </DictionaryBrandModal>
+            </ModalForm>
         </>
     );
 });

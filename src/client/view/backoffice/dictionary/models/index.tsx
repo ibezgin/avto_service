@@ -5,11 +5,9 @@ import { useStyleUtils } from "../../../../hooks/use-style-utils";
 import { ALL_MODELS } from "./gql/all-models";
 import { Query } from "../../../../service/types/types";
 import { useQuery } from "@apollo/client";
-// eslint-disable-next-line @typescript-eslint/camelcase
-import { All_BRAND } from "../brand/gql/all-brands";
 import { useModelsHelper } from "./helper";
-import { DictionaryModelsModal } from "./modal";
 import _ from "lodash";
+import { ModalForm } from "../../../../components/modal-form";
 
 const { confirm } = Modal;
 
@@ -18,18 +16,19 @@ export const DictionaryModels = React.memo(() => {
 
     const allModelsQuery = useQuery<Query>(ALL_MODELS);
 
-    const allBrandsQuery = useQuery<Query>(All_BRAND);
-
     const allModels = useMemo(
         () => allModelsQuery.data?.models.allModels || [],
         [allModelsQuery.data?.models.allModels],
     );
 
-    const allBrand = useMemo(() => allBrandsQuery.data?.brand.allBrands, [
-        allBrandsQuery.data?.brand.allBrands,
-    ]);
-
-    const { sendDeleteModel, mutationLoading } = useModelsHelper();
+    const {
+        sendDeleteModel,
+        helperLoading,
+        sendUpdateModel,
+        formFields,
+        allBrand,
+        validateForm,
+    } = useModelsHelper();
 
     const columns = useMemo(
         () => [
@@ -48,8 +47,19 @@ export const DictionaryModels = React.memo(() => {
                 dataIndex: "edit",
                 render: (edit: any, record: any) => (
                     <>
-                        <DictionaryModelsModal
+                        <ModalForm
                             edit={_.pick(record, ["id", "title", "brandId"])}
+                            formFields={formFields}
+                            onSubmit={values => {
+                                const isValid = validateForm(values);
+                                if (isValid) {
+                                    sendUpdateModel({
+                                        id: edit.id,
+                                        ..._.pick(values, ["title", "brandId"]),
+                                    });
+                                    values.setVisible(false);
+                                }
+                            }}
                         >
                             {setVisible => (
                                 <EditOutlined
@@ -57,7 +67,7 @@ export const DictionaryModels = React.memo(() => {
                                     onClick={() => setVisible(true)}
                                 />
                             )}
-                        </DictionaryModelsModal>
+                        </ModalForm>
                         <DeleteOutlined
                             style={styleUtils.cursorPointer}
                             onClick={() => {
@@ -73,11 +83,17 @@ export const DictionaryModels = React.memo(() => {
                 ),
             },
         ],
-        [allBrand, sendDeleteModel, styleUtils.cursorPointer],
+        [
+            allBrand,
+            formFields,
+            sendDeleteModel,
+            sendUpdateModel,
+            styleUtils.cursorPointer,
+            validateForm,
+        ],
     );
 
-    const loading =
-        mutationLoading || allBrandsQuery.loading || allModelsQuery.loading;
+    const loading = helperLoading || allModelsQuery.loading;
 
     return (
         <>

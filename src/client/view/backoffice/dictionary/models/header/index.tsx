@@ -1,11 +1,24 @@
 import { Button, Col, Row } from "antd";
 import React from "react";
-import { DictionaryModelsModal } from "../modal";
+import { ModalForm } from "../../../../../components/modal-form";
+import { useModelsHelper } from "../helper";
 
 export const DictionaryModelsHeader = React.memo(() => {
+    const { sendAddModel, validateForm, formFields } = useModelsHelper();
+
     return (
         <>
-            <DictionaryModelsModal>
+            <ModalForm
+                formFields={formFields}
+                onSubmit={(values, { resetForm }) => {
+                    const isValid = validateForm(values);
+                    if (isValid) {
+                        sendAddModel(values.title, values.brandId);
+                        values.setVisible(false);
+                        resetForm();
+                    }
+                }}
+            >
                 {setVisible => (
                     <Row gutter={[16, 0]} justify="end">
                         <Col>
@@ -22,7 +35,7 @@ export const DictionaryModelsHeader = React.memo(() => {
                         </Col>
                     </Row>
                 )}
-            </DictionaryModelsModal>
+            </ModalForm>
         </>
     );
 });

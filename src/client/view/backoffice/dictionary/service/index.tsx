@@ -1,15 +1,27 @@
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useQuery } from "@apollo/client";
 import { Modal, Table } from "antd";
-import _ from "lodash";
 import React, { useMemo } from "react";
 import { useStyleUtils } from "../../../../hooks/use-style-utils";
-import { DictionaryServiceModal } from "./modal";
 import { Query } from "../../../../service/types/types";
 import { ALL_SERVICES } from "./gql/all-services";
 import { useServiceHelper } from "./helper";
+import { IFormField, ModalForm } from "../../../../components/modal-form";
 
 const { confirm } = Modal;
+
+export const formFields = [
+    {
+        title: "Услуга",
+        name: "title",
+        type: "textField",
+    },
+    {
+        title: "Цена",
+        name: "price",
+        type: "numberField",
+    },
+] as IFormField[];
 
 export const DictionaryService = React.memo(() => {
     const styleUtils = useStyleUtils();
@@ -21,7 +33,11 @@ export const DictionaryService = React.memo(() => {
         [allServiceQuery.data?.service.allServices],
     );
 
-    const { sendDeleteService, loadingMutation } = useServiceHelper();
+    const {
+        sendDeleteService,
+        loadingMutation,
+        sendUpdateService,
+    } = useServiceHelper();
 
     const columns = useMemo(
         () => [
@@ -38,8 +54,17 @@ export const DictionaryService = React.memo(() => {
                 dataIndex: "edit",
                 render: (edit: any, record: any) => (
                     <>
-                        <DictionaryServiceModal
-                            edit={_.pick(record, ["id", "title", "price"])}
+                        <ModalForm
+                            onSubmit={values => {
+                                sendUpdateService(
+                                    record.id,
+                                    values.title,
+                                    Number(values.price),
+                                );
+                                values.setVisible();
+                            }}
+                            formFields={formFields}
+                            edit={record}
                         >
                             {setVisible => (
                                 <EditOutlined
@@ -47,7 +72,7 @@ export const DictionaryService = React.memo(() => {
                                     onClick={() => setVisible(true)}
                                 />
                             )}
-                        </DictionaryServiceModal>
+                        </ModalForm>
                         <DeleteOutlined
                             style={styleUtils.cursorPointer}
                             onClick={() => {
@@ -63,7 +88,7 @@ export const DictionaryService = React.memo(() => {
                 ),
             },
         ],
-        [sendDeleteService, styleUtils.cursorPointer],
+        [sendDeleteService, sendUpdateService, styleUtils.cursorPointer],
     );
 
     const loading = allServiceQuery.loading || loadingMutation;
