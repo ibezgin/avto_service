@@ -1,13 +1,18 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { notification } from "antd";
 import {
     ModelsMutationAddModelArgs,
     ModelsMutationDeleteModelArgs,
     Mutation,
+    Query,
 } from "../../../../service/types/types";
 import { ADD_MODEL } from "./gql/add-model";
 import { DELETE_MODEL } from "./gql/delete-model";
 import { UPDATE_MODEL } from "./gql/update-model";
+// eslint-disable-next-line @typescript-eslint/camelcase
+import { All_BRAND } from "../brand/gql/all-brands";
+import { useMemo } from "react";
+import { IFormField } from "../../../../components/modal-form";
 
 export function useModelsHelper() {
     const options = {
@@ -18,6 +23,12 @@ export function useModelsHelper() {
             notification.error({ message: "Ошибка" });
         },
     };
+
+    const allBrandsQuery = useQuery<Query>(All_BRAND);
+
+    const allBrand = useMemo(() => allBrandsQuery.data?.brand.allBrands, [
+        allBrandsQuery.data?.brand.allBrands,
+    ]);
 
     const refetchQueries = ["AllModels"];
 
@@ -77,11 +88,34 @@ export function useModelsHelper() {
         return true;
     };
 
+    const formFields: IFormField[] = useMemo(
+        () => [
+            {
+                title: "Модель",
+                name: "title",
+                type: "textField",
+            },
+            {
+                title: "Марка",
+                name: "brandId",
+                type: "selectField",
+                options: allBrand?.map(elem => ({
+                    value: elem.id,
+                    label: elem.title,
+                })),
+            },
+        ],
+        [allBrand],
+    );
+
     return {
-        mutationLoading:
+        helperLoading:
             addModelHelper.loading ||
             deleteModelHelper.loading ||
-            updateModelHelper.loading,
+            updateModelHelper.loading ||
+            allBrandsQuery.loading,
+        formFields,
+        allBrand,
         sendAddModel,
         sendDeleteModel,
         sendUpdateModel,

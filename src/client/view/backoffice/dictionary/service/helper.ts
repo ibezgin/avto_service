@@ -68,7 +68,9 @@ export function useServiceHelper() {
 
     return {
         loadingMutation:
-            addServiceHelper.loading || deleteServiceHelper.loading,
+            addServiceHelper.loading ||
+            deleteServiceHelper.loading ||
+            updateServiceHelper.loading,
         sendAddService,
         sendDeleteService,
         sendUpdateService,
