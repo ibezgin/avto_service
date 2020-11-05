@@ -33,7 +33,11 @@ export const DictionaryCarPart = React.memo(() => {
         [allCarPartsQuery.data?.carPart.allCarParts],
     );
 
-    const { sendUpdateCarPart, sendDeleteCarPart } = useCarPartHelper();
+    const {
+        sendUpdateCarPart,
+        sendDeleteCarPart,
+        mutationLoading,
+    } = useCarPartHelper();
 
     const columns = useMemo(
         () => [
@@ -87,11 +91,10 @@ export const DictionaryCarPart = React.memo(() => {
         ],
         [cursorPointer, sendDeleteCarPart, sendUpdateCarPart],
     );
+
+    const loading = allCarPartsQuery.loading || mutationLoading;
+
     return (
-        <Table
-            columns={columns}
-            dataSource={allCarParts}
-            loading={allCarPartsQuery.loading}
-        />
+        <Table columns={columns} dataSource={allCarParts} loading={loading} />
     );
 });
