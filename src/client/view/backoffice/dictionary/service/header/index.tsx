@@ -1,11 +1,21 @@
 import { Button, Col, Row } from "antd";
 import React from "react";
-import { DictionaryServiceModal } from "../modal";
+import { formFields } from "..";
+import { ModalForm } from "../../../../../components/modal-form";
+import { useServiceHelper } from "../helper";
 
 export const DictionaryServiceHeader = React.memo(() => {
+    const { sendAddService } = useServiceHelper();
     return (
         <>
-            <DictionaryServiceModal>
+            <ModalForm
+                onSubmit={(values, { resetForm }) => {
+                    sendAddService(values.title, Number(values.price));
+                    values.setVisible();
+                    resetForm();
+                }}
+                formFields={formFields}
+            >
                 {setVisible => (
                     <Row gutter={[16, 0]} justify="end">
                         <Col>
@@ -22,7 +32,7 @@ export const DictionaryServiceHeader = React.memo(() => {
                         </Col>
                     </Row>
                 )}
-            </DictionaryServiceModal>
+            </ModalForm>
         </>
     );
 });
