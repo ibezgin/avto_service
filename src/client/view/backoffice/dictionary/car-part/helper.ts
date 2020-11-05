@@ -61,7 +61,9 @@ export function useCarPartHelper() {
 
     return {
         mutationLoading:
-            addCarPartHelper.loading || updateCarPartHelper.loading,
+            addCarPartHelper.loading ||
+            updateCarPartHelper.loading ||
+            deleteCarPartHelper.loading,
         sendUpdateCarPart,
         sendAddCarPart,
         sendDeleteCarPart,

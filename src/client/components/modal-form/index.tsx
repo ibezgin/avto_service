@@ -40,6 +40,7 @@ interface IProps {
     ) => void;
     formFields: IFormField[];
     children: (setVisible: (state: boolean) => void) => ReactNode;
+    loading?: boolean;
 }
 export const ModalForm = React.memo((props: IProps) => {
     const { edit } = props;
@@ -135,7 +136,7 @@ export const ModalForm = React.memo((props: IProps) => {
                                 </Title>
                                 {formFields()}
                                 <FormikAntd.SubmitButton
-                                    loading={false}
+                                    loading={props.loading || false}
                                     block={true}
                                 >
                                     Сохранить
