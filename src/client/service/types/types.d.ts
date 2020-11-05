@@ -17,6 +17,7 @@ export type Query = {
   brand: BrandQuery;
   models: ModelsQuery;
   service: ServiceQuery;
+  carPart: CarPartQuery;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -25,6 +26,7 @@ export type Mutation = {
   brand: BrandMutation;
   models: ModelsMutation;
   service: ServiceMutation;
+  carPart: CarPartMutation;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -131,6 +133,43 @@ export type ServiceMutationUpdateServiceArgs = {
 
 export type ServiceType = {
   __typename?: 'ServiceType';
+  id: Scalars['String'];
+  title: Scalars['String'];
+  price: Scalars['Float'];
+};
+
+export type CarPartQuery = {
+  __typename?: 'CarPartQuery';
+  allCarParts: Array<CarPartType>;
+};
+
+export type CarPartMutation = {
+  __typename?: 'CarPartMutation';
+  addCarPart?: Maybe<Scalars['Boolean']>;
+  deleteCarPart?: Maybe<Scalars['Boolean']>;
+  updateCarPart?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type CarPartMutationAddCarPartArgs = {
+  title: Scalars['String'];
+  price: Scalars['Float'];
+};
+
+
+export type CarPartMutationDeleteCarPartArgs = {
+  id: Scalars['String'];
+};
+
+
+export type CarPartMutationUpdateCarPartArgs = {
+  id: Scalars['String'];
+  title: Scalars['String'];
+  price: Scalars['Float'];
+};
+
+export type CarPartType = {
+  __typename?: 'CarPartType';
   id: Scalars['String'];
   title: Scalars['String'];
   price: Scalars['Float'];

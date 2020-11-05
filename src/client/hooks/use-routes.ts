@@ -8,6 +8,8 @@ import { DictionaryModels } from "../view/backoffice/dictionary/models";
 import { DictionaryModelsHeader } from "../view/backoffice/dictionary/models/header";
 import { DictionaryService } from "../view/backoffice/dictionary/service";
 import { DictionaryServiceHeader } from "../view/backoffice/dictionary/service/header";
+import { DictionaryCarPart } from "../view/backoffice/dictionary/car-part";
+import { DictionaryCarPartHeader } from "../view/backoffice/dictionary/car-part/header";
 
 interface IRoute {
     name: string;
@@ -55,12 +57,13 @@ export function useRoutes() {
                             header: DictionaryServiceHeader,
                         },
                         {
-                            name: "Детали",
+                            name: "Автозапчасти/расходники",
                             path: "/dictionary/car-part",
-                            component: GapPage,
+                            component: DictionaryCarPart,
                             exact: true,
                             icon: FileOutlined,
                             access: AccessEnum.DICTIONARY_CARPART,
+                            header: DictionaryCarPartHeader,
                         },
                         {
                             name: "Марки автомобилей",
