@@ -6,6 +6,8 @@ import { GapPage } from "../components/gap-page";
 import { DictionaryBrandHeader } from "../view/backoffice/dictionary/brand/header";
 import { DictionaryModels } from "../view/backoffice/dictionary/models";
 import { DictionaryModelsHeader } from "../view/backoffice/dictionary/models/header";
+import { DictionaryService } from "../view/backoffice/dictionary/service";
+import { DictionaryServiceHeader } from "../view/backoffice/dictionary/service/header";
 
 interface IRoute {
     name: string;
@@ -46,10 +48,11 @@ export function useRoutes() {
                         {
                             name: "Услуги",
                             path: "/dictionary/service",
-                            component: GapPage,
+                            component: DictionaryService,
                             exact: true,
                             icon: FileOutlined,
                             access: AccessEnum.DICTIONARY_SERVICE,
+                            header: DictionaryServiceHeader,
                         },
                         {
                             name: "Детали",
