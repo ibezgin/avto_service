@@ -1,6 +1,7 @@
 import { createConnection } from "typeorm";
 import { CONNECTION_STRING } from "../config";
 import { BrandEntity } from "./entities/brand";
+import { CarPartEntity } from "./entities/car-part";
 import { ModelsEntity } from "./entities/models";
 import { ServiceEntity } from "./entities/service";
 
@@ -8,7 +9,7 @@ import { ServiceEntity } from "./entities/service";
 
 let connection: ReturnType<typeof createConnection> | undefined;
 
-const entities = [BrandEntity, ModelsEntity, ServiceEntity];
+const entities = [BrandEntity, ModelsEntity, ServiceEntity, CarPartEntity];
 
 export const getOrCreateConnection = () => {
     if (!connection) {
