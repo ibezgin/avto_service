@@ -6,7 +6,7 @@ import { ModalForm } from "../../../../../components/modal-form";
 import { useClientsHelper } from "../helper";
 
 export const ProposalClientsHeader = React.memo(() => {
-    const { sendAddClient } = useClientsHelper();
+    const { sendAddClient, mutationLoading } = useClientsHelper();
 
     return (
         <>
@@ -19,6 +19,7 @@ export const ProposalClientsHeader = React.memo(() => {
                     resetForm();
                 }}
                 formFields={formFields}
+                loading={mutationLoading}
             >
                 {setVisible => (
                     <Row gutter={[16, 0]} justify="end">

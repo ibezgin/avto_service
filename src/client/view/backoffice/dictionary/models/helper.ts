@@ -79,7 +79,7 @@ export function useModelsHelper() {
 
     const validateForm = (values: any) => {
         if (!values.brandId) {
-            notification.open({
+            notification.error({
                 message: "Ошибка",
                 description: "Выберите марку автомобиля",
             });

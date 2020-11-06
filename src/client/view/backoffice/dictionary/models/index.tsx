@@ -27,7 +27,6 @@ export const DictionaryModels = React.memo(() => {
         sendUpdateModel,
         formFields,
         allBrand,
-        validateForm,
     } = useModelsHelper();
 
     const columns = useMemo(
@@ -51,14 +50,11 @@ export const DictionaryModels = React.memo(() => {
                             edit={_.pick(record, ["id", "title", "brandId"])}
                             formFields={formFields}
                             onSubmit={values => {
-                                const isValid = validateForm(values);
-                                if (isValid) {
-                                    sendUpdateModel({
-                                        id: edit.id,
-                                        ..._.pick(values, ["title", "brandId"]),
-                                    });
-                                    values.setVisible(false);
-                                }
+                                sendUpdateModel({
+                                    id: record.id,
+                                    ..._.pick(values, ["title", "brandId"]),
+                                });
+                                values.setVisible(false);
                             }}
                         >
                             {setVisible => (
@@ -89,7 +85,6 @@ export const DictionaryModels = React.memo(() => {
             sendDeleteModel,
             sendUpdateModel,
             styleUtils.cursorPointer,
-            validateForm,
         ],
     );
 
