@@ -125,18 +125,18 @@ export function useRoutes() {
                     ],
                 },
                 {
-                    name: "Статистика",
-                    path: "/statistic/:path?",
+                    name: "Отчеты",
+                    path: "/report/:path?",
                     icon: FileOutlined,
-                    access: AccessEnum.STATISTIC,
+                    access: AccessEnum.REPORT,
                     exact: true,
                     children: [
                         {
                             name: "Отчет о постипивших заявках по дням",
-                            path: "/statistic",
+                            path: "/report/every-day-proposal",
                             component: GapPage,
                             icon: FileOutlined,
-                            access: AccessEnum.STATISTIC_EVERYDAY,
+                            access: AccessEnum.REPORT_EVERYDAY,
                             exact: true,
                         },
                     ],
