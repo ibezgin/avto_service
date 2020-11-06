@@ -25,7 +25,13 @@ export const ProposalClients = React.memo(() => {
         [allClientsQuery.data?.clients.allClients, generateTemporyCode],
     );
 
-    const { sendUpdateClient, sendDeleteClient } = useClientsHelper();
+    const {
+        sendUpdateClient,
+        sendDeleteClient,
+        mutationLoading,
+    } = useClientsHelper();
+
+    const loading = allClientsQuery.loading || mutationLoading;
 
     const columns = [
         {
@@ -55,6 +61,7 @@ export const ProposalClients = React.memo(() => {
                     }}
                     edit={record}
                     formFields={formFields}
+                    loading={mutationLoading}
                 >
                     {setVisible => (
                         <EditOutlined
@@ -83,5 +90,7 @@ export const ProposalClients = React.memo(() => {
             ),
         },
     ];
-    return <Table columns={columns} dataSource={allClients} />;
+    return (
+        <Table columns={columns} dataSource={allClients} loading={loading} />
+    );
 });
