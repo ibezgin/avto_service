@@ -1,8 +1,11 @@
 import Modal from "antd/lib/modal/Modal";
-import { Formik, FormikHelpers } from "formik";
+import { Field, Formik, FormikHelpers } from "formik";
 import React, { ReactNode, useCallback, useMemo, useState } from "react";
 import * as FormikAntd from "formik-antd";
 import { Typography } from "antd";
+import _ from "lodash";
+
+import MaskedInput from "antd-mask-input";
 
 const { Title } = Typography;
 
@@ -10,7 +13,8 @@ type FormFieldType =
     | "textField"
     | "numberField"
     | "selectField"
-    | "checkboxField";
+    | "checkboxField"
+    | "phoneField";
 
 type IField = {
     [key in FormFieldType]: any;
@@ -99,6 +103,26 @@ export const ModalForm = React.memo((props: IProps) => {
                     <FormikAntd.Checkbox name={field.name} />
                 </FormikAntd.FormItem>
             ),
+            phoneField: (
+                <FormikAntd.FormItem name={field.name} label={field.title}>
+                    <Field name={field.name}>
+                        {fieldHelper => (
+                            <MaskedInput
+                                mask="+7 (111)-111-11-11"
+                                pattern="+7 ([0-9]{3})-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+                                name={field.name}
+                                placeholder={field.title}
+                                type="tel"
+                                autoComplete="off"
+                                autoCapitalize="off"
+                                autoCorrect="off"
+                                required
+                                {...fieldHelper.field}
+                            />
+                        )}
+                    </Field>
+                </FormikAntd.FormItem>
+            ),
         };
 
         return fields[field.type];
@@ -132,7 +156,9 @@ export const ModalForm = React.memo((props: IProps) => {
                         return (
                             <FormikAntd.Form layout="vertical">
                                 <Title level={4}>
-                                    {edit?.id ? "Редактировать" : "Добавить"}
+                                    {_.isUndefined(edit)
+                                        ? "Добавить"
+                                        : "Редактировать"}
                                 </Title>
                                 {formFields()}
                                 <FormikAntd.SubmitButton
