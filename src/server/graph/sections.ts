@@ -8,12 +8,14 @@ import { dictionaryBrandSubSchema } from "./sections/dictionary/brand";
 import { dictionaryModelsSubSchema } from "./sections/dictionary/models";
 import { dictionaryServiceSubSchema } from "./sections/dictionary/service";
 import { dictionaryCarPartSubSchema } from "./sections/dictionary/car-part";
+import { proposalClientsSubSchema } from "./sections/proposal/clients";
 
 export const sections: SubSchema[] = [
     dictionaryBrandSubSchema,
     dictionaryModelsSubSchema,
     dictionaryServiceSubSchema,
     dictionaryCarPartSubSchema,
+    proposalClientsSubSchema,
 ];
 
 export const schemas: SubSchema[] = [...sections, querySubSchema];
