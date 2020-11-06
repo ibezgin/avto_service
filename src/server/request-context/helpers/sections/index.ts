@@ -1,6 +1,7 @@
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 import { BrandContextHelper } from "./brand";
 import { CarPartContextHelper } from "./car-part";
+import { CarsContextHelper } from "./cars";
 import { ClientsContextHelper } from "./clients";
 import { ModelsContextHelper } from "./models";
 import { ServiceContextHelper } from "./service";
@@ -20,5 +21,8 @@ export class SectionsContextHelper extends AbstractRequestContextHelper {
     }
     public get clients() {
         return new ClientsContextHelper(this.context);
+    }
+    public get cars() {
+        return new CarsContextHelper(this.context);
     }
 }

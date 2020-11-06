@@ -19,6 +19,7 @@ export type Query = {
   service: ServiceQuery;
   carPart: CarPartQuery;
   clients: ClientsQuery;
+  cars: CarsQuery;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -29,6 +30,7 @@ export type Mutation = {
   service: ServiceMutation;
   carPart: CarPartMutation;
   clients: ClientsMutation;
+  cars: CarsMutation;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -208,13 +210,61 @@ export type ClientsMutationUpdateClientArgs = {
 export type ClientType = {
   __typename?: 'ClientType';
   id: Scalars['String'];
-  title: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 export type ClientInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   phone: Scalars['String'];
+};
+
+export type CarsQuery = {
+  __typename?: 'CarsQuery';
+  allCars: Array<CarType>;
+};
+
+export type CarsMutation = {
+  __typename?: 'CarsMutation';
+  addCar?: Maybe<Scalars['Boolean']>;
+  deleteCar?: Maybe<Scalars['Boolean']>;
+  updateCar?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type CarsMutationAddCarArgs = {
+  data: CarInput;
+};
+
+
+export type CarsMutationDeleteCarArgs = {
+  id: Scalars['String'];
+};
+
+
+export type CarsMutationUpdateCarArgs = {
+  id: Scalars['String'];
+  data: CarInput;
+};
+
+export type CarType = {
+  __typename?: 'CarType';
+  id: Scalars['String'];
+  brandId: Scalars['String'];
+  modelId: Scalars['String'];
+  clientId: Scalars['String'];
+  gosNumber: Scalars['String'];
+  color: Scalars['String'];
+};
+
+export type CarInput = {
+  brandId: Scalars['String'];
+  modelId: Scalars['String'];
+  clientId: Scalars['String'];
+  gosNumber: Scalars['String'];
+  color: Scalars['String'];
 };
 
 

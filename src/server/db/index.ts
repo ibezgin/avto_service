@@ -2,11 +2,10 @@ import { createConnection } from "typeorm";
 import { CONNECTION_STRING } from "../config";
 import { BrandEntity } from "./entities/brand";
 import { CarPartEntity } from "./entities/car-part";
+import { CarsEntity } from "./entities/cars";
 import { ClientsEntity } from "./entities/clients";
 import { ModelsEntity } from "./entities/models";
 import { ServiceEntity } from "./entities/service";
-
-// const connectionManager = new ConnectionManager();
 
 let connection: ReturnType<typeof createConnection> | undefined;
 
@@ -16,6 +15,7 @@ const entities = [
     ServiceEntity,
     CarPartEntity,
     ClientsEntity,
+    CarsEntity,
 ];
 
 export const getOrCreateConnection = () => {

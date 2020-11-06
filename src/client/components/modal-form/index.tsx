@@ -14,7 +14,8 @@ type FormFieldType =
     | "numberField"
     | "selectField"
     | "checkboxField"
-    | "phoneField";
+    | "phoneField"
+    | "gosNumberField";
 
 type IField = {
     [key in FormFieldType]: any;
@@ -110,6 +111,36 @@ export const ModalForm = React.memo((props: IProps) => {
                             <MaskedInput
                                 mask="+7 (111)-111-11-11"
                                 pattern="+7 ([0-9]{3})-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+                                name={field.name}
+                                placeholder={field.title}
+                                type="tel"
+                                autoComplete="off"
+                                autoCapitalize="off"
+                                autoCorrect="off"
+                                required
+                                {...fieldHelper.field}
+                            />
+                        )}
+                    </Field>
+                </FormikAntd.FormItem>
+            ),
+            gosNumberField: (
+                <FormikAntd.FormItem name={field.name} label={field.title}>
+                    <Field name={field.name}>
+                        {fieldHelper => (
+                            <MaskedInput
+                                mask="W_111_WW_11RUS"
+                                formatCharacters={{
+                                    W: {
+                                        validate(char) {
+                                            // return /\w/.test(char);
+                                            return char.match(/\D/g);
+                                        },
+                                        transform(char) {
+                                            return char.toUpperCase();
+                                        },
+                                    },
+                                }}
                                 name={field.name}
                                 placeholder={field.title}
                                 type="tel"
