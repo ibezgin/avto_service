@@ -1,0 +1,42 @@
+import { Button, Col, Row } from "antd";
+import _ from "lodash";
+import React from "react";
+import { formFields } from "../helper";
+import { ModalForm } from "../../../../../components/modal-form";
+import { useClientsHelper } from "../helper";
+
+export const ProposalClientsHeader = React.memo(() => {
+    const { sendAddClient } = useClientsHelper();
+
+    return (
+        <>
+            <ModalForm
+                onSubmit={(values, { resetForm }) => {
+                    sendAddClient(
+                        _.pick(values, ["firstName", "lastName", "phone"]),
+                    );
+                    values.setVisible();
+                    resetForm();
+                }}
+                formFields={formFields}
+            >
+                {setVisible => (
+                    <Row gutter={[16, 0]} justify="end">
+                        <Col>
+                            <Button
+                                type="primary"
+                                size="large"
+                                style={{ width: "120px" }}
+                                onClick={() => {
+                                    setVisible(true);
+                                }}
+                            >
+                                Добавить
+                            </Button>
+                        </Col>
+                    </Row>
+                )}
+            </ModalForm>
+        </>
+    );
+});

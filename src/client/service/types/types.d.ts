@@ -18,6 +18,7 @@ export type Query = {
   models: ModelsQuery;
   service: ServiceQuery;
   carPart: CarPartQuery;
+  clients: ClientsQuery;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -27,6 +28,7 @@ export type Mutation = {
   models: ModelsMutation;
   service: ServiceMutation;
   carPart: CarPartMutation;
+  clients: ClientsMutation;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -173,6 +175,46 @@ export type CarPartType = {
   id: Scalars['String'];
   title: Scalars['String'];
   price: Scalars['Float'];
+};
+
+export type ClientsQuery = {
+  __typename?: 'ClientsQuery';
+  allClients: Array<ClientType>;
+};
+
+export type ClientsMutation = {
+  __typename?: 'ClientsMutation';
+  addClient?: Maybe<Scalars['Boolean']>;
+  deleteClient?: Maybe<Scalars['Boolean']>;
+  updateClient?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type ClientsMutationAddClientArgs = {
+  data: ClientInput;
+};
+
+
+export type ClientsMutationDeleteClientArgs = {
+  id: Scalars['String'];
+};
+
+
+export type ClientsMutationUpdateClientArgs = {
+  id: Scalars['String'];
+  data: ClientInput;
+};
+
+export type ClientType = {
+  __typename?: 'ClientType';
+  id: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type ClientInput = {
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 

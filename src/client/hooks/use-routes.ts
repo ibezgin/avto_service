@@ -10,6 +10,8 @@ import { DictionaryService } from "../view/backoffice/dictionary/service";
 import { DictionaryServiceHeader } from "../view/backoffice/dictionary/service/header";
 import { DictionaryCarPart } from "../view/backoffice/dictionary/car-part";
 import { DictionaryCarPartHeader } from "../view/backoffice/dictionary/car-part/header";
+import { ProposalClients } from "../view/backoffice/proposal/clients";
+import { ProposalClientsHeader } from "../view/backoffice/proposal/clients/header";
 
 interface IRoute {
     name: string;
@@ -108,9 +110,10 @@ export function useRoutes() {
                         {
                             name: "Клиенты",
                             path: "/proposal/clients",
-                            component: GapPage,
+                            component: ProposalClients,
                             icon: FileOutlined,
                             access: AccessEnum.PROPOSAL_CLIENTS,
+                            header: ProposalClientsHeader,
                         },
                         {
                             name: "Обслуживаемые автомобили",
