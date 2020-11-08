@@ -5,6 +5,7 @@ import { CarPartEntity } from "./entities/car-part";
 import { ClientsEntity } from "./entities/clients";
 import { ModelsEntity } from "./entities/models";
 import { ServiceEntity } from "./entities/service";
+import { UsersEntity } from "./entities/users";
 
 // const connectionManager = new ConnectionManager();
 
@@ -16,6 +17,7 @@ const entities = [
     ServiceEntity,
     CarPartEntity,
     ClientsEntity,
+    UsersEntity,
 ];
 
 export const getOrCreateConnection = () => {

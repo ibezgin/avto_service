@@ -12,6 +12,8 @@ import { DictionaryCarPart } from "../view/backoffice/dictionary/car-part";
 import { DictionaryCarPartHeader } from "../view/backoffice/dictionary/car-part/header";
 import { ProposalClients } from "../view/backoffice/proposal/clients";
 import { ProposalClientsHeader } from "../view/backoffice/proposal/clients/header";
+import { DictionaryUsers } from "../view/backoffice/dictionary/users";
+import { DictionaryUsersHeader } from "../view/backoffice/dictionary/users/header";
 
 interface IRoute {
     name: string;
@@ -44,10 +46,11 @@ export function useRoutes() {
                         {
                             name: "Пользователи",
                             path: "/dictionary/users",
-                            component: GapPage,
+                            component: DictionaryUsers,
                             exact: true,
                             icon: FileOutlined,
                             access: AccessEnum.DICTIONARY_USERS,
+                            header: DictionaryUsersHeader,
                         },
                         {
                             name: "Услуги",

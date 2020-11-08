@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router";
 import React from "react";
 import { AppTemplate } from "./backoffice";
 import { GlobalStyles } from "../service/styled-components/global";
+import { LoginPage } from "./login";
 
 export const Router = React.memo(() => {
     const routesList = useRoutes();
@@ -15,26 +16,38 @@ export const Router = React.memo(() => {
     // .map(elem => ({ ...elem.map(elemChild => ({ ...elemChild })) }));
     // eslint-disable-next-line no-console
 
+    const routes = [];
+
     for (const category of routesList) {
         for (const menuItem of category.children) {
             resultRoutes.push(menuItem);
         }
+        routes.push(category.path);
     }
 
     return (
-        <AppTemplate>
+        <>
             <Switch>
-                {resultRoutes.map((route, indexRoute) => (
-                    <Route
-                        path={route.path}
-                        key={`route-${indexRoute}`}
-                        exact={route.exact}
-                    >
-                        <route.component />
-                    </Route>
-                ))}
+                <Route path={["/", ...routes]} exact>
+                    <AppTemplate>
+                        <Switch>
+                            {resultRoutes.map((route, indexRoute) => (
+                                <Route
+                                    path={route.path}
+                                    key={`route-${indexRoute}`}
+                                    exact={route.exact}
+                                >
+                                    <route.component />
+                                </Route>
+                            ))}
+                        </Switch>
+                        <GlobalStyles />
+                    </AppTemplate>
+                </Route>
+                <Route path="/login">
+                    <LoginPage />
+                </Route>
             </Switch>
-            <GlobalStyles />
-        </AppTemplate>
+        </>
     );
 });
