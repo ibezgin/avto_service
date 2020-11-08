@@ -51,6 +51,8 @@ export function useUsersHelper() {
     >(UPDATE_USER, options);
 
     const sendAddUser = (data: UserInput) => {
+        // eslint-disable-next-line no-console
+        console.log(addUserHelper);
         addUser({
             variables: {
                 data,

@@ -274,22 +274,26 @@ export type AuthenticationQuery = {
 
 export type AuthenticationMutation = {
   __typename?: 'AuthenticationMutation';
-  login?: Maybe<Scalars['Boolean']>;
+  login?: Maybe<LoginType>;
+  logout?: Maybe<Scalars['Boolean']>;
 };
 
 
 export type AuthenticationMutationLoginArgs = {
-  data?: Maybe<LoginInput>;
+  username?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
 };
 
 export type LoginType = {
   __typename?: 'LoginType';
+  id?: Maybe<Scalars['String']>;
+  firstname?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
 };
 
 export type LoginInput = {
   username?: Maybe<Scalars['String']>;
-  passpord?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
 };
 
 

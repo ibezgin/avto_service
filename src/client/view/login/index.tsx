@@ -1,11 +1,37 @@
 import { Layout } from "antd";
 import { Formik } from "formik";
-import React from "react";
+import React, { useCallback } from "react";
 import * as FormikAntd from "formik-antd";
 import { SC } from "./styled";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "../../gql/authentication/login";
+import {
+    AuthenticationMutationLoginArgs,
+    Mutation,
+} from "../../service/types/types";
+import { CURRENT_USER } from "../../gql/authentication/current-user";
+import { useUser } from "../../hooks/use-user";
+import { Redirect } from "react-router-dom";
 
 export const LoginPage = React.memo(() => {
+    const user = useUser();
+
+    // console.log(user);
+
+    const { sendLogin, loading } = useLoginMutation();
+
+    const onSubmit = useCallback(
+        (values: any) => {
+            sendLogin(values.username, values.password);
+        },
+        [sendLogin],
+    );
+
+    if (user?.username) {
+        return <Redirect to="/" />;
+    }
+
     return (
         <Layout>
             <Layout className="site-layout">
@@ -17,9 +43,7 @@ export const LoginPage = React.memo(() => {
                             username: "",
                             password: "",
                         }}
-                        onSubmit={() => {
-                            // void
-                        }}
+                        onSubmit={onSubmit}
                     >
                         {() => {
                             return (
@@ -67,6 +91,7 @@ export const LoginPage = React.memo(() => {
                                             type="primary"
                                             htmlType="submit"
                                             className="login-form-button"
+                                            loading={loading}
                                         >
                                             Submit
                                         </FormikAntd.SubmitButton>
@@ -80,3 +105,35 @@ export const LoginPage = React.memo(() => {
         </Layout>
     );
 });
+
+function useLoginMutation() {
+    const [mutation, mutationHelper] = useMutation<
+        Mutation,
+        AuthenticationMutationLoginArgs
+    >(LOGIN);
+
+    const updateCacheAfterLogin = (cache, { data }) => {
+        cache.writeQuery({
+            query: CURRENT_USER,
+            data: {
+                authentication: {
+                    currentUser: data.authentication.login,
+                },
+            },
+        });
+    };
+
+    const sendLogin = (username: string, password: string) => {
+        mutation({
+            variables: {
+                username,
+                password,
+            },
+            update: updateCacheAfterLogin,
+        });
+    };
+    return {
+        sendLogin,
+        loading: mutationHelper.loading,
+    };
+}

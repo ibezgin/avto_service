@@ -7,5 +7,11 @@ export function useUser() {
 
     const currentUser = currentUserQuery.data?.authentication.currentUser;
 
-    return currentUser;
+    // currentUserQuery.networkStatus NetworkStatus.ready;
+
+    return {
+        ...currentUser,
+        networkStatus: currentUserQuery.networkStatus,
+        loading: currentUserQuery.loading,
+    };
 }

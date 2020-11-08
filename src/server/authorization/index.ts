@@ -8,14 +8,26 @@ export const passportAuth = () => {
         new GraphQLLocalStrategy(async (username, password, done) => {
             const manager = getMongoManager();
             const users = await manager.find(UsersEntity);
-            const user = users.find(
+            const user = await users.find(
                 elem =>
                     elem.username === username && elem.password === password,
             );
 
             const error = user ? null : new Error("no matching user");
-            done(error, user);
+            await done(error, user);
         }),
     );
+    passport.serializeUser((user: any, done) => {
+        done(null, user.id);
+    });
+
+    passport.deserializeUser(async (id: any, done) => {
+        const manager = getMongoManager();
+        const users = await manager.find(UsersEntity);
+        const matchingUser = await users.find(
+            user => String(user.id) === String(id),
+        );
+        done(null, matchingUser);
+    });
     return passport;
 };
