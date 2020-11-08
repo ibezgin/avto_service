@@ -9,13 +9,17 @@ import { dictionaryModelsSubSchema } from "./sections/dictionary/models";
 import { dictionaryServiceSubSchema } from "./sections/dictionary/service";
 import { dictionaryCarPartSubSchema } from "./sections/dictionary/car-part";
 import { proposalClientsSubSchema } from "./sections/proposal/clients";
+import { dictionaryUsersSubSchema } from "./sections/dictionary/users";
+import { authenticationSubSchema } from "./auth";
 
 export const sections: SubSchema[] = [
     dictionaryBrandSubSchema,
     dictionaryModelsSubSchema,
     dictionaryServiceSubSchema,
     dictionaryCarPartSubSchema,
+    dictionaryUsersSubSchema,
     proposalClientsSubSchema,
+    authenticationSubSchema,
 ];
 
 export const schemas: SubSchema[] = [...sections, querySubSchema];

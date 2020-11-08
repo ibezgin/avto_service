@@ -1,11 +1,9 @@
-import { Layout, Typography } from "antd";
+import { Layout } from "antd";
 import { Formik } from "formik";
 import React from "react";
 import * as FormikAntd from "formik-antd";
 import { SC } from "./styled";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-
-const { Title } = Typography;
 
 export const LoginPage = React.memo(() => {
     return (
@@ -59,6 +57,7 @@ export const LoginPage = React.memo(() => {
                                                 <LockOutlined className="site-form-item-icon" />
                                             }
                                             name="password"
+                                            type="password"
                                             placeholder="Password"
                                         />
                                     </FormikAntd.Form.Item>
