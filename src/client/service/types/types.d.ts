@@ -20,6 +20,7 @@ export type Query = {
   carPart: CarPartQuery;
   users: UsersQuery;
   clients: ClientsQuery;
+  authentication: AuthenticationQuery;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -31,6 +32,7 @@ export type Mutation = {
   carPart: CarPartMutation;
   users: UsersMutation;
   clients: ClientsMutation;
+  authentication: AuthenticationMutation;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -211,14 +213,14 @@ export type UserType = {
   __typename?: 'UserType';
   id?: Maybe<Scalars['String']>;
   firstname?: Maybe<Scalars['String']>;
-  login?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   permission?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type UserInput = {
   firstname?: Maybe<Scalars['String']>;
-  login?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   permission?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
@@ -263,6 +265,31 @@ export type ClientInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   phone: Scalars['String'];
+};
+
+export type AuthenticationQuery = {
+  __typename?: 'AuthenticationQuery';
+  currentUser?: Maybe<LoginType>;
+};
+
+export type AuthenticationMutation = {
+  __typename?: 'AuthenticationMutation';
+  login?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type AuthenticationMutationLoginArgs = {
+  data?: Maybe<LoginInput>;
+};
+
+export type LoginType = {
+  __typename?: 'LoginType';
+  username?: Maybe<Scalars['String']>;
+};
+
+export type LoginInput = {
+  username?: Maybe<Scalars['String']>;
+  passpord?: Maybe<Scalars['String']>;
 };
 
 
