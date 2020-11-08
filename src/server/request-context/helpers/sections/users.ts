@@ -7,7 +7,14 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
     }
 
     public async addUser(data: any) {
-        return await this.context.helpers.database.add(UsersEntity, data);
+        const allUsers = await this.allUsers();
+        const checkUserName = allUsers.find(
+            (elem: any) => data.username === elem.username,
+        );
+        if (!checkUserName) {
+            return await this.context.helpers.database.add(UsersEntity, data);
+        }
+        throw Error("Username уже существует");
     }
 
     public async deleteUser(id: string) {
