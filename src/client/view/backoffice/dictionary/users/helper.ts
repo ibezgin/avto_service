@@ -1,4 +1,5 @@
-import { useMutation } from "@apollo/client";
+import { ApolloError, useMutation } from "@apollo/client";
+import { notification } from "antd";
 import { IFormField } from "../../../../components/modal-form";
 import { useMutationOptions } from "../../../../hooks/use-mutation-options";
 import {
@@ -8,6 +9,7 @@ import {
     UsersMutationDeleteUserArgs,
     UsersMutationUpdateUserArgs,
 } from "../../../../service/types/types";
+import { errorHandler } from "../../../../service/utils/error-handler";
 import { ADD_USER } from "./gql/add-user";
 import { DELETE_USER } from "./gql/delete-user";
 import { UPDATE_USER } from "./gql/update-user";
@@ -38,7 +40,12 @@ export function useUsersHelper() {
     const [addUser, addUserHelper] = useMutation<
         Mutation,
         UsersMutationAddUserArgs
-    >(ADD_USER, options);
+    >(ADD_USER, {
+        ...options,
+        onError: (error: ApolloError) => {
+            errorHandler(error);
+        },
+    });
 
     const [deleteUser, deleteUserHelper] = useMutation<
         Mutation,
