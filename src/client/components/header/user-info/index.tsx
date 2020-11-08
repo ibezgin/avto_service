@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React, { useEffect } from "react";
+import React from "react";
 import { Typography, Avatar, Dropdown, Menu } from "antd";
 import { UserInfoArrowIcon } from "../../user-info-arrow-icon";
 import { SC } from "../styled";
@@ -50,7 +50,7 @@ export const UserInfo = React.memo(() => {
 function useLogoutMutation() {
     const [mutation, mutationHelper] = useMutation<Mutation>(LOGOUT);
 
-    const updateCacheAfterLogin = (cache, { data }) => {
+    const updateCacheAfterLogin = cache => {
         cache.writeQuery({
             query: CURRENT_USER,
             data: {

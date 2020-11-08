@@ -43,9 +43,6 @@ export const authenticationSubSchema = new SubSchema(types, {
 
     AuthenticationMutation: {
         login: async (obj, { username, password }, context) => {
-            // const { username, password } = data;
-            // eslint-disable-next-line no-console
-            console.log(username);
             const { user } = await context.authentification.authenticate(
                 "graphql-local",
                 {
