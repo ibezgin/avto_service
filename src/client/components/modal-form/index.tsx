@@ -15,7 +15,8 @@ type FormFieldType =
     | "selectField"
     | "checkboxField"
     | "phoneField"
-    | "passwordField";
+    | "passwordField"
+    | "gosNumberField";
 
 type IField = {
     [key in FormFieldType]: any;
@@ -35,6 +36,9 @@ export interface IFormField {
     name: string;
     type: FormFieldType;
     options?: IOptions[];
+    settings?: {
+        disabledIfEmpty?: string;
+    };
 }
 
 interface IProps {
@@ -44,7 +48,7 @@ interface IProps {
         formikHelpers: FormikHelpers<IFormikValues>,
     ) => void;
     formFields: IFormField[];
-    children: (setVisible: (state: boolean) => void) => ReactNode;
+    children: (setVisible: (state: boolean) => void, values: any) => ReactNode;
     loading?: boolean;
 }
 export const ModalForm = React.memo((props: IProps) => {
@@ -136,6 +140,37 @@ export const ModalForm = React.memo((props: IProps) => {
                     />
                 </FormikAntd.FormItem>
             ),
+
+            gosNumberField: (
+                <FormikAntd.FormItem name={field.name} label={field.title}>
+                    <Field name={field.name}>
+                        {fieldHelper => (
+                            <MaskedInput
+                                mask="W_111_WW_11RUS"
+                                formatCharacters={{
+                                    W: {
+                                        validate(char) {
+                                            // return /\w/.test(char);
+                                            return char.match(/\D/g);
+                                        },
+                                        transform(char) {
+                                            return char.toUpperCase();
+                                        },
+                                    },
+                                }}
+                                name={field.name}
+                                placeholder={field.title}
+                                type="tel"
+                                autoComplete="off"
+                                autoCapitalize="off"
+                                autoCorrect="off"
+                                required
+                                {...fieldHelper.field}
+                            />
+                        )}
+                    </Field>
+                </FormikAntd.FormItem>
+            ),
         };
 
         return fields[field.type];
@@ -153,39 +188,41 @@ export const ModalForm = React.memo((props: IProps) => {
 
     return (
         <>
-            <Modal
-                visible={visible}
-                onCancel={() => {
-                    setVisible(false);
-                }}
-                footer={null}
+            <Formik
+                initialValues={initialValues}
+                enableReinitialize={true}
+                onSubmit={props.onSubmit}
             >
-                <Formik
-                    initialValues={initialValues}
-                    enableReinitialize={true}
-                    onSubmit={props.onSubmit}
-                >
-                    {() => {
-                        return (
-                            <FormikAntd.Form layout="vertical">
-                                <Title level={4}>
-                                    {_.isUndefined(edit)
-                                        ? "Добавить"
-                                        : "Редактировать"}
-                                </Title>
-                                {formFields()}
-                                <FormikAntd.SubmitButton
-                                    loading={props.loading || false}
-                                    block={true}
-                                >
-                                    Сохранить
-                                </FormikAntd.SubmitButton>
-                            </FormikAntd.Form>
-                        );
-                    }}
-                </Formik>
-            </Modal>
-            {props.children(setVisible)}
+                {({ values }) => {
+                    return (
+                        <>
+                            <Modal
+                                visible={visible}
+                                onCancel={() => {
+                                    setVisible(false);
+                                }}
+                                footer={null}
+                            >
+                                <FormikAntd.Form layout="vertical">
+                                    <Title level={4}>
+                                        {_.isUndefined(edit)
+                                            ? "Добавить"
+                                            : "Редактировать"}
+                                    </Title>
+                                    {formFields()}
+                                    <FormikAntd.SubmitButton
+                                        loading={props.loading || false}
+                                        block={true}
+                                    >
+                                        Сохранить
+                                    </FormikAntd.SubmitButton>
+                                </FormikAntd.Form>
+                            </Modal>
+                            {props.children(setVisible, values)}
+                        </>
+                    );
+                }}
+            </Formik>
         </>
     );
 });
