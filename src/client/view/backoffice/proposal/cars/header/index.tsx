@@ -1,11 +1,16 @@
 import { Button, Col, Row } from "antd";
 import _ from "lodash";
-import React from "react";
+import React, { useState } from "react";
 import { ModalForm } from "../../../../../components/modal-form";
 import { useCarsHelper } from "../helper";
 
 export const ProposalCarsHeader = React.memo(() => {
-    const { sendAddCar, mutationLoading, formFields } = useCarsHelper();
+    const {
+        sendAddCar,
+        mutationLoading,
+        formFields,
+        setBrandState,
+    } = useCarsHelper();
 
     return (
         <>
@@ -26,23 +31,26 @@ export const ProposalCarsHeader = React.memo(() => {
                 formFields={formFields}
                 loading={mutationLoading}
             >
-                {setVisible => (
-                    <Row gutter={[16, 0]} justify="end">
-                        <Col>
-                            <Button
-                                type="primary"
-                                size="large"
-                                style={{ width: "120px" }}
-                                onClick={() => {
-                                    setVisible(true);
-                                }}
-                                loading={mutationLoading}
-                            >
-                                Добавить
-                            </Button>
-                        </Col>
-                    </Row>
-                )}
+                {(setVisible, values) => {
+                    setBrandState(values?.brandId);
+                    return (
+                        <Row gutter={[16, 0]} justify="end">
+                            <Col>
+                                <Button
+                                    type="primary"
+                                    size="large"
+                                    style={{ width: "120px" }}
+                                    onClick={() => {
+                                        setVisible(true);
+                                    }}
+                                    loading={mutationLoading}
+                                >
+                                    Добавить
+                                </Button>
+                            </Col>
+                        </Row>
+                    );
+                }}
             </ModalForm>
         </>
     );

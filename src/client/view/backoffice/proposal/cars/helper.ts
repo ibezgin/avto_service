@@ -1,9 +1,11 @@
 import { useMutation, useQuery } from "@apollo/client";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { IFormField } from "../../../../components/modal-form";
 import {
     CarInput,
     CarsMutationAddCarArgs,
+    CarsMutationDeleteCarArgs,
+    CarsMutationUpdateCarArgs,
     Mutation,
     Query,
 } from "../../../../service/types/types";
@@ -12,8 +14,14 @@ import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
 import { ALL_MODELS } from "../../dictionary/models/gql/all-models";
 import { ALL_CLIENTS } from "../clients/gql/all-clients";
 import { ADD_CAR } from "./gql/add-car";
+import { DELETE_CAR } from "./gql/delete-car";
+import { UPDATE_CAR } from "./gql/update-car";
+
+const refetchQueries = ["AllCars"];
 
 export function useCarsHelper() {
+    const [brandState, setBrandState] = useState();
+
     const allClientsQuery = useQuery<Query>(ALL_CLIENTS);
 
     const allBrandQuery = useQuery<Query>(All_BRAND);
@@ -57,15 +65,22 @@ export function useCarsHelper() {
             title: "Модель авто",
             name: "modelId",
             type: "selectField",
-            options: allModels.map(elem => ({
-                label: elem.title,
-                value: elem.id,
-            })),
+            options: allModels
+                .filter(elem => elem.brandId === brandState)
+                .map(elem => ({
+                    label: elem.title,
+                    value: elem.id,
+                })),
         },
         {
             title: "Гос номер авто",
             name: "gosNumber",
             type: "gosNumberField",
+        },
+        {
+            title: "Цвет",
+            name: "color",
+            type: "textField",
         },
     ] as IFormField[];
 
@@ -74,17 +89,48 @@ export function useCarsHelper() {
         CarsMutationAddCarArgs
     >(ADD_CAR);
 
+    const [deleteCar, deleteCarHelper] = useMutation<
+        Mutation,
+        CarsMutationDeleteCarArgs
+    >(DELETE_CAR);
+
+    const [updateCar, updateCarHelper] = useMutation<
+        Mutation,
+        CarsMutationUpdateCarArgs
+    >(UPDATE_CAR);
+
     const sendAddCar = (data: CarInput) => {
         addCar({
             variables: {
                 data,
             },
+            refetchQueries,
+        });
+    };
+    const sendDeleteCar = (id: string) => {
+        deleteCar({
+            variables: {
+                id,
+            },
+            refetchQueries,
+        });
+    };
+    const sendUpdateCar = (id: string, data: CarInput) => {
+        updateCar({
+            variables: {
+                id,
+                data,
+            },
+            refetchQueries,
         });
     };
 
     return {
-        mutationLoading: addCarHelper.loading,
+        mutationLoading: addCarHelper.loading || deleteCarHelper.loading,
         formFields,
         sendAddCar,
+        sendDeleteCar,
+        sendUpdateCar,
+        setBrandState,
     };
 }
