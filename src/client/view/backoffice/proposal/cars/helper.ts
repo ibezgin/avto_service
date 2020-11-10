@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useMemo, useState } from "react";
 import { IFormField } from "../../../../components/modal-form";
+import { useMutationOptions } from "../../../../hooks/use-mutation-options";
 import {
     CarInput,
     CarsMutationAddCarArgs,
@@ -20,6 +21,8 @@ import { UPDATE_CAR } from "./gql/update-car";
 const refetchQueries = ["AllCars"];
 
 export function useCarsHelper() {
+    const options = useMutationOptions();
+
     const [brandState, setBrandState] = useState();
 
     const allClientsQuery = useQuery<Query>(ALL_CLIENTS);
@@ -87,17 +90,17 @@ export function useCarsHelper() {
     const [addCar, addCarHelper] = useMutation<
         Mutation,
         CarsMutationAddCarArgs
-    >(ADD_CAR);
+    >(ADD_CAR, options);
 
     const [deleteCar, deleteCarHelper] = useMutation<
         Mutation,
         CarsMutationDeleteCarArgs
-    >(DELETE_CAR);
+    >(DELETE_CAR, options);
 
     const [updateCar, updateCarHelper] = useMutation<
         Mutation,
         CarsMutationUpdateCarArgs
-    >(UPDATE_CAR);
+    >(UPDATE_CAR, options);
 
     const sendAddCar = (data: CarInput) => {
         addCar({
