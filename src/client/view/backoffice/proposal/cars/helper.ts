@@ -126,7 +126,10 @@ export function useCarsHelper() {
     };
 
     return {
-        mutationLoading: addCarHelper.loading || deleteCarHelper.loading,
+        mutationLoading:
+            addCarHelper.loading ||
+            deleteCarHelper.loading ||
+            updateCarHelper.loading,
         formFields,
         sendAddCar,
         sendDeleteCar,
