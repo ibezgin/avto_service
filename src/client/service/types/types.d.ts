@@ -21,6 +21,7 @@ export type Query = {
   users: UsersQuery;
   clients: ClientsQuery;
   authentication: AuthenticationQuery;
+  cars: CarsQuery;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -33,6 +34,7 @@ export type Mutation = {
   users: UsersMutation;
   clients: ClientsMutation;
   authentication: AuthenticationMutation;
+  cars: CarsMutation;
   _keep?: Maybe<Scalars['Boolean']>;
 };
 
@@ -294,6 +296,52 @@ export type LoginType = {
 export type LoginInput = {
   username?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
+}
+
+export type CarsQuery = {
+  __typename?: 'CarsQuery';
+  allCars: Array<CarType>;
+};
+
+export type CarsMutation = {
+  __typename?: 'CarsMutation';
+  addCar?: Maybe<Scalars['Boolean']>;
+  deleteCar?: Maybe<Scalars['Boolean']>;
+  updateCar?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type CarsMutationAddCarArgs = {
+  data: CarInput;
+};
+
+
+export type CarsMutationDeleteCarArgs = {
+  id: Scalars['String'];
+};
+
+
+export type CarsMutationUpdateCarArgs = {
+  id: Scalars['String'];
+  data: CarInput;
+};
+
+export type CarType = {
+  __typename?: 'CarType';
+  id: Scalars['String'];
+  brandId: Scalars['String'];
+  modelId: Scalars['String'];
+  clientId: Scalars['String'];
+  gosNumber: Scalars['String'];
+  color: Scalars['String'];
+};
+
+export type CarInput = {
+  brandId: Scalars['String'];
+  modelId: Scalars['String'];
+  clientId: Scalars['String'];
+  gosNumber: Scalars['String'];
+  color: Scalars['String'];
 };
 
 

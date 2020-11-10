@@ -14,6 +14,8 @@ import { ProposalClients } from "../view/backoffice/proposal/clients";
 import { ProposalClientsHeader } from "../view/backoffice/proposal/clients/header";
 import { DictionaryUsers } from "../view/backoffice/dictionary/users";
 import { DictionaryUsersHeader } from "../view/backoffice/dictionary/users/header";
+import { ProposalCars } from "../view/backoffice/proposal/cars";
+import { ProposalCarsHeader } from "../view/backoffice/proposal/cars/header";
 
 interface IRoute {
     name: string;
@@ -121,9 +123,10 @@ export function useRoutes() {
                         {
                             name: "Обслуживаемые автомобили",
                             path: "/proposal/cars",
-                            component: GapPage,
+                            component: ProposalCars,
                             icon: FileOutlined,
                             access: AccessEnum.PROPOSAL_CARS,
+                            header: ProposalCarsHeader,
                         },
                     ],
                 },
