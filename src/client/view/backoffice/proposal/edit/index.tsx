@@ -19,11 +19,15 @@ import { ALL_MODELS } from "../../dictionary/models/gql/all-models";
 import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
 import { ProposalStatus } from "../../../../service/enums/proposal-status";
 import { ALL_SERVICES } from "../../dictionary/service/gql/all-services";
+import { ALL_USERS } from "../../dictionary/users/gql/all-users";
+import { Specialization } from "../../../../service/enums/specialization";
 
 export const ProposalEdit = React.memo(() => {
     const [client, setClient] = useState("");
 
     const [car, setCar] = useState("");
+
+    const [user, setUser] = useState("");
 
     const [service, setService] = useState([]);
 
@@ -38,6 +42,8 @@ export const ProposalEdit = React.memo(() => {
     const allBrandsQuery = useQuery<Query>(All_BRAND);
 
     const allServiceQuery = useQuery<Query>(ALL_SERVICES);
+
+    const allUsersQuery = useQuery<Query>(ALL_USERS);
 
     const allClients = useMemo(() => allClientsQuery.data?.clients.allClients, [
         allClientsQuery.data?.clients.allClients,
@@ -82,6 +88,18 @@ export const ProposalEdit = React.memo(() => {
         [allServices, service],
     );
 
+    const technicalUsers = useMemo(
+        () =>
+            allUsersQuery.data?.users.allUsers.filter(
+                elem => elem.position === Specialization.TECHNICAL,
+            ),
+        [allUsersQuery.data?.users.allUsers],
+    );
+
+    const specialistInfo = useMemo(
+        () => technicalUsers?.find(elem => elem.id === user),
+        [technicalUsers, user],
+    );
     const priceChecker = useCallback(() => {
         let price = 0;
 
@@ -129,7 +147,7 @@ export const ProposalEdit = React.memo(() => {
                 carId: "",
                 // status: ProposalStatus.ACCEPTED,
                 status: null,
-
+                userId: "",
                 proposalReason: "",
                 technicalInspectionResult: "",
                 recomendedWork: [],
@@ -161,6 +179,11 @@ export const ProposalEdit = React.memo(() => {
                 useEffect(() => {
                     setCompletedWork(values.completedWork);
                 }, [values.completedWork, values.recomendedWork]);
+
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                useEffect(() => {
+                    setUser(values.userId);
+                }, [values.userId]);
 
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 useEffect(() => {
@@ -349,7 +372,35 @@ export const ProposalEdit = React.memo(() => {
                                     <CardCell>
                                         <CardTitle>Специалист</CardTitle>
                                     </CardCell>
-                                    <CardCell>Игорь Николаев</CardCell>
+                                    <CardCell>
+                                        {specialistInfo?.firstname}{" "}
+                                        {specialistInfo?.lastname}
+                                    </CardCell>
+                                </CardRow>
+                                <CardRow>
+                                    <CardCell>Изменить специалиста</CardCell>
+                                    <CardCell>
+                                        <FormikAntd.Select
+                                            name="userId"
+                                            placeholder="Специалист"
+                                            dropdownMatchSelectWidth={false}
+                                            allowClear={false}
+                                        >
+                                            {(technicalUsers || []).map(
+                                                elem => (
+                                                    <FormikAntd.Select.Option
+                                                        key={`specialist-form-option-${String(
+                                                            elem?.id,
+                                                        )}`}
+                                                        value={String(elem?.id)}
+                                                    >
+                                                        {elem?.firstname}{" "}
+                                                        {elem?.lastname}
+                                                    </FormikAntd.Select.Option>
+                                                ),
+                                            )}
+                                        </FormikAntd.Select>
+                                    </CardCell>
                                 </CardRow>
                                 <CardRow>
                                     <CardCell>

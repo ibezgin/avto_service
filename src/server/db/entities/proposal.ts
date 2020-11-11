@@ -15,6 +15,8 @@ export class ProposalEntity {
     @Column()
     public carId: string | undefined;
     @Column()
+    public userId: string | undefined;
+    @Column()
     public proposalReason: string | undefined;
     @Column()
     public technicalInspectionResult: string | undefined;
