@@ -146,7 +146,7 @@ export const ProposalEdit = React.memo(() => {
                 clientId: "",
                 carId: "",
                 // status: ProposalStatus.ACCEPTED,
-                status: null,
+                status: ProposalStatus.ACCEPTED,
                 userId: "",
                 proposalReason: "",
                 technicalInspectionResult: "",
@@ -339,7 +339,25 @@ export const ProposalEdit = React.memo(() => {
                                         <CardTitle>Статус заявки</CardTitle>
                                     </CardCell>
                                     <CardCell>
-                                        <Tag color="blue">Принята</Tag>
+                                        <Tag
+                                            color={
+                                                values.status ===
+                                                ProposalStatus.ACCEPTED
+                                                    ? "blue"
+                                                    : values.status ===
+                                                      ProposalStatus.TECHNICAL_INSPECTION
+                                                    ? "purple"
+                                                    : values.status ===
+                                                      ProposalStatus.TECHNICAL_WORKS
+                                                    ? "volcano"
+                                                    : values.status ===
+                                                      ProposalStatus.COMPLETED
+                                                    ? "magenta"
+                                                    : "green"
+                                            }
+                                        >
+                                            Принята
+                                        </Tag>
                                     </CardCell>
                                 </CardRow>{" "}
                                 <CardRow>
@@ -357,9 +375,7 @@ export const ProposalEdit = React.memo(() => {
                                                         key={`status-form-option-${String(
                                                             elem?.value,
                                                         )}`}
-                                                        value={String(
-                                                            elem?.value,
-                                                        )}
+                                                        value={elem?.value}
                                                     >
                                                         {elem?.label}{" "}
                                                     </FormikAntd.Select.Option>
