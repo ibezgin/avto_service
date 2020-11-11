@@ -62,6 +62,7 @@ export const DictionaryUsers = React.memo(() => {
                                         "firstname",
                                         "username",
                                         "position",
+                                        "password",
                                     ),
                                 );
                                 values.setVisible();

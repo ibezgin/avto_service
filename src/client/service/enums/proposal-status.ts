@@ -1,5 +1,5 @@
 export enum ProposalStatus {
-    APPLICATION_ACCEPTED, // заявка принята
+    ACCEPTED, // заявка принята
     TECHNICAL_INSPECTION, // технический осмотр
     TECHNICAL_WORKS, // технические работы
     COMPLETED, // завершена
