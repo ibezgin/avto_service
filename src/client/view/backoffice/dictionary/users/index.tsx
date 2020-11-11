@@ -45,11 +45,8 @@ export const DictionaryUsers = React.memo(() => {
             {
                 title: "Должность",
                 dataIndex: "position",
-                render: (position: any) => {
-                    console.log(position);
-                    return positions.find(elem => elem.value === position)
-                        ?.label;
-                },
+                render: (position: any) =>
+                    positions.find(elem => elem.value === position)?.label,
             },
             {
                 title: "",
@@ -94,7 +91,13 @@ export const DictionaryUsers = React.memo(() => {
                 ),
             },
         ],
-        [formFields, sendDeleteUser, sendUpdateUser, styleUtils.cursorPointer],
+        [
+            formFields,
+            positions,
+            sendDeleteUser,
+            sendUpdateUser,
+            styleUtils.cursorPointer,
+        ],
     );
 
     const loading = allUsersQuery.loading || loadingMutation;

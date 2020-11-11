@@ -1,5 +1,4 @@
 import { ApolloError, useMutation } from "@apollo/client";
-import { notification } from "antd";
 import { IFormField } from "../../../../components/modal-form";
 import { useMutationOptions } from "../../../../hooks/use-mutation-options";
 import { Specialization } from "../../../../service/enums/specialization";
