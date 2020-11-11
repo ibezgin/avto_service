@@ -36,6 +36,11 @@ export function useUsersHelper() {
             type: "textField",
         },
         {
+            title: "Фамилия",
+            name: "lastname",
+            type: "textField",
+        },
+        {
             title: "Специализация",
             name: "position",
             type: "selectField",

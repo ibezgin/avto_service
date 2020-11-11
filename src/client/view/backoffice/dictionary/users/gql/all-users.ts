@@ -6,6 +6,7 @@ export const ALL_USERS = gql`
             allUsers {
                 id
                 firstname
+                lastname
                 username
                 position
             }

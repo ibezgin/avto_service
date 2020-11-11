@@ -21,6 +21,7 @@ const types = gql`
     type UserType {
         id: String
         firstname: String
+        lastname: String
         username: String
         password: String
         permission: [String]
@@ -29,6 +30,7 @@ const types = gql`
 
     input UserInput {
         firstname: String
+        lastname: String
         username: String
         password: String
         permission: [String]

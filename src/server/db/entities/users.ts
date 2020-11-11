@@ -7,6 +7,8 @@ export class UsersEntity {
     @Column()
     public firstname: string | undefined;
     @Column()
+    public lastname: string | undefined;
+    @Column()
     public username: string | undefined;
     @Column()
     public password: string | undefined;

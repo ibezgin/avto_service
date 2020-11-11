@@ -39,6 +39,10 @@ export const DictionaryUsers = React.memo(() => {
                 dataIndex: "firstname",
             },
             {
+                title: "Фамилия",
+                dataIndex: "lastname",
+            },
+            {
                 title: "Логин",
                 dataIndex: "username",
             },
@@ -63,6 +67,7 @@ export const DictionaryUsers = React.memo(() => {
                                         "username",
                                         "position",
                                         "password",
+                                        "lastname",
                                     ),
                                 );
                                 values.setVisible();

@@ -215,6 +215,7 @@ export type UserType = {
   __typename?: 'UserType';
   id?: Maybe<Scalars['String']>;
   firstname?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   permission?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -223,6 +224,7 @@ export type UserType = {
 
 export type UserInput = {
   firstname?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   permission?: Maybe<Array<Maybe<Scalars['String']>>>;
