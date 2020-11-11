@@ -118,7 +118,7 @@ export const ProposalProposal = React.memo(() => {
             }}
             enableReinitialize={true}
         >
-            {({ values }) => {
+            {({ values, setFieldValue }) => {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 useEffect(() => {
                     setClient(values.clientId);
@@ -138,6 +138,19 @@ export const ProposalProposal = React.memo(() => {
                 useEffect(() => {
                     setCompletedWork(values.completedWork);
                 }, [values.completedWork, values.recomendedWork]);
+
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                useEffect(() => {
+                    for (const key in values.completedWork) {
+                        if (values.recomendedWork.indexOf(key) === -1) {
+                            setFieldValue(`completedWork[${key}]`, undefined);
+                        }
+                    }
+                }, [
+                    setFieldValue,
+                    values.completedWork,
+                    values.recomendedWork,
+                ]);
                 return (
                     <FormikAntd.Form>
                         <CardWrapper>
