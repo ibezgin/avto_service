@@ -23,7 +23,6 @@ const types = gql`
         firstname: String
         lastname: String
         username: String
-        password: String
         permission: [String]
         position: String
     }
