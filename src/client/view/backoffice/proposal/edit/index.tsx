@@ -20,7 +20,7 @@ import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
 import { ProposalStatus } from "../../../../service/enums/proposal-status";
 import { ALL_SERVICES } from "../../dictionary/service/gql/all-services";
 
-export const ProposalProposal = React.memo(() => {
+export const ProposalEdit = React.memo(() => {
     const [client, setClient] = useState("");
 
     const [car, setCar] = useState("");
@@ -98,6 +98,29 @@ export const ProposalProposal = React.memo(() => {
 
         return price;
     }, [allServices, completedWork]);
+
+    const proposalStatuses = [
+        {
+            value: ProposalStatus.ACCEPTED,
+            label: "Принята",
+        },
+        {
+            value: ProposalStatus.TECHNICAL_INSPECTION,
+            label: "Технический осмотр",
+        },
+        {
+            value: ProposalStatus.TECHNICAL_WORKS,
+            label: "Технические работы",
+        },
+        {
+            value: ProposalStatus.COMPLETED,
+            label: "Завершена",
+        },
+        {
+            value: ProposalStatus.PAY_AND_COMPLITED,
+            label: "Оплачена и завершена",
+        },
+    ];
 
     return (
         <Formik
@@ -295,6 +318,32 @@ export const ProposalProposal = React.memo(() => {
                                     <CardCell>
                                         <Tag color="blue">Принята</Tag>
                                     </CardCell>
+                                </CardRow>{" "}
+                                <CardRow>
+                                    <CardCell>Изменить статус</CardCell>
+                                    <CardCell>
+                                        <FormikAntd.Select
+                                            name="status"
+                                            placeholder="Статус заявкии"
+                                            dropdownMatchSelectWidth={false}
+                                            allowClear={false}
+                                        >
+                                            {(proposalStatuses || []).map(
+                                                elem => (
+                                                    <FormikAntd.Select.Option
+                                                        key={`status-form-option-${String(
+                                                            elem?.value,
+                                                        )}`}
+                                                        value={String(
+                                                            elem?.value,
+                                                        )}
+                                                    >
+                                                        {elem?.label}{" "}
+                                                    </FormikAntd.Select.Option>
+                                                ),
+                                            )}
+                                        </FormikAntd.Select>
+                                    </CardCell>{" "}
                                 </CardRow>{" "}
                                 <CardRow>
                                     <CardCell>
