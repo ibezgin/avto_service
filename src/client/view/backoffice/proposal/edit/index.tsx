@@ -343,20 +343,26 @@ export const ProposalEdit = React.memo(() => {
                                             color={
                                                 values.status ===
                                                 ProposalStatus.ACCEPTED
-                                                    ? "blue"
+                                                    ? "volcano"
                                                     : values.status ===
                                                       ProposalStatus.TECHNICAL_INSPECTION
                                                     ? "purple"
                                                     : values.status ===
                                                       ProposalStatus.TECHNICAL_WORKS
-                                                    ? "volcano"
+                                                    ? "blue"
                                                     : values.status ===
                                                       ProposalStatus.COMPLETED
                                                     ? "magenta"
                                                     : "green"
                                             }
                                         >
-                                            Принята
+                                            {
+                                                proposalStatuses.find(
+                                                    elem =>
+                                                        elem.value ===
+                                                        values.status,
+                                                )?.label
+                                            }
                                         </Tag>
                                     </CardCell>
                                 </CardRow>{" "}
