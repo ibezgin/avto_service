@@ -11,5 +11,7 @@ export class UsersEntity {
     @Column()
     public password: string | undefined;
     @Column()
-    public permission: any[] | undefined;
+    public permission: any | undefined;
+    @Column()
+    public position: string | undefined;
 }

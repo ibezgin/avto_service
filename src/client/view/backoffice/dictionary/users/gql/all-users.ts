@@ -7,6 +7,7 @@ export const ALL_USERS = gql`
                 id
                 firstname
                 username
+                position
             }
         }
     }

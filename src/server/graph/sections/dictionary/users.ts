@@ -10,7 +10,7 @@ const types = gql`
         users: UsersMutation!
     }
     type UsersQuery {
-        allUsers: [UserType!]!
+        allUsers: [UserType]
     }
     type UsersMutation {
         addUser(data: UserInput): Boolean
@@ -24,6 +24,7 @@ const types = gql`
         username: String
         password: String
         permission: [String]
+        position: String
     }
 
     input UserInput {
@@ -31,6 +32,7 @@ const types = gql`
         username: String
         password: String
         permission: [String]
+        position: String
     }
 `;
 

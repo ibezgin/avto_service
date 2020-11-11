@@ -3,7 +3,9 @@ import { UsersEntity } from "../../../db/entities/users";
 
 export class UsersContextHelper extends AbstractRequestContextHelper {
     public async allUsers() {
-        return await this.context.helpers.database.getAll(UsersEntity);
+        const result = await this.context.helpers.database.getAll(UsersEntity);
+
+        return result;
     }
 
     public async addUser(data: any) {

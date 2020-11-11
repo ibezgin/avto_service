@@ -29,6 +29,7 @@ export const DictionaryUsers = React.memo(() => {
         formFields,
         sendDeleteUser,
         sendUpdateUser,
+        positions,
     } = useUsersHelper();
 
     const columns = useMemo(
@@ -40,6 +41,15 @@ export const DictionaryUsers = React.memo(() => {
             {
                 title: "Логин",
                 dataIndex: "username",
+            },
+            {
+                title: "Должность",
+                dataIndex: "position",
+                render: (position: any) => {
+                    console.log(position);
+                    return positions.find(elem => elem.value === position)
+                        ?.label;
+                },
             },
             {
                 title: "",
@@ -54,7 +64,7 @@ export const DictionaryUsers = React.memo(() => {
                                         values,
                                         "firstname",
                                         "username",
-                                        "password",
+                                        "position",
                                     ),
                                 );
                                 values.setVisible();

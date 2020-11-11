@@ -2,6 +2,7 @@ import { ApolloError, useMutation } from "@apollo/client";
 import { notification } from "antd";
 import { IFormField } from "../../../../components/modal-form";
 import { useMutationOptions } from "../../../../hooks/use-mutation-options";
+import { Specialization } from "../../../../service/enums/specialization";
 import {
     Mutation,
     UserInput,
@@ -15,11 +16,31 @@ import { DELETE_USER } from "./gql/delete-user";
 import { UPDATE_USER } from "./gql/update-user";
 
 export function useUsersHelper() {
+    const positions = [
+        {
+            value: Specialization.ADMIN,
+            label: "Руководство",
+        },
+        {
+            value: Specialization.MANAGER,
+            label: "Менеджер",
+        },
+        {
+            value: Specialization.TECHNICAL,
+            label: "Технический специалист",
+        },
+    ];
     const formFields = [
         {
             title: "Имя",
             name: "firstname",
             type: "textField",
+        },
+        {
+            title: "Специализация",
+            name: "position",
+            type: "selectField",
+            options: positions,
         },
         {
             title: "Имя пользователя",
@@ -92,6 +113,7 @@ export function useUsersHelper() {
             deleteUserHelper.loading ||
             updateUserHelper.loading,
         formFields,
+        positions,
         sendAddUser,
         sendDeleteUser,
         sendUpdateUser,
