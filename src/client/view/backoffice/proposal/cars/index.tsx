@@ -102,11 +102,10 @@ export const ProposalCars = React.memo(() => {
                         loading={mutationLoading}
                     >
                         {(setVisible, values) => {
-                            setBrandState(values?.brandId);
-
                             return (
                                 <EditOutlined
                                     onClick={() => {
+                                        setBrandState(values?.brandId);
                                         setVisible(true);
                                     }}
                                 />
