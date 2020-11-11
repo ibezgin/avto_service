@@ -6,6 +6,7 @@ import { CarsEntity } from "./entities/cars";
 import { ClientsEntity } from "./entities/clients";
 import { ModelsEntity } from "./entities/models";
 import { ServiceEntity } from "./entities/service";
+import { UsersEntity } from "./entities/users";
 
 let connection: ReturnType<typeof createConnection> | undefined;
 
@@ -15,6 +16,7 @@ const entities = [
     ServiceEntity,
     CarPartEntity,
     ClientsEntity,
+    UsersEntity,
     CarsEntity,
 ];
 

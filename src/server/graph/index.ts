@@ -6,5 +6,5 @@ const schema = buildGraphqlSchema();
 
 export const apolloServer = new ApolloServer({
     schema,
-    context: ({ req }) => new RequestContext(req),
+    context: ({ req, res }) => new RequestContext(req, res),
 });

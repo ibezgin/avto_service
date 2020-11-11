@@ -15,6 +15,7 @@ type FormFieldType =
     | "selectField"
     | "checkboxField"
     | "phoneField"
+    | "passwordField"
     | "gosNumberField";
 
 type IField = {
@@ -127,6 +128,19 @@ export const ModalForm = React.memo((props: IProps) => {
                     </Field>
                 </FormikAntd.FormItem>
             ),
+            passwordField: (
+                <FormikAntd.FormItem name={field.name} label={field.title}>
+                    <FormikAntd.Input
+                        name={field.name}
+                        placeholder={field.title}
+                        type="password"
+                        autoComplete="off"
+                        autoCapitalize="off"
+                        autoCorrect="off"
+                    />
+                </FormikAntd.FormItem>
+            ),
+
             gosNumberField: (
                 <FormikAntd.FormItem name={field.name} label={field.title}>
                     <Field name={field.name}>
