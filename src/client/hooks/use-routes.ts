@@ -17,6 +17,7 @@ import { DictionaryUsersHeader } from "../view/backoffice/dictionary/users/heade
 import { ProposalCars } from "../view/backoffice/proposal/cars";
 import { ProposalCarsHeader } from "../view/backoffice/proposal/cars/header";
 import { ProposalEdit } from "../view/backoffice/proposal/edit";
+import { ProposalAll } from "../view/backoffice/proposal/all";
 
 interface IRoute {
     name: string;
@@ -101,7 +102,7 @@ export function useRoutes() {
                         {
                             name: "Все заявки",
                             path: "/proposal",
-                            component: GapPage,
+                            component: ProposalAll,
                             icon: FileOutlined,
                             access: AccessEnum.PROPOSAL_ALL,
                             exact: true,

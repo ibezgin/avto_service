@@ -217,7 +217,6 @@ export type UserType = {
   firstname?: Maybe<Scalars['String']>;
   lastname?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
   permission?: Maybe<Array<Maybe<Scalars['String']>>>;
   position?: Maybe<Scalars['String']>;
 };
