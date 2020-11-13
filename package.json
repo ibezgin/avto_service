@@ -104,6 +104,7 @@
         "mongodb": "^3.6.2",
         "passport": "^0.4.1",
         "passport-local": "^1.0.0",
+        "query-string": "^6.13.7",
         "react-phone-number-input": "^3.1.4",
         "reflect-metadata": "^0.1.13",
         "styled-components": "^5.2.1",

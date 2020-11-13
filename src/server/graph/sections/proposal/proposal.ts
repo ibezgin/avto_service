@@ -22,27 +22,27 @@ const types = gql`
         id: String
         createTime: String
         changeTime: String
-        status: String
+        status: Int
         clientId: String
         carId: String
         userId: String
         proposalReason: String
         technicalInspectionResult: String
-        recomendedWork: String
-        completedWork: String
+        recomendedWork: [String]
+        completedWork: JSON
     }
 
     input ProposalInput {
         createTime: String
         changeTime: String
-        status: String
+        status: Int
         clientId: String
         carId: String
         userId: String
         proposalReason: String
         technicalInspectionResult: String
-        recomendedWork: String
-        completedWork: String
+        recomendedWork: [String]
+        completedWork: JSON
     }
 `;
 

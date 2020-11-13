@@ -21,8 +21,15 @@ import { ProposalStatus } from "../../../../service/enums/proposal-status";
 import { ALL_SERVICES } from "../../dictionary/service/gql/all-services";
 import { ALL_USERS } from "../../dictionary/users/gql/all-users";
 import { Specialization } from "../../../../service/enums/specialization";
+import { useEditProposalHelper } from "./helper";
+import moment from "moment";
+import { useQueryParams } from "../../../../hooks/use-query-params";
 
 export const ProposalEdit = React.memo(() => {
+    const { id } = useQueryParams();
+    // eslint-disable-next-line no-console
+    console.log(id);
+
     const [client, setClient] = useState("");
 
     const [car, setCar] = useState("");
@@ -140,6 +147,8 @@ export const ProposalEdit = React.memo(() => {
         },
     ];
 
+    const { sendAddProposal } = useEditProposalHelper();
+
     return (
         <Formik
             initialValues={{
@@ -154,8 +163,18 @@ export const ProposalEdit = React.memo(() => {
                 completedWork: {},
             }}
             onSubmit={values => {
-                // eslint-disable-next-line no-console
-                console.log(values);
+                sendAddProposal({
+                    createTime: moment().format("X"),
+                    changeTime: moment().format("X"),
+                    status: values.status,
+                    clientId: values.clientId,
+                    carId: values.carId,
+                    userId: values.carId,
+                    proposalReason: "",
+                    technicalInspectionResult: "",
+                    recomendedWork: values.recomendedWork,
+                    completedWork: JSON.stringify(values.completedWork),
+                });
             }}
             enableReinitialize={true}
         >

@@ -16,8 +16,8 @@ import { DictionaryUsers } from "../view/backoffice/dictionary/users";
 import { DictionaryUsersHeader } from "../view/backoffice/dictionary/users/header";
 import { ProposalCars } from "../view/backoffice/proposal/cars";
 import { ProposalCarsHeader } from "../view/backoffice/proposal/cars/header";
-import { ProposalEdit } from "../view/backoffice/proposal/edit";
 import { ProposalAll } from "../view/backoffice/proposal/all";
+import { ProposalEdit } from "../view/backoffice/proposal/edit";
 
 interface IRoute {
     name: string;
@@ -109,7 +109,7 @@ export function useRoutes() {
                         },
                         {
                             name: "Добавить заявку",
-                            path: "/proposal/add",
+                            path: "/proposal/form",
                             component: ProposalEdit,
                             icon: FileOutlined,
                             access: AccessEnum.PROPOSAL_ADD,

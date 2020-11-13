@@ -3,7 +3,7 @@ import { gql } from "@apollo/client";
 export const ALL_PROPOSALS = gql`
     query AllProposals {
         proposal {
-            all_proposals {
+            allProposals {
                 id
                 createTime
                 changeTime
