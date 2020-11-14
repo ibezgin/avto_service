@@ -632,8 +632,8 @@ export const ProposalForm = React.memo(() => {
                                                 <CardRow>
                                                     <CardCell>
                                                         <CardTitle>
-                                                            Рекомендованные
-                                                            работы
+                                                            Предварительный план
+                                                            работ
                                                         </CardTitle>
                                                     </CardCell>
                                                 </CardRow>
@@ -643,7 +643,7 @@ export const ProposalForm = React.memo(() => {
                                                         <CardCell>
                                                             <FormikAntd.Select
                                                                 name="recomendedWork"
-                                                                placeholder="Рекомендованные работы"
+                                                                placeholder="Предварительный план работ"
                                                                 dropdownMatchSelectWidth={
                                                                     false
                                                                 }
@@ -728,21 +728,25 @@ export const ProposalForm = React.memo(() => {
                                                     <CardCell>
                                                         <CardTitle>
                                                             Итого
-                                                            предворительная
-                                                            сумма:{" "}
-                                                            {recomendedPriceChecker()}{" "}
-                                                            руб.
+                                                            предварительная
+                                                            стоимость работ:{" "}
                                                         </CardTitle>
+                                                    </CardCell>
+                                                    <CardCell>
+                                                        {recomendedPriceChecker()}{" "}
+                                                        руб.
                                                     </CardCell>
                                                 </CardRow>
                                                 <CardRow>
                                                     <CardCell>
                                                         <CardTitle>
-                                                            Итого выполненные
-                                                            работы:{" "}
-                                                            {completedPriceChecker()}{" "}
-                                                            руб.
-                                                        </CardTitle>
+                                                            Итого стоимость
+                                                            выполненных работ:{" "}
+                                                        </CardTitle>{" "}
+                                                    </CardCell>
+                                                    <CardCell>
+                                                        {completedPriceChecker()}{" "}
+                                                        руб.
                                                     </CardCell>
                                                 </CardRow>
                                             </>
