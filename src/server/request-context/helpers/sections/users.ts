@@ -2,6 +2,7 @@ import { AbstractRequestContextHelper } from "../../abstract-request-context-hel
 import { UsersEntity } from "../../../db/entities/users";
 import { UserInput } from "../../../../client/service/types/types";
 import bcrypt from "bcryptjs";
+import { ObjectID } from "typeorm";
 export class UsersContextHelper extends AbstractRequestContextHelper {
     public async allUsers() {
         const result = await this.context.helpers.database.getAll(UsersEntity);
@@ -30,12 +31,17 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
         return await this.context.helpers.database.delete(UsersEntity, id);
     }
 
-    public async updateUser(id: string, data: UserInput) {
-        return await this.context.helpers.database.update(UsersEntity, id, {
-            ...data,
-            password: data.password
-                ? await bcrypt.hash(data.password, 10)
-                : undefined,
-        });
+    public async updateUser(id: string, data: any) {
+        return await this.context.helpers.database.update<UsersEntity>(
+            UsersEntity,
+            id,
+            {
+                ...data,
+                id,
+                password: data.password
+                    ? await bcrypt.hash(data.password, 10)
+                    : undefined,
+            },
+        );
     }
 }

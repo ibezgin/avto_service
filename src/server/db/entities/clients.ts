@@ -3,11 +3,13 @@ import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
 @Entity({ name: "clients" })
 export class ClientsEntity {
     @ObjectIdColumn()
-    public id: ObjectID | undefined;
+    public id: ObjectID | string;
     @Column()
-    public firstName: string | undefined;
+    public firstName: string;
     @Column()
-    public lastName: string | undefined;
+    public lastName: string;
     @Column()
-    public phone: string | undefined;
+    public phone: string;
+    @Column()
+    public createTime: string;
 }

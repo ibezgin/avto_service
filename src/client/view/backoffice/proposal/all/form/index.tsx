@@ -216,6 +216,7 @@ export const ProposalForm = React.memo(() => {
                           JSON.parse(proposalById?.completedWork || "{}") || {},
                   }
                 : {
+                      createTime: "",
                       clientId: "",
                       carId: "",
                       status: ProposalStatus.ACCEPTED,
@@ -251,6 +252,7 @@ export const ProposalForm = React.memo(() => {
             }
             if (id) {
                 sendUpdateProposal(id, {
+                    createTime: values?.createTime,
                     changeTime: moment().format("X"),
                     status: values.status,
                     clientId: values.clientId,

@@ -3,15 +3,15 @@ import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
 @Entity({ name: "cars" })
 export class CarsEntity {
     @ObjectIdColumn()
-    public id: ObjectID | undefined;
+    public id: ObjectID | string;
     @Column()
-    public brandId: string | undefined;
+    public brandId: string;
     @Column()
-    public modelId: string | undefined;
+    public modelId: string;
     @Column()
-    public clientId: string | undefined;
+    public clientId: string;
     @Column()
-    public gosNumber: string | undefined;
+    public gosNumber: string;
     @Column()
-    public color: string | undefined;
+    public color: string;
 }
