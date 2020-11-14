@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { List } from "antd";
+import { List, Spin } from "antd";
 import { Formik } from "formik";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -200,7 +200,11 @@ export const ProposalForm = React.memo(() => {
         [proposalById?.status],
     );
 
-    const { sendAddProposal, sendUpdateProposal } = useEditProposalHelper();
+    const {
+        sendAddProposal,
+        sendUpdateProposal,
+        mutationLoading,
+    } = useEditProposalHelper();
 
     const initialValues = useMemo(
         () =>
@@ -260,340 +264,88 @@ export const ProposalForm = React.memo(() => {
         [history, id, sendAddProposal, sendUpdateProposal],
     );
 
+    const loading =
+        allClientsQuery.loading ||
+        allClientsQuery.loading ||
+        allModelsQuery.loading ||
+        allBrandsQuery.loading ||
+        allServiceQuery.loading ||
+        allUsersQuery.loading ||
+        proposalByIdQuery.loading ||
+        mutationLoading;
     return (
-        <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            enableReinitialize={true}
-        >
-            {({ values, setFieldValue }) => {
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                useEffect(() => {
-                    setClient(values?.clientId);
-                }, [values?.clientId]);
+        <Spin spinning={loading}>
+            <Formik
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                enableReinitialize={true}
+            >
+                {({ values, setFieldValue }) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        setClient(values?.clientId);
+                    }, [values?.clientId]);
 
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                useEffect(() => {
-                    setCar(values?.carId);
-                }, [values?.carId]);
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        setCar(values?.carId);
+                    }, [values?.carId]);
 
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                useEffect(() => {
-                    setService(values?.recomendedWork);
-                }, [values?.recomendedWork]);
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        setService(values?.recomendedWork);
+                    }, [values?.recomendedWork]);
 
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                useEffect(() => {
-                    setCompletedWork(values?.completedWork);
-                }, [values?.completedWork, values?.recomendedWork]);
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        setCompletedWork(values?.completedWork);
+                    }, [values?.completedWork, values?.recomendedWork]);
 
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                useEffect(() => {
-                    setUser(values?.userId);
-                }, [values?.userId]);
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        setUser(values?.userId);
+                    }, [values?.userId]);
 
-                // eslint-disable-next-line react-hooks/rules-of-hooks
-                useEffect(() => {
-                    for (const key in values?.completedWork) {
-                        if (values?.recomendedWork?.indexOf(key) === -1) {
-                            setFieldValue(`completedWork[${key}]`, undefined);
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useEffect(() => {
+                        for (const key in values?.completedWork) {
+                            if (values?.recomendedWork?.indexOf(key) === -1) {
+                                setFieldValue(
+                                    `completedWork[${key}]`,
+                                    undefined,
+                                );
+                            }
                         }
-                    }
-                }, [
-                    setFieldValue,
-                    values?.completedWork,
-                    values?.recomendedWork,
-                ]);
-                return (
-                    <FormikAntd.Form>
-                        <CardWrapper>
-                            <CardInner>
-                                <CardRow>
-                                    <CardCell>
-                                        <CardTitle>
-                                            Информация о клиенте
-                                        </CardTitle>
-                                    </CardCell>
-                                </CardRow>
-                                {!proposalById && (
-                                    <CardRow>
-                                        <CardCell>
-                                            <FormikAntd.Select
-                                                name="clientId"
-                                                placeholder="Выберите клиента"
-                                                dropdownMatchSelectWidth={false}
-                                                allowClear={false}
-                                            >
-                                                {(allClients || []).map(
-                                                    elem => (
-                                                        <FormikAntd.Select.Option
-                                                            key={`modal-form-option-${String(
-                                                                elem?.id,
-                                                            )}`}
-                                                            value={String(
-                                                                elem?.id,
-                                                            )}
-                                                        >
-                                                            {elem?.firstName}{" "}
-                                                            {elem.lastName}{" "}
-                                                            {elem.phone}
-                                                        </FormikAntd.Select.Option>
-                                                    ),
-                                                )}
-                                            </FormikAntd.Select>
-                                        </CardCell>
-                                    </CardRow>
-                                )}
-                                {values?.clientId && (
-                                    <>
-                                        <CardRow>
-                                            <CardCell>Имя</CardCell>
-                                            <CardCell>
-                                                {clientInfo?.firstName}
-                                            </CardCell>
-                                        </CardRow>
-                                        <CardRow>
-                                            <CardCell>Фамилия</CardCell>
-                                            <CardCell>
-                                                {clientInfo?.lastName}
-                                            </CardCell>
-                                        </CardRow>
-                                        <CardRow>
-                                            <CardCell>Номер телефона</CardCell>
-                                            <CardCell>
-                                                {clientInfo?.phone}
-                                            </CardCell>
-                                        </CardRow>
-                                    </>
-                                )}
-                                <CardRow>
-                                    <CardCell>
-                                        <CardTitle>Информация о авто</CardTitle>
-                                    </CardCell>
-                                </CardRow>
-                                {!proposalById && (
-                                    <CardRow>
-                                        <CardCell>
-                                            <FormikAntd.Select
-                                                name="carId"
-                                                placeholder="Выберите авто"
-                                                dropdownMatchSelectWidth={false}
-                                                allowClear={false}
-                                                disabled={!values?.clientId}
-                                            >
-                                                {(allCars || [])?.map(elem => (
-                                                    <FormikAntd.Select.Option
-                                                        key={`modal-form-option-${String(
-                                                            elem?.id,
-                                                        )}`}
-                                                        value={String(elem?.id)}
-                                                    >
-                                                        {
-                                                            allBrand?.find(
-                                                                brand =>
-                                                                    brand.id ===
-                                                                    elem?.brandId,
-                                                            ).title
-                                                        }{" "}
-                                                        {
-                                                            allModels?.find(
-                                                                model =>
-                                                                    model.id ===
-                                                                    elem?.modelId,
-                                                            ).title
-                                                        }{" "}
-                                                        {elem?.gosNumber}{" "}
-                                                    </FormikAntd.Select.Option>
-                                                ))}
-                                            </FormikAntd.Select>
-                                        </CardCell>
-                                    </CardRow>
-                                )}
-                                {values?.carId && (
-                                    <>
-                                        <CardRow>
-                                            <CardCell>Марка</CardCell>
-                                            <CardCell>
-                                                {
-                                                    allBrand?.find(
-                                                        elem =>
-                                                            elem?.id ===
-                                                            carInfo?.brandId,
-                                                    )?.title
-                                                }
-                                            </CardCell>
-                                        </CardRow>
-                                        <CardRow>
-                                            <CardCell>Модель</CardCell>
-                                            <CardCell>
-                                                {
-                                                    allModels?.find(
-                                                        elem =>
-                                                            elem?.id ===
-                                                            carInfo?.modelId,
-                                                    )?.title
-                                                }
-                                            </CardCell>
-                                        </CardRow>
+                    }, [
+                        setFieldValue,
+                        values?.completedWork,
+                        values?.recomendedWork,
+                    ]);
 
-                                        <CardRow>
-                                            <CardCell>Гос номер</CardCell>
-                                            <CardCell>
-                                                {carInfo?.gosNumber}{" "}
-                                            </CardCell>
-                                        </CardRow>
-                                        <CardRow>
-                                            <CardCell>Цвет</CardCell>
-                                            <CardCell>
-                                                {carInfo?.color}
-                                            </CardCell>
-                                        </CardRow>
-                                    </>
-                                )}
-                                <CardRow>
-                                    <CardCell>
-                                        <CardTitle>Статус заявки</CardTitle>
-                                    </CardCell>
-                                    <CardCell>
-                                        <StatusColorTag
-                                            status={
-                                                proposalById?.status ||
-                                                values?.status
-                                            }
-                                        />
-                                    </CardCell>
-                                </CardRow>{" "}
-                                <CardRow>
-                                    <CardCell>Изменить статус</CardCell>
-                                    <CardCell>
-                                        <FormikAntd.Select
-                                            name="status"
-                                            placeholder="Статус заявкии"
-                                            dropdownMatchSelectWidth={false}
-                                            allowClear={false}
-                                            disabled={_.isUndefined(
-                                                proposalById?.status,
-                                            )}
-                                        >
-                                            {(proposalStatuses || []).map(
-                                                elem => (
-                                                    <FormikAntd.Select.Option
-                                                        key={`status-form-option-${String(
-                                                            elem?.value,
-                                                        )}`}
-                                                        // value={elem?.value}
-                                                        value={elem.value}
-                                                        disabled={elem.disabled}
-                                                    >
-                                                        {elem?.label}{" "}
-                                                    </FormikAntd.Select.Option>
-                                                ),
-                                            )}
-                                        </FormikAntd.Select>
-                                    </CardCell>{" "}
-                                </CardRow>{" "}
-                                <CardRow>
-                                    <CardCell>
-                                        <CardTitle>Специалист</CardTitle>
-                                    </CardCell>
-                                    <CardCell>
-                                        {specialistInfo?.firstname}{" "}
-                                        {specialistInfo?.lastname}
-                                    </CardCell>
-                                </CardRow>
-                                <CardRow>
-                                    <CardCell>Изменить специалиста</CardCell>
-                                    <CardCell>
-                                        <FormikAntd.Select
-                                            name="userId"
-                                            placeholder="Специалист"
-                                            dropdownMatchSelectWidth={false}
-                                            allowClear={false}
-                                        >
-                                            {(technicalUsers || []).map(
-                                                elem => (
-                                                    <FormikAntd.Select.Option
-                                                        key={`specialist-form-option-${String(
-                                                            elem?.id,
-                                                        )}`}
-                                                        value={elem?.id}
-                                                    >
-                                                        {elem?.firstname}{" "}
-                                                        {elem?.lastname}
-                                                    </FormikAntd.Select.Option>
-                                                ),
-                                            )}
-                                        </FormikAntd.Select>
-                                    </CardCell>
-                                </CardRow>
-                                <CardRow>
-                                    <CardCell>
-                                        <CardTitle>Причина обращения</CardTitle>
-                                    </CardCell>
-                                </CardRow>
-                                {!proposalById && (
+                    return (
+                        <FormikAntd.Form>
+                            <CardWrapper>
+                                <CardInner>
                                     <CardRow>
-                                        <FormikAntd.Input.TextArea
-                                            name="proposalReason"
-                                            rows={4}
-                                        />
+                                        <CardCell>
+                                            <CardTitle>
+                                                Информация о клиенте
+                                            </CardTitle>
+                                        </CardCell>
                                     </CardRow>
-                                )}
-                                <CardRow>
-                                    <CardCell>
-                                        {values?.proposalReason}
-                                    </CardCell>
-                                </CardRow>
-                                {values?.status !== ProposalStatus.ACCEPTED && (
-                                    <>
-                                        {" "}
+                                    {!proposalById && (
                                         <CardRow>
                                             <CardCell>
-                                                <CardTitle>
-                                                    Результат технического
-                                                    осмотра
-                                                </CardTitle>
-                                            </CardCell>
-                                        </CardRow>
-                                        {proposalById?.status ===
-                                            ProposalStatus.TECHNICAL_INSPECTION && (
-                                            <CardRow>
-                                                <FormikAntd.Input.TextArea
-                                                    name="technicalInspectionResult"
-                                                    rows={4}
-                                                />
-                                            </CardRow>
-                                        )}
-                                        <CardRow>
-                                            <CardCell>
-                                                {
-                                                    values?.technicalInspectionResult
-                                                }
-                                            </CardCell>
-                                        </CardRow>
-                                        <CardRow>
-                                            <CardCell>
-                                                <CardTitle>
-                                                    Рекомендованные работы
-                                                </CardTitle>
-                                            </CardCell>
-                                        </CardRow>
-                                        {proposalById?.status ===
-                                            ProposalStatus.TECHNICAL_INSPECTION && (
-                                            <CardRow>
-                                                <CardCell>
-                                                    <FormikAntd.Select
-                                                        name="recomendedWork"
-                                                        placeholder="Рекомендованные работы"
-                                                        dropdownMatchSelectWidth={
-                                                            false
-                                                        }
-                                                        allowClear={false}
-                                                        mode="multiple"
-                                                    >
-                                                        {(
-                                                            allServices || []
-                                                        ).map(elem => (
+                                                <FormikAntd.Select
+                                                    name="clientId"
+                                                    placeholder="Выберите клиента"
+                                                    dropdownMatchSelectWidth={
+                                                        false
+                                                    }
+                                                    allowClear={false}
+                                                >
+                                                    {(allClients || []).map(
+                                                        elem => (
                                                             <FormikAntd.Select.Option
                                                                 key={`modal-form-option-${String(
                                                                     elem?.id,
@@ -602,34 +354,321 @@ export const ProposalForm = React.memo(() => {
                                                                     elem?.id,
                                                                 )}
                                                             >
-                                                                {elem?.title}{" "}
+                                                                {
+                                                                    elem?.firstName
+                                                                }{" "}
+                                                                {elem.lastName}{" "}
+                                                                {elem.phone}
                                                             </FormikAntd.Select.Option>
-                                                        ))}
-                                                    </FormikAntd.Select>
+                                                        ),
+                                                    )}
+                                                </FormikAntd.Select>
+                                            </CardCell>
+                                        </CardRow>
+                                    )}
+                                    {values?.clientId && (
+                                        <>
+                                            <CardRow>
+                                                <CardCell>Имя</CardCell>
+                                                <CardCell>
+                                                    {clientInfo?.firstName}
                                                 </CardCell>
                                             </CardRow>
-                                        )}
-                                        <List
-                                            size="large"
-                                            dataSource={
-                                                recomendedWorkDatasourse
-                                            }
-                                            renderItem={item => (
-                                                <List.Item>
-                                                    {item.title}
-                                                </List.Item>
-                                            )}
-                                        />
-                                        {proposalById?.status ===
-                                            ProposalStatus.TECHNICAL_WORKS && (
+                                            <CardRow>
+                                                <CardCell>Фамилия</CardCell>
+                                                <CardCell>
+                                                    {clientInfo?.lastName}
+                                                </CardCell>
+                                            </CardRow>
+                                            <CardRow>
+                                                <CardCell>
+                                                    Номер телефона
+                                                </CardCell>
+                                                <CardCell>
+                                                    {clientInfo?.phone}
+                                                </CardCell>
+                                            </CardRow>
+                                        </>
+                                    )}
+                                    <CardRow>
+                                        <CardCell>
+                                            <CardTitle>
+                                                Информация о авто
+                                            </CardTitle>
+                                        </CardCell>
+                                    </CardRow>
+                                    {!proposalById && (
+                                        <CardRow>
+                                            <CardCell>
+                                                <FormikAntd.Select
+                                                    name="carId"
+                                                    placeholder="Выберите авто"
+                                                    dropdownMatchSelectWidth={
+                                                        false
+                                                    }
+                                                    allowClear={false}
+                                                    disabled={!values?.clientId}
+                                                >
+                                                    {(allCars || [])?.map(
+                                                        elem => (
+                                                            <FormikAntd.Select.Option
+                                                                key={`modal-form-option-${String(
+                                                                    elem?.id,
+                                                                )}`}
+                                                                value={String(
+                                                                    elem?.id,
+                                                                )}
+                                                            >
+                                                                {
+                                                                    allBrand?.find(
+                                                                        brand =>
+                                                                            brand.id ===
+                                                                            elem?.brandId,
+                                                                    ).title
+                                                                }{" "}
+                                                                {
+                                                                    allModels?.find(
+                                                                        model =>
+                                                                            model.id ===
+                                                                            elem?.modelId,
+                                                                    ).title
+                                                                }{" "}
+                                                                {
+                                                                    elem?.gosNumber
+                                                                }{" "}
+                                                            </FormikAntd.Select.Option>
+                                                        ),
+                                                    )}
+                                                </FormikAntd.Select>
+                                            </CardCell>
+                                        </CardRow>
+                                    )}
+                                    {values?.carId && (
+                                        <>
+                                            <CardRow>
+                                                <CardCell>Марка</CardCell>
+                                                <CardCell>
+                                                    {
+                                                        allBrand?.find(
+                                                            elem =>
+                                                                elem?.id ===
+                                                                carInfo?.brandId,
+                                                        )?.title
+                                                    }
+                                                </CardCell>
+                                            </CardRow>
+                                            <CardRow>
+                                                <CardCell>Модель</CardCell>
+                                                <CardCell>
+                                                    {
+                                                        allModels?.find(
+                                                            elem =>
+                                                                elem?.id ===
+                                                                carInfo?.modelId,
+                                                        )?.title
+                                                    }
+                                                </CardCell>
+                                            </CardRow>
+
+                                            <CardRow>
+                                                <CardCell>Гос номер</CardCell>
+                                                <CardCell>
+                                                    {carInfo?.gosNumber}{" "}
+                                                </CardCell>
+                                            </CardRow>
+                                            <CardRow>
+                                                <CardCell>Цвет</CardCell>
+                                                <CardCell>
+                                                    {carInfo?.color}
+                                                </CardCell>
+                                            </CardRow>
+                                        </>
+                                    )}
+                                    <CardRow>
+                                        <CardCell>
+                                            <CardTitle>Статус заявки</CardTitle>
+                                        </CardCell>
+                                        <CardCell>
+                                            <StatusColorTag
+                                                status={
+                                                    proposalById?.status ||
+                                                    values?.status
+                                                }
+                                            />
+                                        </CardCell>
+                                    </CardRow>{" "}
+                                    {proposalById?.status !==
+                                        ProposalStatus.PAY_AND_COMPLITED && (
+                                        <CardRow>
+                                            <CardCell>Изменить статус</CardCell>
+                                            <CardCell>
+                                                <FormikAntd.Select
+                                                    name="status"
+                                                    placeholder="Статус заявкии"
+                                                    dropdownMatchSelectWidth={
+                                                        false
+                                                    }
+                                                    allowClear={false}
+                                                    disabled={_.isUndefined(
+                                                        proposalById?.status,
+                                                    )}
+                                                >
+                                                    {(
+                                                        proposalStatuses || []
+                                                    ).map(elem => (
+                                                        <FormikAntd.Select.Option
+                                                            key={`status-form-option-${String(
+                                                                elem?.value,
+                                                            )}`}
+                                                            // value={elem?.value}
+                                                            value={elem.value}
+                                                            disabled={
+                                                                elem.disabled
+                                                            }
+                                                        >
+                                                            {elem?.label}{" "}
+                                                        </FormikAntd.Select.Option>
+                                                    ))}
+                                                </FormikAntd.Select>
+                                            </CardCell>{" "}
+                                        </CardRow>
+                                    )}{" "}
+                                    <CardRow>
+                                        <CardCell>
+                                            <CardTitle>Специалист</CardTitle>
+                                        </CardCell>
+                                        <CardCell>
+                                            {specialistInfo?.firstname}{" "}
+                                            {specialistInfo?.lastname}
+                                        </CardCell>
+                                    </CardRow>
+                                    {proposalById?.status ===
+                                        ProposalStatus.ACCEPTED && (
+                                        <CardRow>
+                                            <CardCell>
+                                                Изменить специалиста
+                                            </CardCell>
+                                            <CardCell>
+                                                <FormikAntd.Select
+                                                    name="userId"
+                                                    placeholder="Специалист"
+                                                    dropdownMatchSelectWidth={
+                                                        false
+                                                    }
+                                                    allowClear={false}
+                                                >
+                                                    {(technicalUsers || []).map(
+                                                        elem => (
+                                                            <FormikAntd.Select.Option
+                                                                key={`specialist-form-option-${String(
+                                                                    elem?.id,
+                                                                )}`}
+                                                                value={elem?.id}
+                                                            >
+                                                                {
+                                                                    elem?.firstname
+                                                                }{" "}
+                                                                {elem?.lastname}
+                                                            </FormikAntd.Select.Option>
+                                                        ),
+                                                    )}
+                                                </FormikAntd.Select>
+                                            </CardCell>
+                                        </CardRow>
+                                    )}
+                                    <CardRow>
+                                        <CardCell>
+                                            <CardTitle>
+                                                Причина обращения
+                                            </CardTitle>
+                                        </CardCell>
+                                    </CardRow>
+                                    {!proposalById && (
+                                        <CardRow>
+                                            <FormikAntd.Input.TextArea
+                                                name="proposalReason"
+                                                rows={4}
+                                            />
+                                        </CardRow>
+                                    )}
+                                    <CardRow>
+                                        <CardCell>
+                                            {values?.proposalReason}
+                                        </CardCell>
+                                    </CardRow>
+                                    {proposalById &&
+                                        proposalById?.status !==
+                                            ProposalStatus.ACCEPTED && (
                                             <>
+                                                {" "}
                                                 <CardRow>
                                                     <CardCell>
                                                         <CardTitle>
-                                                            Выполненные работы
+                                                            Результат
+                                                            технического осмотра
                                                         </CardTitle>
                                                     </CardCell>
                                                 </CardRow>
+                                                {proposalById?.status ===
+                                                    ProposalStatus.TECHNICAL_INSPECTION && (
+                                                    <CardRow>
+                                                        <FormikAntd.Input.TextArea
+                                                            name="technicalInspectionResult"
+                                                            rows={4}
+                                                        />
+                                                    </CardRow>
+                                                )}
+                                                <CardRow>
+                                                    <CardCell>
+                                                        {
+                                                            values?.technicalInspectionResult
+                                                        }
+                                                    </CardCell>
+                                                </CardRow>
+                                                <CardRow>
+                                                    <CardCell>
+                                                        <CardTitle>
+                                                            Рекомендованные
+                                                            работы
+                                                        </CardTitle>
+                                                    </CardCell>
+                                                </CardRow>
+                                                {proposalById?.status ===
+                                                    ProposalStatus.TECHNICAL_INSPECTION && (
+                                                    <CardRow>
+                                                        <CardCell>
+                                                            <FormikAntd.Select
+                                                                name="recomendedWork"
+                                                                placeholder="Рекомендованные работы"
+                                                                dropdownMatchSelectWidth={
+                                                                    false
+                                                                }
+                                                                allowClear={
+                                                                    false
+                                                                }
+                                                                mode="multiple"
+                                                            >
+                                                                {(
+                                                                    allServices ||
+                                                                    []
+                                                                ).map(elem => (
+                                                                    <FormikAntd.Select.Option
+                                                                        key={`modal-form-option-${String(
+                                                                            elem?.id,
+                                                                        )}`}
+                                                                        value={String(
+                                                                            elem?.id,
+                                                                        )}
+                                                                    >
+                                                                        {
+                                                                            elem?.title
+                                                                        }{" "}
+                                                                    </FormikAntd.Select.Option>
+                                                                ))}
+                                                            </FormikAntd.Select>
+                                                        </CardCell>
+                                                    </CardRow>
+                                                )}
                                                 <List
                                                     size="large"
                                                     dataSource={
@@ -637,47 +676,77 @@ export const ProposalForm = React.memo(() => {
                                                     }
                                                     renderItem={item => (
                                                         <List.Item>
-                                                            <FormikAntd.Checkbox
-                                                                name={`completedWork[${item.id}]`}
-                                                                disabled={false}
-                                                            >
-                                                                {item.title}
-                                                            </FormikAntd.Checkbox>
+                                                            {item.title}
                                                         </List.Item>
                                                     )}
                                                 />
+                                                {proposalById?.status ===
+                                                    ProposalStatus.TECHNICAL_WORKS && (
+                                                    <>
+                                                        <CardRow>
+                                                            <CardCell>
+                                                                <CardTitle>
+                                                                    Выполненные
+                                                                    работы
+                                                                </CardTitle>
+                                                            </CardCell>
+                                                        </CardRow>
+                                                        <List
+                                                            size="large"
+                                                            dataSource={
+                                                                recomendedWorkDatasourse
+                                                            }
+                                                            renderItem={item => (
+                                                                <List.Item>
+                                                                    <FormikAntd.Checkbox
+                                                                        name={`completedWork[${item.id}]`}
+                                                                        disabled={
+                                                                            false
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            item.title
+                                                                        }
+                                                                    </FormikAntd.Checkbox>
+                                                                </List.Item>
+                                                            )}
+                                                        />
+                                                    </>
+                                                )}
+                                                <CardRow>
+                                                    <CardCell>
+                                                        <CardTitle>
+                                                            Итого
+                                                            предворительная
+                                                            сумма:{" "}
+                                                            {recomendedPriceChecker()}{" "}
+                                                            руб.
+                                                        </CardTitle>
+                                                    </CardCell>
+                                                </CardRow>
+                                                <CardRow>
+                                                    <CardCell>
+                                                        <CardTitle>
+                                                            Итого выполненные
+                                                            работы:{" "}
+                                                            {completedPriceChecker()}{" "}
+                                                            руб.
+                                                        </CardTitle>
+                                                    </CardCell>
+                                                </CardRow>
                                             </>
                                         )}
-                                        <CardRow>
-                                            <CardCell>
-                                                <CardTitle>
-                                                    Итого предворительная сумма:{" "}
-                                                    {recomendedPriceChecker()}{" "}
-                                                    руб.
-                                                </CardTitle>
-                                            </CardCell>
-                                        </CardRow>
-                                        <CardRow>
-                                            <CardCell>
-                                                <CardTitle>
-                                                    Итого выполненные работы:{" "}
-                                                    {completedPriceChecker()}{" "}
-                                                    руб.
-                                                </CardTitle>
-                                            </CardCell>
-                                        </CardRow>
-                                    </>
-                                )}
-                            </CardInner>
-                            <CardSave>
-                                <FormikAntd.SubmitButton loading={false}>
-                                    Сохранить
-                                </FormikAntd.SubmitButton>
-                            </CardSave>
-                        </CardWrapper>
-                    </FormikAntd.Form>
-                );
-            }}
-        </Formik>
+                                </CardInner>
+                                <CardSave>
+                                    <FormikAntd.SubmitButton loading={false}>
+                                        Сохранить
+                                    </FormikAntd.SubmitButton>
+                                </CardSave>
+                            </CardWrapper>
+                        </FormikAntd.Form>
+                    );
+                }}
+            </Formik>
+        </Spin>
     );
 });
