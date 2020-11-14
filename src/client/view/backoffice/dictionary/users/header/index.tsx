@@ -11,7 +11,14 @@ export const DictionaryUsersHeader = React.memo(() => {
             <ModalForm
                 onSubmit={(values, { resetForm }) => {
                     sendAddUser(
-                        _.pick(values, "firstname", "username", "password"),
+                        _.pick(
+                            values,
+                            "firstname",
+                            "username",
+                            "password",
+                            "position",
+                            "lastname",
+                        ),
                     );
                     values.setVisible();
                     resetForm();

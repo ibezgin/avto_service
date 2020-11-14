@@ -19,8 +19,9 @@ const types = gql`
 
     type LoginType {
         id: String
-        firstname: String
         username: String
+        permission: JSON
+        position: String
     }
     input LoginInput {
         username: String

@@ -13,6 +13,7 @@ import {
 import { CURRENT_USER } from "../../gql/authentication/current-user";
 import { useUser } from "../../hooks/use-user";
 import { Redirect } from "react-router-dom";
+import { errorHandler } from "../../service/utils/error-handler";
 
 export const LoginPage = React.memo(() => {
     const user = useUser();
@@ -110,7 +111,11 @@ function useLoginMutation() {
     const [mutation, mutationHelper] = useMutation<
         Mutation,
         AuthenticationMutationLoginArgs
-    >(LOGIN);
+    >(LOGIN, {
+        onError: error => {
+            errorHandler(error);
+        },
+    });
 
     const updateCacheAfterLogin = (cache, { data }) => {
         cache.writeQuery({
