@@ -19,21 +19,21 @@ const types = gql`
     }
 
     type UserType {
-        id: String
-        firstname: String
-        lastname: String
-        username: String
+        id: String!
+        firstname: String!
+        lastname: String!
+        username: String!
         permission: [String]
-        position: String
+        position: String!
     }
 
     input UserInput {
-        firstname: String
-        lastname: String
-        username: String
+        firstname: String!
+        lastname: String!
+        username: String!
         password: String
         permission: [String]
-        position: String
+        position: String!
     }
 `;
 

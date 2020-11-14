@@ -1,5 +1,6 @@
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 import { ServiceEntity } from "../../../db/entities/service";
+import { ObjectID } from "typeorm";
 
 export class ServiceContextHelper extends AbstractRequestContextHelper {
     public async allServices() {
@@ -18,9 +19,14 @@ export class ServiceContextHelper extends AbstractRequestContextHelper {
     }
 
     public async updateService(id: string, title: string, price: number) {
-        return await this.context.helpers.database.update(ServiceEntity, id, {
-            title,
-            price,
-        });
+        return await this.context.helpers.database.update<ServiceEntity>(
+            ServiceEntity,
+            id,
+            {
+                id,
+                title,
+                price,
+            },
+        );
     }
 }

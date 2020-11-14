@@ -8,6 +8,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { formFields, useClientsHelper } from "./helper";
 import _ from "lodash";
 import { ModalForm } from "../../../../components/modal-form";
+import { TableDateTime } from "../../../../components/table-date-time";
 
 const { confirm } = Modal;
 
@@ -48,6 +49,13 @@ export const ProposalClients = React.memo(() => {
             render: (phone: string) => <a href={`tel:${phone}`}>{phone}</a>,
         },
         {
+            dataIndex: "createTime",
+            title: "Дата добавления",
+            render: (createTime: any) => (
+                <TableDateTime date={1000 * createTime} />
+            ),
+        },
+        {
             dataIndex: "edit",
             title: "",
             render: (edit: any, record: any) => (
@@ -55,7 +63,12 @@ export const ProposalClients = React.memo(() => {
                     onSubmit={values => {
                         sendUpdateClient(
                             record.id,
-                            _.pick(values, ["firstName", "lastName", "phone"]),
+                            _.pick(values, [
+                                "firstName",
+                                "lastName",
+                                "phone",
+                                "createTime",
+                            ]),
                         );
                         values.setVisible();
                     }}

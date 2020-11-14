@@ -215,21 +215,21 @@ export type UsersMutationUpdateUserArgs = {
 
 export type UserType = {
   __typename?: 'UserType';
-  id?: Maybe<Scalars['String']>;
-  firstname?: Maybe<Scalars['String']>;
-  lastname?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
+  username: Scalars['String'];
   permission?: Maybe<Array<Maybe<Scalars['String']>>>;
-  position?: Maybe<Scalars['String']>;
+  position: Scalars['String'];
 };
 
 export type UserInput = {
-  firstname?: Maybe<Scalars['String']>;
-  lastname?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
+  firstname: Scalars['String'];
+  lastname: Scalars['String'];
+  username: Scalars['String'];
   password?: Maybe<Scalars['String']>;
   permission?: Maybe<Array<Maybe<Scalars['String']>>>;
-  position?: Maybe<Scalars['String']>;
+  position: Scalars['String'];
 };
 
 export type ClientsQuery = {
@@ -266,12 +266,14 @@ export type ClientType = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   phone: Scalars['String'];
+  createTime: Scalars['String'];
 };
 
 export type ClientInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   phone: Scalars['String'];
+  createTime: Scalars['String'];
 };
 
 export type AuthenticationQuery = {
@@ -352,8 +354,8 @@ export type CarInput = {
 
 export type ProposalQuery = {
   __typename?: 'ProposalQuery';
-  allProposals?: Maybe<Array<Maybe<ProposalType>>>;
-  proposalById?: Maybe<ProposalType>;
+  allProposals: Array<ProposalType>;
+  proposalById: ProposalType;
 };
 
 
@@ -375,23 +377,23 @@ export type ProposalMutationAddProposalArgs = {
 
 
 export type ProposalMutationDeleteProposalArgs = {
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
 };
 
 
 export type ProposalMutationUpdateProposalArgs = {
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   data?: Maybe<ProposalInput>;
 };
 
 export type ProposalType = {
   __typename?: 'ProposalType';
-  id?: Maybe<Scalars['String']>;
-  createTime?: Maybe<Scalars['String']>;
-  changeTime?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['Int']>;
-  clientId?: Maybe<Scalars['String']>;
-  carId?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  createTime: Scalars['String'];
+  changeTime: Scalars['String'];
+  status: Scalars['Int'];
+  clientId: Scalars['String'];
+  carId: Scalars['String'];
   userId?: Maybe<Scalars['String']>;
   proposalReason?: Maybe<Scalars['String']>;
   technicalInspectionResult?: Maybe<Scalars['String']>;
@@ -400,12 +402,12 @@ export type ProposalType = {
 };
 
 export type ProposalInput = {
-  createTime?: Maybe<Scalars['String']>;
-  changeTime?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['Int']>;
-  clientId?: Maybe<Scalars['String']>;
-  carId?: Maybe<Scalars['String']>;
-  userId?: Maybe<Scalars['String']>;
+  createTime: Scalars['String'];
+  changeTime: Scalars['String'];
+  status: Scalars['Int'];
+  clientId: Scalars['String'];
+  carId: Scalars['String'];
+  userId: Scalars['String'];
   proposalReason?: Maybe<Scalars['String']>;
   technicalInspectionResult?: Maybe<Scalars['String']>;
   recomendedWork?: Maybe<Array<Maybe<Scalars['String']>>>;

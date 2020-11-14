@@ -23,12 +23,14 @@ const types = gql`
         firstName: String!
         lastName: String!
         phone: String!
+        createTime: String!
     }
 
     input ClientInput {
         firstName: String!
         lastName: String!
         phone: String!
+        createTime: String!
     }
 `;
 
