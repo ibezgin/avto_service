@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { EntitySchema, EntityTarget, getMongoManager } from "typeorm";
+import { getMongoManager } from "typeorm";
 
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 

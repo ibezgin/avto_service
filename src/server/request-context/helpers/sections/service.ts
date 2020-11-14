@@ -1,6 +1,5 @@
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 import { ServiceEntity } from "../../../db/entities/service";
-import { ObjectID } from "typeorm";
 
 export class ServiceContextHelper extends AbstractRequestContextHelper {
     public async allServices() {
