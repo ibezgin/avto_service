@@ -25,9 +25,9 @@ import { useEditProposalHelper } from "../helper";
 import moment from "moment";
 import { useQueryParams } from "../../../../../hooks/use-query-params";
 import { PROPOSAL_BY_ID } from "../gql/proposal-by-id";
-import _ from "lodash";
 import { StatusColorTag } from "../../../../../components/status-color-tag";
 import { useHistory } from "react-router-dom";
+import _ from "lodash";
 
 export const ProposalForm = React.memo(() => {
     const history = useHistory();
@@ -203,6 +203,7 @@ export const ProposalForm = React.memo(() => {
     const {
         sendAddProposal,
         sendUpdateProposal,
+        validateForm,
         mutationLoading,
     } = useEditProposalHelper();
 
@@ -232,7 +233,8 @@ export const ProposalForm = React.memo(() => {
             values: typeof initialValues,
             // formikHelpers: FormikHelpers<typeof initialValues>,
         ) => {
-            if (!id) {
+            const isValid = validateForm(values);
+            if (!id && isValid) {
                 sendAddProposal({
                     createTime: moment().format("X"),
                     changeTime: moment().format("X"),
@@ -261,7 +263,7 @@ export const ProposalForm = React.memo(() => {
                 });
             }
         },
-        [history, id, sendAddProposal, sendUpdateProposal],
+        [history, id, sendAddProposal, sendUpdateProposal, validateForm],
     );
 
     const loading =
@@ -542,8 +544,9 @@ export const ProposalForm = React.memo(() => {
                                             {specialistInfo?.lastname}
                                         </CardCell>
                                     </CardRow>
-                                    {proposalById?.status ===
-                                        ProposalStatus.ACCEPTED && (
+                                    {(proposalById?.status ===
+                                        ProposalStatus.ACCEPTED ||
+                                        !proposalById) && (
                                         <CardRow>
                                             <CardCell>
                                                 Изменить специалиста
@@ -588,6 +591,7 @@ export const ProposalForm = React.memo(() => {
                                             <FormikAntd.Input.TextArea
                                                 name="proposalReason"
                                                 rows={4}
+                                                required
                                             />
                                         </CardRow>
                                     )}
@@ -680,8 +684,12 @@ export const ProposalForm = React.memo(() => {
                                                         </List.Item>
                                                     )}
                                                 />
-                                                {proposalById?.status ===
-                                                    ProposalStatus.TECHNICAL_WORKS && (
+                                                {(proposalById?.status ===
+                                                    ProposalStatus.TECHNICAL_WORKS ||
+                                                    proposalById?.status ===
+                                                        ProposalStatus.COMPLETED ||
+                                                    proposalById?.status ===
+                                                        ProposalStatus.PAY_AND_COMPLITED) && (
                                                     <>
                                                         <CardRow>
                                                             <CardCell>
@@ -701,7 +709,10 @@ export const ProposalForm = React.memo(() => {
                                                                     <FormikAntd.Checkbox
                                                                         name={`completedWork[${item.id}]`}
                                                                         disabled={
-                                                                            false
+                                                                            proposalById?.status ===
+                                                                                ProposalStatus.COMPLETED ||
+                                                                            proposalById?.status ===
+                                                                                ProposalStatus.PAY_AND_COMPLITED
                                                                         }
                                                                     >
                                                                         {

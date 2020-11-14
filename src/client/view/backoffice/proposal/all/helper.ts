@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client";
+import { notification } from "antd";
 import { useMutationOptions } from "./../../../../hooks/use-mutation-options";
 import {
     Mutation,
@@ -44,10 +45,35 @@ export function useEditProposalHelper() {
         });
     };
 
+    const validateForm = (values: any) => {
+        if (!values.clientId) {
+            notification.error({
+                message: "Ошибка!",
+                description: "Выберите клиента",
+            });
+            return false;
+        }
+        if (!values.carId) {
+            notification.error({
+                message: "Ошибка!",
+                description: "Выберите автомобиль",
+            });
+            return false;
+        }
+        if (!values.userId) {
+            notification.error({
+                message: "Ошибка!",
+                description: "Выберите технического специалиста",
+            });
+            return false;
+        }
+        return true;
+    };
     return {
         mutationLoading:
             addProposalHelper.loading || updateProposalHelper.loading,
         sendAddProposal,
         sendUpdateProposal,
+        validateForm,
     };
 }
