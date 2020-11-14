@@ -1,18 +1,27 @@
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 import { UsersEntity } from "../../../db/entities/users";
-
+import { UserInput } from "../../../../client/service/types/types";
+import bcrypt from "bcryptjs";
 export class UsersContextHelper extends AbstractRequestContextHelper {
     public async allUsers() {
-        return await this.context.helpers.database.getAll(UsersEntity);
+        const result = await this.context.helpers.database.getAll(UsersEntity);
+
+        return result;
     }
 
-    public async addUser(data: any) {
+    public async addUser(data: UserInput) {
         const allUsers = await this.allUsers();
         const checkUserName = allUsers.find(
             (elem: any) => data.username === elem.username,
         );
         if (!checkUserName) {
-            return await this.context.helpers.database.add(UsersEntity, data);
+            const password = await bcrypt.hash(data.password, 10);
+            // eslint-disable-next-line no-console
+            console.log(password);
+            return await this.context.helpers.database.add(UsersEntity, {
+                ...data,
+                password,
+            });
         }
         throw Error("Username уже существует");
     }
@@ -21,11 +30,12 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
         return await this.context.helpers.database.delete(UsersEntity, id);
     }
 
-    public async updateUser(id: string, data: any) {
-        return await this.context.helpers.database.update(
-            UsersEntity,
-            id,
-            data,
-        );
+    public async updateUser(id: string, data: UserInput) {
+        return await this.context.helpers.database.update(UsersEntity, id, {
+            ...data,
+            password: data.password
+                ? await bcrypt.hash(data.password, 10)
+                : undefined,
+        });
     }
 }

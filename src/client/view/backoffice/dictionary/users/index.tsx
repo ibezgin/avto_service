@@ -29,6 +29,7 @@ export const DictionaryUsers = React.memo(() => {
         formFields,
         sendDeleteUser,
         sendUpdateUser,
+        positions,
     } = useUsersHelper();
 
     const columns = useMemo(
@@ -38,8 +39,18 @@ export const DictionaryUsers = React.memo(() => {
                 dataIndex: "firstname",
             },
             {
+                title: "Фамилия",
+                dataIndex: "lastname",
+            },
+            {
                 title: "Логин",
                 dataIndex: "username",
+            },
+            {
+                title: "Должность",
+                dataIndex: "position",
+                render: (position: any) =>
+                    positions.find(elem => elem.value === position)?.label,
             },
             {
                 title: "",
@@ -54,7 +65,9 @@ export const DictionaryUsers = React.memo(() => {
                                         values,
                                         "firstname",
                                         "username",
+                                        "position",
                                         "password",
+                                        "lastname",
                                     ),
                                 );
                                 values.setVisible();
@@ -84,7 +97,13 @@ export const DictionaryUsers = React.memo(() => {
                 ),
             },
         ],
-        [formFields, sendDeleteUser, sendUpdateUser, styleUtils.cursorPointer],
+        [
+            formFields,
+            positions,
+            sendDeleteUser,
+            sendUpdateUser,
+            styleUtils.cursorPointer,
+        ],
     );
 
     const loading = allUsersQuery.loading || loadingMutation;

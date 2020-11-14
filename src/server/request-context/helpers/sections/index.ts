@@ -4,6 +4,7 @@ import { CarPartContextHelper } from "./car-part";
 import { CarsContextHelper } from "./cars";
 import { ClientsContextHelper } from "./clients";
 import { ModelsContextHelper } from "./models";
+import { ProposalContextHelper } from "./proposal";
 import { ServiceContextHelper } from "./service";
 import { UsersContextHelper } from "./users";
 
@@ -25,8 +26,11 @@ export class SectionsContextHelper extends AbstractRequestContextHelper {
     }
     public get users() {
         return new UsersContextHelper(this.context);
-	}
-	public get cars() {
+    }
+    public get cars() {
         return new CarsContextHelper(this.context);
+    }
+    public get proposal() {
+        return new ProposalContextHelper(this.context);
     }
 }
