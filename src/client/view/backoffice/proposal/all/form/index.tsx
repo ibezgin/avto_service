@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { List, Tag } from "antd";
+import { List } from "antd";
 import { Formik } from "formik";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -21,16 +21,17 @@ import { ProposalStatus } from "../../../../../service/enums/proposal-status";
 import { ALL_SERVICES } from "../../../dictionary/service/gql/all-services";
 import { ALL_USERS } from "../../../dictionary/users/gql/all-users";
 import { Specialization } from "../../../../../service/enums/specialization";
-import { useEditProposalHelper } from "./helper";
+import { useEditProposalHelper } from "../helper";
 import moment from "moment";
 import { useQueryParams } from "../../../../../hooks/use-query-params";
 import { PROPOSAL_BY_ID } from "../gql/proposal-by-id";
 import _ from "lodash";
+import { StatusColorTag } from "../../../../../components/status-color-tag";
+import { useHistory } from "react-router-dom";
 
 export const ProposalForm = React.memo(() => {
+    const history = useHistory();
     const { id } = useQueryParams();
-    // eslint-disable-next-line no-console
-    console.log(id);
 
     const [client, setClient] = useState("");
 
@@ -100,7 +101,7 @@ export const ProposalForm = React.memo(() => {
 
     const recomendedWorkDatasourse = useMemo(
         () =>
-            service.map(elem => ({
+            service?.map(elem => ({
                 id: elem,
                 title: allServices.find(serv => serv.id === elem).title,
             })),
@@ -119,7 +120,7 @@ export const ProposalForm = React.memo(() => {
         () => technicalUsers?.find(elem => elem.id === user),
         [technicalUsers, user],
     );
-    const priceChecker = useCallback(() => {
+    const completedPriceChecker = useCallback(() => {
         let price = 0;
 
         const complitedKeys = [];
@@ -133,42 +134,85 @@ export const ProposalForm = React.memo(() => {
             price += allServices?.find(elem => elem.id === key)?.price;
         }
 
-        return price;
+        return price || 0;
     }, [allServices, completedWork]);
 
-    const proposalStatuses = [
-        {
-            value: ProposalStatus.ACCEPTED,
-            label: "Принята",
-        },
-        {
-            value: ProposalStatus.TECHNICAL_INSPECTION,
-            label: "Технический осмотр",
-        },
-        {
-            value: ProposalStatus.TECHNICAL_WORKS,
-            label: "Технические работы",
-        },
-        {
-            value: ProposalStatus.COMPLETED,
-            label: "Завершена",
-        },
-        {
-            value: ProposalStatus.PAY_AND_COMPLITED,
-            label: "Оплачена и завершена",
-        },
-    ];
+    const recomendedPriceChecker = useCallback(() => {
+        let totalPrice = 0;
 
-    const { sendAddProposal } = useEditProposalHelper();
+        const prices = (service || []).map(
+            serviceId => allServices?.find(elem => elem.id === serviceId).price,
+        );
+
+        for (const price of prices) {
+            totalPrice += price;
+        }
+
+        return totalPrice || 0;
+    }, [allServices, service]);
+
+    const proposalStatuses = useMemo(
+        () => [
+            {
+                value: ProposalStatus.ACCEPTED,
+                label: "Принята",
+                disabled:
+                    proposalById?.status ===
+                        ProposalStatus.TECHNICAL_INSPECTION ||
+                    proposalById?.status === ProposalStatus.TECHNICAL_WORKS ||
+                    proposalById?.status === ProposalStatus.COMPLETED ||
+                    proposalById?.status === ProposalStatus.PAY_AND_COMPLITED,
+            },
+            {
+                value: ProposalStatus.TECHNICAL_INSPECTION,
+                label: "Технический осмотр",
+                disabled:
+                    proposalById?.status === ProposalStatus.TECHNICAL_WORKS ||
+                    proposalById?.status === ProposalStatus.COMPLETED ||
+                    proposalById?.status === ProposalStatus.PAY_AND_COMPLITED,
+            },
+            {
+                value: ProposalStatus.TECHNICAL_WORKS,
+                label: "Технические работы",
+                disabled:
+                    proposalById?.status === ProposalStatus.ACCEPTED ||
+                    proposalById?.status === ProposalStatus.COMPLETED ||
+                    proposalById?.status === ProposalStatus.PAY_AND_COMPLITED,
+            },
+            {
+                value: ProposalStatus.COMPLETED,
+                label: "Завершена",
+                disabled:
+                    proposalById?.status ===
+                        ProposalStatus.TECHNICAL_INSPECTION ||
+                    proposalById?.status === ProposalStatus.PAY_AND_COMPLITED ||
+                    proposalById?.status === ProposalStatus.ACCEPTED,
+            },
+            {
+                value: ProposalStatus.PAY_AND_COMPLITED,
+                label: "Оплачена и завершена",
+                disabled:
+                    proposalById?.status ===
+                        ProposalStatus.TECHNICAL_INSPECTION ||
+                    proposalById?.status === ProposalStatus.ACCEPTED,
+            },
+        ],
+        [proposalById?.status],
+    );
+
+    const { sendAddProposal, sendUpdateProposal } = useEditProposalHelper();
 
     const initialValues = useMemo(
         () =>
             id
-                ? proposalById
+                ? {
+                      ...proposalById,
+                      completedWork:
+                          JSON.parse(proposalById?.completedWork || "{}") || {},
+                  }
                 : {
                       clientId: "",
                       carId: "",
-                      // status: ProposalStatus.ACCEPTED,
                       status: ProposalStatus.ACCEPTED,
                       userId: "",
                       proposalReason: "",
@@ -184,20 +228,36 @@ export const ProposalForm = React.memo(() => {
             values: typeof initialValues,
             // formikHelpers: FormikHelpers<typeof initialValues>,
         ) => {
-            sendAddProposal({
-                createTime: moment().format("X"),
-                changeTime: moment().format("X"),
-                status: values.status,
-                clientId: values.clientId,
-                carId: values.carId,
-                userId: values.carId,
-                proposalReason: "",
-                technicalInspectionResult: "",
-                recomendedWork: values.recomendedWork,
-                completedWork: JSON.stringify(values.completedWork),
-            });
+            if (!id) {
+                sendAddProposal({
+                    createTime: moment().format("X"),
+                    changeTime: moment().format("X"),
+                    status: values.status,
+                    clientId: values.clientId,
+                    carId: values.carId,
+                    userId: values.userId,
+                    proposalReason: values.proposalReason,
+                    technicalInspectionResult: "",
+                    recomendedWork: values.recomendedWork,
+                    completedWork: JSON.stringify(values.completedWork),
+                });
+                history.push("/proposal");
+            }
+            if (id) {
+                sendUpdateProposal(id, {
+                    changeTime: moment().format("X"),
+                    status: values.status,
+                    clientId: values.clientId,
+                    carId: values.carId,
+                    userId: values.userId,
+                    proposalReason: values.proposalReason,
+                    technicalInspectionResult: values.technicalInspectionResult,
+                    recomendedWork: values.recomendedWork,
+                    completedWork: JSON.stringify(values.completedWork),
+                });
+            }
         },
-        [sendAddProposal],
+        [history, id, sendAddProposal, sendUpdateProposal],
     );
 
     return (
@@ -209,40 +269,40 @@ export const ProposalForm = React.memo(() => {
             {({ values, setFieldValue }) => {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 useEffect(() => {
-                    setClient(values.clientId);
-                }, [values.clientId]);
+                    setClient(values?.clientId);
+                }, [values?.clientId]);
 
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 useEffect(() => {
-                    setCar(values.carId);
-                }, [values.carId]);
+                    setCar(values?.carId);
+                }, [values?.carId]);
 
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 useEffect(() => {
-                    setService(values.recomendedWork);
-                }, [values.recomendedWork]);
+                    setService(values?.recomendedWork);
+                }, [values?.recomendedWork]);
 
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 useEffect(() => {
-                    setCompletedWork(values.completedWork);
-                }, [values.completedWork, values.recomendedWork]);
+                    setCompletedWork(values?.completedWork);
+                }, [values?.completedWork, values?.recomendedWork]);
 
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 useEffect(() => {
-                    setUser(values.userId);
-                }, [values.userId]);
+                    setUser(values?.userId);
+                }, [values?.userId]);
 
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 useEffect(() => {
-                    for (const key in values.completedWork) {
-                        if (values.recomendedWork.indexOf(key) === -1) {
+                    for (const key in values?.completedWork) {
+                        if (values?.recomendedWork?.indexOf(key) === -1) {
                             setFieldValue(`completedWork[${key}]`, undefined);
                         }
                     }
                 }, [
                     setFieldValue,
-                    values.completedWork,
-                    values.recomendedWork,
+                    values?.completedWork,
+                    values?.recomendedWork,
                 ]);
                 return (
                     <FormikAntd.Form>
@@ -255,29 +315,36 @@ export const ProposalForm = React.memo(() => {
                                         </CardTitle>
                                     </CardCell>
                                 </CardRow>
-                                <CardRow>
-                                    <CardCell>
-                                        <FormikAntd.Select
-                                            name="clientId"
-                                            placeholder="Выберите клиента"
-                                            dropdownMatchSelectWidth={false}
-                                            allowClear={false}
-                                        >
-                                            {(allClients || []).map(elem => (
-                                                <FormikAntd.Select.Option
-                                                    key={`modal-form-option-${String(
-                                                        elem?.id,
-                                                    )}`}
-                                                    value={String(elem?.id)}
-                                                >
-                                                    {elem?.firstName}{" "}
-                                                    {elem.lastName} {elem.phone}
-                                                </FormikAntd.Select.Option>
-                                            ))}
-                                        </FormikAntd.Select>
-                                    </CardCell>
-                                </CardRow>
-                                {values.clientId && (
+                                {!proposalById && (
+                                    <CardRow>
+                                        <CardCell>
+                                            <FormikAntd.Select
+                                                name="clientId"
+                                                placeholder="Выберите клиента"
+                                                dropdownMatchSelectWidth={false}
+                                                allowClear={false}
+                                            >
+                                                {(allClients || []).map(
+                                                    elem => (
+                                                        <FormikAntd.Select.Option
+                                                            key={`modal-form-option-${String(
+                                                                elem?.id,
+                                                            )}`}
+                                                            value={String(
+                                                                elem?.id,
+                                                            )}
+                                                        >
+                                                            {elem?.firstName}{" "}
+                                                            {elem.lastName}{" "}
+                                                            {elem.phone}
+                                                        </FormikAntd.Select.Option>
+                                                    ),
+                                                )}
+                                            </FormikAntd.Select>
+                                        </CardCell>
+                                    </CardRow>
+                                )}
+                                {values?.clientId && (
                                     <>
                                         <CardRow>
                                             <CardCell>Имя</CardCell>
@@ -304,43 +371,45 @@ export const ProposalForm = React.memo(() => {
                                         <CardTitle>Информация о авто</CardTitle>
                                     </CardCell>
                                 </CardRow>
-                                <CardRow>
-                                    <CardCell>
-                                        <FormikAntd.Select
-                                            name="carId"
-                                            placeholder="Выберите авто"
-                                            dropdownMatchSelectWidth={false}
-                                            allowClear={false}
-                                            disabled={!values.clientId}
-                                        >
-                                            {(allCars || []).map(elem => (
-                                                <FormikAntd.Select.Option
-                                                    key={`modal-form-option-${String(
-                                                        elem?.id,
-                                                    )}`}
-                                                    value={String(elem?.id)}
-                                                >
-                                                    {
-                                                        allBrand?.find(
-                                                            brand =>
-                                                                brand.id ===
-                                                                elem?.brandId,
-                                                        ).title
-                                                    }{" "}
-                                                    {
-                                                        allModels?.find(
-                                                            model =>
-                                                                model.id ===
-                                                                elem?.modelId,
-                                                        ).title
-                                                    }{" "}
-                                                    {elem?.gosNumber}{" "}
-                                                </FormikAntd.Select.Option>
-                                            ))}
-                                        </FormikAntd.Select>
-                                    </CardCell>
-                                </CardRow>
-                                {values.carId && (
+                                {!proposalById && (
+                                    <CardRow>
+                                        <CardCell>
+                                            <FormikAntd.Select
+                                                name="carId"
+                                                placeholder="Выберите авто"
+                                                dropdownMatchSelectWidth={false}
+                                                allowClear={false}
+                                                disabled={!values?.clientId}
+                                            >
+                                                {(allCars || [])?.map(elem => (
+                                                    <FormikAntd.Select.Option
+                                                        key={`modal-form-option-${String(
+                                                            elem?.id,
+                                                        )}`}
+                                                        value={String(elem?.id)}
+                                                    >
+                                                        {
+                                                            allBrand?.find(
+                                                                brand =>
+                                                                    brand.id ===
+                                                                    elem?.brandId,
+                                                            ).title
+                                                        }{" "}
+                                                        {
+                                                            allModels?.find(
+                                                                model =>
+                                                                    model.id ===
+                                                                    elem?.modelId,
+                                                            ).title
+                                                        }{" "}
+                                                        {elem?.gosNumber}{" "}
+                                                    </FormikAntd.Select.Option>
+                                                ))}
+                                            </FormikAntd.Select>
+                                        </CardCell>
+                                    </CardRow>
+                                )}
+                                {values?.carId && (
                                     <>
                                         <CardRow>
                                             <CardCell>Марка</CardCell>
@@ -386,31 +455,12 @@ export const ProposalForm = React.memo(() => {
                                         <CardTitle>Статус заявки</CardTitle>
                                     </CardCell>
                                     <CardCell>
-                                        <Tag
-                                            color={
-                                                values.status ===
-                                                ProposalStatus.ACCEPTED
-                                                    ? "volcano"
-                                                    : values.status ===
-                                                      ProposalStatus.TECHNICAL_INSPECTION
-                                                    ? "purple"
-                                                    : values.status ===
-                                                      ProposalStatus.TECHNICAL_WORKS
-                                                    ? "blue"
-                                                    : values.status ===
-                                                      ProposalStatus.COMPLETED
-                                                    ? "magenta"
-                                                    : "green"
+                                        <StatusColorTag
+                                            status={
+                                                proposalById?.status ||
+                                                values?.status
                                             }
-                                        >
-                                            {
-                                                proposalStatuses.find(
-                                                    elem =>
-                                                        elem.value ===
-                                                        values.status,
-                                                )?.label
-                                            }
-                                        </Tag>
+                                        />
                                     </CardCell>
                                 </CardRow>{" "}
                                 <CardRow>
@@ -421,6 +471,9 @@ export const ProposalForm = React.memo(() => {
                                             placeholder="Статус заявкии"
                                             dropdownMatchSelectWidth={false}
                                             allowClear={false}
+                                            disabled={_.isUndefined(
+                                                proposalById?.status,
+                                            )}
                                         >
                                             {(proposalStatuses || []).map(
                                                 elem => (
@@ -428,7 +481,9 @@ export const ProposalForm = React.memo(() => {
                                                         key={`status-form-option-${String(
                                                             elem?.value,
                                                         )}`}
-                                                        value={elem?.value}
+                                                        // value={elem?.value}
+                                                        value={elem.value}
+                                                        disabled={elem.disabled}
                                                     >
                                                         {elem?.label}{" "}
                                                     </FormikAntd.Select.Option>
@@ -461,7 +516,7 @@ export const ProposalForm = React.memo(() => {
                                                         key={`specialist-form-option-${String(
                                                             elem?.id,
                                                         )}`}
-                                                        value={String(elem?.id)}
+                                                        value={elem?.id}
                                                     >
                                                         {elem?.firstname}{" "}
                                                         {elem?.lastname}
@@ -476,16 +531,20 @@ export const ProposalForm = React.memo(() => {
                                         <CardTitle>Причина обращения</CardTitle>
                                     </CardCell>
                                 </CardRow>
+                                {!proposalById && (
+                                    <CardRow>
+                                        <FormikAntd.Input.TextArea
+                                            name="proposalReason"
+                                            rows={4}
+                                        />
+                                    </CardRow>
+                                )}
                                 <CardRow>
-                                    <FormikAntd.Input.TextArea
-                                        name="proposalReason"
-                                        rows={4}
-                                    />
+                                    <CardCell>
+                                        {values?.proposalReason}
+                                    </CardCell>
                                 </CardRow>
-                                <CardRow>
-                                    <CardCell>{values.proposalReason}</CardCell>
-                                </CardRow>
-                                {values.status !== ProposalStatus.ACCEPTED && (
+                                {values?.status !== ProposalStatus.ACCEPTED && (
                                     <>
                                         {" "}
                                         <CardRow>
@@ -496,16 +555,19 @@ export const ProposalForm = React.memo(() => {
                                                 </CardTitle>
                                             </CardCell>
                                         </CardRow>
-                                        <CardRow>
-                                            <FormikAntd.Input.TextArea
-                                                name="technicalInspectionResult"
-                                                rows={4}
-                                            />
-                                        </CardRow>
+                                        {proposalById?.status ===
+                                            ProposalStatus.TECHNICAL_INSPECTION && (
+                                            <CardRow>
+                                                <FormikAntd.Input.TextArea
+                                                    name="technicalInspectionResult"
+                                                    rows={4}
+                                                />
+                                            </CardRow>
+                                        )}
                                         <CardRow>
                                             <CardCell>
                                                 {
-                                                    values.technicalInspectionResult
+                                                    values?.technicalInspectionResult
                                                 }
                                             </CardCell>
                                         </CardRow>
@@ -516,19 +578,22 @@ export const ProposalForm = React.memo(() => {
                                                 </CardTitle>
                                             </CardCell>
                                         </CardRow>
-                                        <CardRow>
-                                            <CardCell>
-                                                <FormikAntd.Select
-                                                    name="recomendedWork"
-                                                    placeholder="Рекомендованные работы"
-                                                    dropdownMatchSelectWidth={
-                                                        false
-                                                    }
-                                                    allowClear={false}
-                                                    mode="multiple"
-                                                >
-                                                    {(allServices || []).map(
-                                                        elem => (
+                                        {proposalById?.status ===
+                                            ProposalStatus.TECHNICAL_INSPECTION && (
+                                            <CardRow>
+                                                <CardCell>
+                                                    <FormikAntd.Select
+                                                        name="recomendedWork"
+                                                        placeholder="Рекомендованные работы"
+                                                        dropdownMatchSelectWidth={
+                                                            false
+                                                        }
+                                                        allowClear={false}
+                                                        mode="multiple"
+                                                    >
+                                                        {(
+                                                            allServices || []
+                                                        ).map(elem => (
                                                             <FormikAntd.Select.Option
                                                                 key={`modal-form-option-${String(
                                                                     elem?.id,
@@ -539,11 +604,11 @@ export const ProposalForm = React.memo(() => {
                                                             >
                                                                 {elem?.title}{" "}
                                                             </FormikAntd.Select.Option>
-                                                        ),
-                                                    )}
-                                                </FormikAntd.Select>
-                                            </CardCell>
-                                        </CardRow>
+                                                        ))}
+                                                    </FormikAntd.Select>
+                                                </CardCell>
+                                            </CardRow>
+                                        )}
                                         <List
                                             size="large"
                                             dataSource={
@@ -555,33 +620,49 @@ export const ProposalForm = React.memo(() => {
                                                 </List.Item>
                                             )}
                                         />
+                                        {proposalById?.status ===
+                                            ProposalStatus.TECHNICAL_WORKS && (
+                                            <>
+                                                <CardRow>
+                                                    <CardCell>
+                                                        <CardTitle>
+                                                            Выполненные работы
+                                                        </CardTitle>
+                                                    </CardCell>
+                                                </CardRow>
+                                                <List
+                                                    size="large"
+                                                    dataSource={
+                                                        recomendedWorkDatasourse
+                                                    }
+                                                    renderItem={item => (
+                                                        <List.Item>
+                                                            <FormikAntd.Checkbox
+                                                                name={`completedWork[${item.id}]`}
+                                                                disabled={false}
+                                                            >
+                                                                {item.title}
+                                                            </FormikAntd.Checkbox>
+                                                        </List.Item>
+                                                    )}
+                                                />
+                                            </>
+                                        )}
                                         <CardRow>
                                             <CardCell>
                                                 <CardTitle>
-                                                    Выполненные работы
+                                                    Итого предворительная сумма:{" "}
+                                                    {recomendedPriceChecker()}{" "}
+                                                    руб.
                                                 </CardTitle>
                                             </CardCell>
                                         </CardRow>
-                                        <List
-                                            size="large"
-                                            dataSource={
-                                                recomendedWorkDatasourse
-                                            }
-                                            renderItem={item => (
-                                                <List.Item>
-                                                    <FormikAntd.Checkbox
-                                                        name={`completedWork[${item.id}]`}
-                                                        disabled={false}
-                                                    >
-                                                        {item.title}
-                                                    </FormikAntd.Checkbox>
-                                                </List.Item>
-                                            )}
-                                        />
                                         <CardRow>
                                             <CardCell>
                                                 <CardTitle>
-                                                    Итого: {priceChecker()} руб.
+                                                    Итого выполненные работы:{" "}
+                                                    {completedPriceChecker()}{" "}
+                                                    руб.
                                                 </CardTitle>
                                             </CardCell>
                                         </CardRow>

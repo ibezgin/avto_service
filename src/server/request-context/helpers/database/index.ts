@@ -24,10 +24,7 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
 
     public async add(entity: EntityTarget<EntitySchema>, values: IValuesType) {
         this.checkAuth();
-
         const newEntity = new (entity as any)();
-        // eslint-disable-next-line guard-for-in
-
         // eslint-disable-next-line guard-for-in
         for (const key in values) {
             newEntity[key] = values[key];
@@ -38,7 +35,6 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
     }
     public async delete(entity: EntityTarget<EntitySchema>, id: string) {
         this.checkAuth();
-
         const manager = getMongoManager();
         const result = await manager.delete(entity, id);
         return _.isEmpty(result);
