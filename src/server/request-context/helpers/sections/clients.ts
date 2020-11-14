@@ -3,22 +3,32 @@ import { ClientsEntity } from "../../../db/entities/clients";
 import { ClientInput } from "../../../../client/service/types/types";
 export class ClientsContextHelper extends AbstractRequestContextHelper {
     public async allClients() {
-        return await this.context.helpers.database.getAll(ClientsEntity);
+        return (
+            await this.context.helpers.database.getAll<ClientsEntity>(
+                ClientsEntity,
+            )
+        ).sort((a, b) => Number(b.createTime) - Number(a.createTime));
     }
 
     public async addClient(data: ClientInput) {
-        return await this.context.helpers.database.add(ClientsEntity, data);
+        return await this.context.helpers.database.add<ClientsEntity>(
+            ClientsEntity,
+            data,
+        );
     }
 
     public async deleteClient(id: string) {
-        return await this.context.helpers.database.delete(ClientsEntity, id);
-    }
-
-    public async updateClient(id: string, data: ClientInput) {
-        return await this.context.helpers.database.update(
+        return await this.context.helpers.database.delete<ClientsEntity>(
             ClientsEntity,
             id,
-            data,
+        );
+    }
+
+    public async updateClient(id: string, data: any) {
+        return await this.context.helpers.database.update<ClientsEntity>(
+            ClientsEntity,
+            id,
+            { ...data, id },
         );
     }
 }

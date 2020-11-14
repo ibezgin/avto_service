@@ -10,22 +10,22 @@ const types = gql`
         proposal: ProposalMutation!
     }
     type ProposalQuery {
-        allProposals: [ProposalType]
-        proposalById(id: String!): ProposalType
+        allProposals: [ProposalType!]!
+        proposalById(id: String!): ProposalType!
     }
     type ProposalMutation {
         addProposal(data: ProposalInput!): Boolean
-        deleteProposal(id: String): Boolean
-        updateProposal(id: String, data: ProposalInput): Boolean
+        deleteProposal(id: String!): Boolean
+        updateProposal(id: String!, data: ProposalInput): Boolean
     }
 
     type ProposalType {
-        id: String
-        createTime: String
-        changeTime: String
-        status: Int
-        clientId: String
-        carId: String
+        id: String!
+        createTime: String!
+        changeTime: String!
+        status: Int!
+        clientId: String!
+        carId: String!
         userId: String
         proposalReason: String
         technicalInspectionResult: String
@@ -34,12 +34,12 @@ const types = gql`
     }
 
     input ProposalInput {
-        createTime: String
-        changeTime: String
-        status: Int
-        clientId: String
-        carId: String
-        userId: String
+        createTime: String!
+        changeTime: String!
+        status: Int!
+        clientId: String!
+        carId: String!
+        userId: String!
         proposalReason: String
         technicalInspectionResult: String
         recomendedWork: [String]

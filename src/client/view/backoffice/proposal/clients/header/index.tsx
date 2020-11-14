@@ -4,6 +4,7 @@ import React from "react";
 import { formFields } from "../helper";
 import { ModalForm } from "../../../../../components/modal-form";
 import { useClientsHelper } from "../helper";
+import moment from "moment";
 
 export const ProposalClientsHeader = React.memo(() => {
     const { sendAddClient, mutationLoading } = useClientsHelper();
@@ -12,9 +13,10 @@ export const ProposalClientsHeader = React.memo(() => {
         <>
             <ModalForm
                 onSubmit={(values, { resetForm }) => {
-                    sendAddClient(
-                        _.pick(values, ["firstName", "lastName", "phone"]),
-                    );
+                    sendAddClient({
+                        ..._.pick(values, ["firstName", "lastName", "phone"]),
+                        createTime: moment().format("X"),
+                    });
                     values.setVisible();
                     resetForm();
                 }}
