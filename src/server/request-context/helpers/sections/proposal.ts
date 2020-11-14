@@ -5,6 +5,9 @@ export class ProposalContextHelper extends AbstractRequestContextHelper {
     public async allProposals() {
         return await this.context.helpers.database.getAll(ProposalEntity);
     }
+    public async getProposalById(id: string) {
+        return await this.context.helpers.database.getById(ProposalEntity, id);
+    }
 
     public async addProposal(data: any) {
         return await this.context.helpers.database.add(ProposalEntity, data);

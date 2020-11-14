@@ -5,7 +5,6 @@ export const LOGIN = gql`
         authentication {
             login(username: $username, password: $password) {
                 id
-                firstname
                 username
             }
         }

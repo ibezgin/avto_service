@@ -9,23 +9,25 @@ import {
     CardSave,
     CardTitle,
     CardWrapper,
-} from "../../../../components/ui/card/styled";
-import { Query } from "../../../../service/types/types";
-import { ALL_CLIENTS } from "../clients/gql/all-clients";
+} from "../../../../../components/ui/card/styled";
+import { Query } from "../../../../../service/types/types";
+import { ALL_CLIENTS } from "../../clients/gql/all-clients";
 import * as FormikAntd from "formik-antd";
-import { ALL_CARS } from "../cars/gql/all-cars";
-import { ALL_MODELS } from "../../dictionary/models/gql/all-models";
+import { ALL_CARS } from "../../cars/gql/all-cars";
+import { ALL_MODELS } from "../../../dictionary/models/gql/all-models";
 // eslint-disable-next-line @typescript-eslint/camelcase
-import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
-import { ProposalStatus } from "../../../../service/enums/proposal-status";
-import { ALL_SERVICES } from "../../dictionary/service/gql/all-services";
-import { ALL_USERS } from "../../dictionary/users/gql/all-users";
-import { Specialization } from "../../../../service/enums/specialization";
+import { All_BRAND } from "../../../dictionary/brand/gql/all-brands";
+import { ProposalStatus } from "../../../../../service/enums/proposal-status";
+import { ALL_SERVICES } from "../../../dictionary/service/gql/all-services";
+import { ALL_USERS } from "../../../dictionary/users/gql/all-users";
+import { Specialization } from "../../../../../service/enums/specialization";
 import { useEditProposalHelper } from "./helper";
 import moment from "moment";
-import { useQueryParams } from "../../../../hooks/use-query-params";
+import { useQueryParams } from "../../../../../hooks/use-query-params";
+import { PROPOSAL_BY_ID } from "../gql/proposal-by-id";
+import _ from "lodash";
 
-export const ProposalEdit = React.memo(() => {
+export const ProposalForm = React.memo(() => {
     const { id } = useQueryParams();
     // eslint-disable-next-line no-console
     console.log(id);
@@ -51,6 +53,16 @@ export const ProposalEdit = React.memo(() => {
     const allServiceQuery = useQuery<Query>(ALL_SERVICES);
 
     const allUsersQuery = useQuery<Query>(ALL_USERS);
+
+    const proposalByIdQuery = useQuery<Query>(PROPOSAL_BY_ID, {
+        variables: { id },
+        skip: _.isUndefined(id),
+    });
+
+    const proposalById = useMemo(
+        () => proposalByIdQuery.data?.proposal.proposalById,
+        [proposalByIdQuery.data?.proposal.proposalById],
+    );
 
     const allClients = useMemo(() => allClientsQuery.data?.clients.allClients, [
         allClientsQuery.data?.clients.allClients,
@@ -149,33 +161,49 @@ export const ProposalEdit = React.memo(() => {
 
     const { sendAddProposal } = useEditProposalHelper();
 
-    return (
-        <Formik
-            initialValues={{
-                clientId: "",
-                carId: "",
-                // status: ProposalStatus.ACCEPTED,
-                status: ProposalStatus.ACCEPTED,
-                userId: "",
+    const initialValues = useMemo(
+        () =>
+            id
+                ? proposalById
+                : {
+                      clientId: "",
+                      carId: "",
+                      // status: ProposalStatus.ACCEPTED,
+                      status: ProposalStatus.ACCEPTED,
+                      userId: "",
+                      proposalReason: "",
+                      technicalInspectionResult: "",
+                      recomendedWork: [],
+                      completedWork: {},
+                  },
+        [id, proposalById],
+    );
+
+    const onSubmit = useCallback(
+        (
+            values: typeof initialValues,
+            // formikHelpers: FormikHelpers<typeof initialValues>,
+        ) => {
+            sendAddProposal({
+                createTime: moment().format("X"),
+                changeTime: moment().format("X"),
+                status: values.status,
+                clientId: values.clientId,
+                carId: values.carId,
+                userId: values.carId,
                 proposalReason: "",
                 technicalInspectionResult: "",
-                recomendedWork: [],
-                completedWork: {},
-            }}
-            onSubmit={values => {
-                sendAddProposal({
-                    createTime: moment().format("X"),
-                    changeTime: moment().format("X"),
-                    status: values.status,
-                    clientId: values.clientId,
-                    carId: values.carId,
-                    userId: values.carId,
-                    proposalReason: "",
-                    technicalInspectionResult: "",
-                    recomendedWork: values.recomendedWork,
-                    completedWork: JSON.stringify(values.completedWork),
-                });
-            }}
+                recomendedWork: values.recomendedWork,
+                completedWork: JSON.stringify(values.completedWork),
+            });
+        },
+        [sendAddProposal],
+    );
+
+    return (
+        <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
             enableReinitialize={true}
         >
             {({ values, setFieldValue }) => {

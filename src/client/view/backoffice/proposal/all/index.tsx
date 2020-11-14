@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { Table } from "antd";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Query } from "../../../../service/types/types";
 import { ALL_PROPOSALS } from "./gql/all-proposals";
 import { EditOutlined } from "@ant-design/icons";
@@ -9,8 +9,13 @@ import { useHistory } from "react-router-dom";
 export const ProposalAll = React.memo(() => {
     const history = useHistory();
 
-    const allProposalsQuery = useQuery<Query>(ALL_PROPOSALS);
+    const allProposalsQuery = useQuery<Query>(ALL_PROPOSALS, {
+        fetchPolicy: "network-only",
+    });
 
+    useEffect(() => {
+        allProposalsQuery.startPolling(5000);
+    }, [allProposalsQuery]);
     const columns = [
         {
             dataIndex: "createTime",

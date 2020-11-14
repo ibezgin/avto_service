@@ -11,6 +11,7 @@ const types = gql`
     }
     type ProposalQuery {
         allProposals: [ProposalType]
+        proposalById(id: String!): ProposalType
     }
     type ProposalMutation {
         addProposal(data: ProposalInput!): Boolean
@@ -56,6 +57,8 @@ export const proposalSubSchema = new SubSchema(types, {
     ProposalQuery: {
         allProposals: async (obj, props, { helpers }) =>
             await helpers.sections.proposal.allProposals(),
+        proposalById: async (obj, { id }, { helpers }) =>
+            await helpers.sections.proposal.getProposalById(id),
     },
     ProposalMutation: {
         addProposal: async (obj, { data }, { helpers }) =>

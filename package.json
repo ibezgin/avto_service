@@ -79,6 +79,7 @@
         "antd-mask-input": "^0.1.14",
         "apollo-server-express": "^2.18.0",
         "axios": "^0.19.2",
+        "bcrypt": "^5.0.0",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.19.0",
         "clean-html": "^1.5.0",
