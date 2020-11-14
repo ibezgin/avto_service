@@ -2,7 +2,6 @@ import { AbstractRequestContextHelper } from "../../abstract-request-context-hel
 import { UsersEntity } from "../../../db/entities/users";
 import { UserInput } from "../../../../client/service/types/types";
 import bcrypt from "bcryptjs";
-import { ObjectID } from "typeorm";
 export class UsersContextHelper extends AbstractRequestContextHelper {
     public async allUsers() {
         const result = await this.context.helpers.database.getAll(UsersEntity);
