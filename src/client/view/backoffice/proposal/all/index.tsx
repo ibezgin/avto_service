@@ -5,12 +5,12 @@ import { Query } from "../../../../service/types/types";
 import { ALL_PROPOSALS } from "./gql/all-proposals";
 import { EditOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
-import moment from "moment";
 import { TableDateTime } from "../../../../components/table-date-time";
 import { StatusColorTag } from "../../../../components/status-color-tag";
 import { ALL_USERS } from "../../dictionary/users/gql/all-users";
 import { ALL_CLIENTS } from "../clients/gql/all-clients";
 import { ALL_MODELS } from "../../dictionary/models/gql/all-models";
+// eslint-disable-next-line @typescript-eslint/camelcase
 import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
 import { Specialization } from "../../../../service/enums/specialization";
 import { TableClientInfo } from "../../../../components/table-client-info";
@@ -95,7 +95,7 @@ export const ProposalAll = React.memo(() => {
         {
             dataIndex: "carId",
             title: "Авто",
-            render: (carId: any, record: any) => {
+            render: (carId: any) => {
                 const car = allCars?.find(elem => elem.id === carId);
                 const brand = allBrand?.find(elem => elem.id === car?.brandId)
                     ?.title;
