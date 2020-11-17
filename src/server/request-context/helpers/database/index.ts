@@ -35,6 +35,13 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
                 elem => String(elem?.clientId) === String(params.clientId),
             );
         }
+        if (params.periods) {
+            data = ((data as any) || []).filter(
+                elem =>
+                    Number(elem?.createTime) > Number(params.periods[0]) &&
+                    Number(elem?.createTime) < Number(params.periods[1]),
+            );
+        }
         return data;
     }
 
