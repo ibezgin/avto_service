@@ -219,7 +219,7 @@ export type UserType = {
   firstname: Scalars['String'];
   lastname: Scalars['String'];
   username: Scalars['String'];
-  permission?: Maybe<Array<Maybe<Scalars['String']>>>;
+  permission?: Maybe<Scalars['JSON']>;
   position: Scalars['String'];
 };
 
@@ -228,7 +228,7 @@ export type UserInput = {
   lastname: Scalars['String'];
   username: Scalars['String'];
   password?: Maybe<Scalars['String']>;
-  permission?: Maybe<Array<Maybe<Scalars['String']>>>;
+  permission?: Maybe<Scalars['JSON']>;
   position: Scalars['String'];
 };
 

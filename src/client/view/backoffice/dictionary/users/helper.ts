@@ -1,5 +1,6 @@
 import { ApolloError, useMutation } from "@apollo/client";
 import { IFormField } from "../../../../components/modal-form";
+import { useAccess } from "../../../../hooks/use-access";
 import { useMutationOptions } from "../../../../hooks/use-mutation-options";
 import { Specialization } from "../../../../service/enums/specialization";
 import {
@@ -15,6 +16,7 @@ import { DELETE_USER } from "./gql/delete-user";
 import { UPDATE_USER } from "./gql/update-user";
 
 export function useUsersHelper() {
+    const access = useAccess();
     const positions = [
         {
             value: Specialization.ADMIN,
@@ -56,11 +58,13 @@ export function useUsersHelper() {
             name: "password",
             type: "passwordField",
         },
+
+        ...access.map(elem => ({ ...elem, name: `permission.${elem.name}` })),
     ] as IFormField[];
 
     const options = useMutationOptions();
 
-    const refetchQueries = ["AllUsers"];
+    const refetchQueries = ["AllUsers", "CurrentUser"];
 
     const [addUser, addUserHelper] = useMutation<
         Mutation,
