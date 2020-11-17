@@ -29,6 +29,12 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
                 elem => String(elem?.userId) === String(user.id),
             );
         }
+
+        if (params.clientId) {
+            data = ((data as any) || []).filter(
+                elem => String(elem?.clientId) === String(params.clientId),
+            );
+        }
         return data;
     }
 

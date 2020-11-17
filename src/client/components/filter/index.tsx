@@ -15,7 +15,7 @@ import { Query, QueryResult } from "@apollo/react-components";
 export interface ITypeFilterItems {
     // periods?: Array<moment.Moment | string>;
     // userId: string;
-    // clientId: string;
+    clientId?: string;
     // carId: string;
     // brandId: string;
     // modelId: string;
@@ -51,10 +51,15 @@ const items = [
         name: "assignedToMe",
         component: filterItems.FilterAssignedToMe,
     },
+    {
+        name: "clientId",
+        component: filterItems.FilterClientId,
+    },
 ];
 function useInitialValues(): ITypeFilterItems {
     return {
         assignedToMe: false,
+        clientId: undefined,
     };
 }
 
@@ -124,20 +129,8 @@ export function Filter<T>(props: IProps<T>) {
         [variables],
     );
 
-    const getValues = useCallback(
-        (values: ITypeFilterItems, availableFields: any) => {
-            const obj: any = {};
-            Object.keys(values).forEach(key => {
-                if (key in availableFields) {
-                    obj[key] = (values as any)[key];
-                }
-            });
-            return obj;
-        },
-        [],
-    );
-
-    const changeForm = useCallback(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const changeForm = useCallback(values => {
         setRefetchState(false);
     }, []);
     const buttonHandler = useCallback(
@@ -178,11 +171,7 @@ export function Filter<T>(props: IProps<T>) {
                                     data.refetch();
                                 } else {
                                     setVariables({
-                                        ...variables,
-                                        ...getValues(
-                                            values,
-                                            currentInitialValues,
-                                        ),
+                                        ...values,
                                     });
                                     setRefetchState(true);
                                 }

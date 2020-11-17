@@ -136,7 +136,10 @@ export const ProposalAll = React.memo(() => {
     ];
 
     return (
-        <Filter<Query> filterItems={["assignedToMe"]} query={ALL_PROPOSALS}>
+        <Filter<Query>
+            filterItems={["assignedToMe", "clientId"]}
+            query={ALL_PROPOSALS}
+        >
             {({ data, loading }, { pagination }) => {
                 // eslint-disable-next-line react-hooks/rules-of-hooks
                 const allProposals = useMemo(
