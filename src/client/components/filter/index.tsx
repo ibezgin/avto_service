@@ -11,9 +11,10 @@ import { SC } from "./styled";
 import { useChangeFormik } from "../../hooks/use-change-formik";
 import { TablePaginationConfig } from "antd/lib/table";
 import { Query, QueryResult } from "@apollo/react-components";
+import moment from "moment";
 
 export interface ITypeFilterItems {
-    // periods?: Array<moment.Moment | string>;
+    periods?: Array<moment.Moment | string>;
     // userId: string;
     clientId?: string;
     // carId: string;
@@ -48,6 +49,10 @@ interface IProps<P> extends IQueryComponentOptions<P> {
 }
 const items = [
     {
+        name: "periods",
+        component: filterItems.FilterPeriods,
+    },
+    {
         name: "assignedToMe",
         component: filterItems.FilterAssignedToMe,
     },
@@ -57,7 +62,42 @@ const items = [
     },
 ];
 function useInitialValues(): ITypeFilterItems {
+    const momentTimezoneStartDate = useCallback(
+        (
+            date?: moment.Moment,
+            isTimestamp?: boolean,
+        ): moment.Moment | string => {
+            if (isTimestamp) {
+                return date && moment(date).isValid()
+                    ? date.format("X")
+                    : moment().startOf("day").format("X");
+            } else {
+                return date && moment(date).isValid()
+                    ? date
+                    : moment().startOf("day");
+            }
+        },
+        [],
+    );
+    const momentTimezoneEndDate = useCallback(
+        (
+            date?: moment.Moment,
+            isTimestamp?: boolean,
+        ): moment.Moment | string => {
+            if (isTimestamp) {
+                return date && moment(date).isValid()
+                    ? date.format("X")
+                    : moment().endOf("day").format("X");
+            } else {
+                return date && moment(date).isValid()
+                    ? date
+                    : moment().endOf("day");
+            }
+        },
+        [],
+    );
     return {
+        periods: [momentTimezoneStartDate(), momentTimezoneEndDate()],
         assignedToMe: false,
         clientId: undefined,
     };
@@ -122,11 +162,29 @@ export function Filter<T>(props: IProps<T>) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location]);
 
+    const converDate = useCallback((periods?: Array<moment.Moment | string>):
+        | string[]
+        | undefined => {
+        if (
+            typeof periods?.[0] === "string" ||
+            typeof periods?.[1] === "string"
+        ) {
+            return periods as string[];
+        }
+        if (periods) {
+            return [periods[0].format("X"), periods[1].format("X")];
+        }
+        return undefined;
+    }, []);
+
     const queryVariables = useMemo(
         () => ({
             ...variables,
+            periods: variables.periods
+                ? converDate(variables.periods)
+                : undefined,
         }),
-        [variables],
+        [converDate, variables],
     );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
