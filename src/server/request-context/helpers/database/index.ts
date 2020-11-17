@@ -15,6 +15,22 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
         const result = await manager.find(entity);
         return result;
     }
+    public async filteredGetAll<T = any>(
+        entity: new () => T,
+        params?: IValuesType,
+    ) {
+        let data = await this.getAll(entity);
+        if (!params) {
+            return data;
+        }
+        if (params.assignedToMe) {
+            const user = await this.context.authentification.getUser();
+            data = ((data as any) || []).filter(
+                elem => String(elem?.userId) === String(user.id),
+            );
+        }
+        return data;
+    }
 
     public async getById<T>(entity: new () => T, id: string) {
         const manager = getMongoManager();
@@ -33,12 +49,14 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
         const result = await manager.save(newEntity);
         return !!result;
     }
+
     public async delete<T>(entity: new () => T, id: string) {
         this.checkAuth();
         const manager = getMongoManager();
         const result = await manager.delete(entity, id);
         return _.isEmpty(result);
     }
+
     public async update<T>(entity: new () => T, id: string, values: T) {
         this.checkAuth();
 
@@ -46,6 +64,7 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
         const result = await manager.update(entity, id, values);
         return !result.generatedMaps.length;
     }
+
     private checkAuth() {
         if (this.isAuthorized) {
             return;

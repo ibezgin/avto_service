@@ -67,6 +67,7 @@
         }
     },
     "dependencies": {
+        "@apollo/react-components": "^4.0.0",
         "@graphql-tools/load-files": "^6.2.4",
         "@graphql-tools/merge": "^6.2.5",
         "@types/bcryptjs": "^2.4.2",

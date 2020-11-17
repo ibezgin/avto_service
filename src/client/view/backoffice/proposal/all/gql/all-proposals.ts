@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client";
 
 export const ALL_PROPOSALS = gql`
-    query AllProposals {
+    query AllProposals($assignedToMe: Boolean) {
         proposal {
-            allProposals {
+            allProposals(assignedToMe: $assignedToMe) {
                 id
                 createTime
                 changeTime

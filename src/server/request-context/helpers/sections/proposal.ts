@@ -2,10 +2,11 @@ import { AbstractRequestContextHelper } from "../../abstract-request-context-hel
 import { ProposalEntity } from "../../../db/entities/proposal";
 
 export class ProposalContextHelper extends AbstractRequestContextHelper {
-    public async allProposals() {
+    public async allProposals(assignedToMe: boolean) {
         return await (
-            await this.context.helpers.database.getAll<ProposalEntity>(
+            await this.context.helpers.database.filteredGetAll<ProposalEntity>(
                 ProposalEntity,
+                { assignedToMe },
             )
         ).sort((a: any, b: any) => b.createTime - a.createTime);
     }

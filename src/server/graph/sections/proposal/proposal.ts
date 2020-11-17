@@ -10,7 +10,7 @@ const types = gql`
         proposal: ProposalMutation!
     }
     type ProposalQuery {
-        allProposals: [ProposalType!]!
+        allProposals(assignedToMe: Boolean): [ProposalType!]!
         proposalById(id: String!): ProposalType!
     }
     type ProposalMutation {
@@ -55,8 +55,8 @@ export const proposalSubSchema = new SubSchema(types, {
         proposal: () => ({}),
     },
     ProposalQuery: {
-        allProposals: async (obj, props, { helpers }) =>
-            await helpers.sections.proposal.allProposals(),
+        allProposals: async (obj, { assignedToMe }, { helpers }) =>
+            await helpers.sections.proposal.allProposals(assignedToMe),
         proposalById: async (obj, { id }, { helpers }) =>
             await helpers.sections.proposal.getProposalById(id),
     },

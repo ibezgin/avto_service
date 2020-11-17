@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { Table } from "antd";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Query } from "../../../../service/types/types";
 import { ALL_PROPOSALS } from "./gql/all-proposals";
 import { EditOutlined } from "@ant-design/icons";
@@ -15,13 +15,14 @@ import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
 import { Specialization } from "../../../../service/enums/specialization";
 import { TableClientInfo } from "../../../../components/table-client-info";
 import { ALL_CARS } from "../cars/gql/all-cars";
+import { Filter } from "../../../../components/filter";
 
 export const ProposalAll = React.memo(() => {
     const history = useHistory();
 
-    const allProposalsQuery = useQuery<Query>(ALL_PROPOSALS, {
-        fetchPolicy: "network-only",
-    });
+    // const allProposalsQuery = useQuery<Query>(ALL_PROPOSALS, {
+    //     fetchPolicy: "network-only",
+    // });
 
     const allUsersQuery = useQuery<Query>(ALL_USERS);
 
@@ -56,9 +57,9 @@ export const ProposalAll = React.memo(() => {
         allCarsQuery.data?.cars.allCars,
     ]);
 
-    useEffect(() => {
-        allProposalsQuery.startPolling(5000);
-    }, [allProposalsQuery]);
+    // useEffect(() => {
+    //     allProposalsQuery.startPolling(5000);
+    // }, [allProposalsQuery]);
     const columns = [
         {
             dataIndex: "createTime",
@@ -134,9 +135,28 @@ export const ProposalAll = React.memo(() => {
         },
     ];
 
-    const allProposals = useMemo(
-        () => allProposalsQuery.data?.proposal.allProposals || [],
-        [allProposalsQuery.data?.proposal.allProposals],
+    return (
+        <Filter<Query> filterItems={["assignedToMe"]} query={ALL_PROPOSALS}>
+            {({ data, loading }, { pagination }) => {
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                const allProposals = useMemo(
+                    () => data?.proposal.allProposals || [],
+                    [data?.proposal.allProposals],
+                );
+                return (
+                    <Table
+                        showHeader={true}
+                        columns={columns}
+                        dataSource={allProposals}
+                        loading={loading}
+                        pagination={pagination}
+                        size="small"
+                        scroll={{
+                            x: true,
+                        }}
+                    />
+                );
+            }}
+        </Filter>
     );
-    return <Table columns={columns} dataSource={allProposals} />;
 });

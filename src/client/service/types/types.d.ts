@@ -359,6 +359,11 @@ export type ProposalQuery = {
 };
 
 
+export type ProposalQueryAllProposalsArgs = {
+  assignedToMe?: Maybe<Scalars['Boolean']>;
+};
+
+
 export type ProposalQueryProposalByIdArgs = {
   id: Scalars['String'];
 };
