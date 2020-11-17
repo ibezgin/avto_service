@@ -149,11 +149,11 @@ export const ProposalAll = React.memo(() => {
                         columns={columns}
                         dataSource={allProposals}
                         loading={loading}
-                        pagination={pagination}
                         size="small"
                         scroll={{
                             x: true,
                         }}
+                        pagination={pagination}
                     />
                 );
             }}

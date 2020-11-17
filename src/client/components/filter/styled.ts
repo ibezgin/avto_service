@@ -16,6 +16,10 @@ const Wrapper = styled.div`
         text-align: end;
         margin-top: 24px;
         padding-right: 20px;
+        position: absolute;
+        right: 20px;
+        z-index: 999;
+        top: -70px;
     }
     .form-item-switch {
         display: flex;
@@ -39,6 +43,8 @@ const Wrapper = styled.div`
         .ant-picker {
             padding: 0;
         }
+        position: relative;
+        z-index: 1;
     }
 `;
 
