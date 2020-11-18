@@ -27,7 +27,7 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
         const newEntity = new entity();
         // eslint-disable-next-line guard-for-in
         for (const key in values) {
-            newEntity[key] = values[key];
+            (newEntity as any)[key as any] = values[key];
         }
         const manager = getMongoManager();
         const result = await manager.save(newEntity);
@@ -47,7 +47,7 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
         return !result.generatedMaps.length;
     }
     private checkAuth() {
-        if (this.isAuthorized) {
+        if (this.isAuthorized()) {
             return;
         }
         throw Error("Ошибка авторизации");

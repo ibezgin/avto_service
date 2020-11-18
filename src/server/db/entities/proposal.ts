@@ -3,19 +3,19 @@ import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
 @Entity({ name: "proposal" })
 export class ProposalEntity {
     @ObjectIdColumn()
-    public id: ObjectID | string;
+    public id!: ObjectID | string;
     @Column()
-    public createTime: string;
+    public createTime!: string;
     @Column()
-    public changeTime: string;
+    public changeTime!: string;
     @Column()
-    public status: string;
+    public status!: string;
     @Column()
-    public clientId: string;
+    public clientId!: string;
     @Column()
-    public carId: string;
+    public carId!: string;
     @Column()
-    public userId: string;
+    public userId!: string;
     @Column()
     public proposalReason: string | undefined;
     @Column()

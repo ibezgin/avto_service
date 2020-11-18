@@ -23,6 +23,7 @@ export const UniversalEditor = React.memo((props: IProps) => {
                     setLoading(false);
                 }}
                 init={
+                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
                     {
                         ...editorOptions,
                         init_instance_callback: (editor: any) => {

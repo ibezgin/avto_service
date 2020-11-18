@@ -1,6 +1,7 @@
 import Icon from "@ant-design/icons/lib/components/Icon";
 import { AntdIconProps } from "@ant-design/icons/lib/components/AntdIcon";
 import { IconComponentProps } from "@ant-design/icons/lib/components/Icon";
+import React from "react";
 
 type IconTypes = AntdIconProps & IconComponentProps;
 

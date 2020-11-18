@@ -1,16 +1,15 @@
 // import React from "react";
 
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { StaticRouter } from "react-router";
 import { GlobalStyles } from "../service/styled-components/global";
 import { Router } from "./router";
+import { createBrowserHistory } from "history";
 
 export const RootView = React.memo(() => {
     return (
         <>
-            <BrowserRouter>
-                <Router />
-            </BrowserRouter>
+            <Router />
             <GlobalStyles />
         </>
     );

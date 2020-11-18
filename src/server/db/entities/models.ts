@@ -3,9 +3,9 @@ import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
 @Entity({ name: "models" })
 export class ModelsEntity {
     @ObjectIdColumn()
-    public id: ObjectID | string;
+    public id!: ObjectID | string;
     @Column()
-    public brandId: string;
+    public brandId!: string;
     @Column()
-    public title: string;
+    public title!: string;
 }

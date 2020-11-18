@@ -1,6 +1,6 @@
 import { SC } from "./styled";
 import moment from "moment";
-
+import React from "react";
 interface IProps {
     date: number | string | Date;
 }

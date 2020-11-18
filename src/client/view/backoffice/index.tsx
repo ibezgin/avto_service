@@ -1,11 +1,15 @@
 import { Layout } from "antd";
 import { ReactNode, useState } from "react";
-import "antd/dist/antd.less";
 import { BackofficeMenu } from "./menu";
 import React from "react";
 import { HeaderWrapper } from "../../components/header";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { SC } from "./styled";
+import _ from "lodash";
+
+if (typeof window !== "undefined") {
+    require("antd/dist/antd.css");
+}
 
 const { Sider, Content } = Layout;
 

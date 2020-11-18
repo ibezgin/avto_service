@@ -1,4 +1,5 @@
 import { SC } from "./styled";
+import React from "react";
 
 interface IProps {
     nameAndLastName: string;

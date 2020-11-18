@@ -1,25 +1,34 @@
 {
-    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "target": "ES2019",
-        "sourceMap": true,
+        "target": "es6", 
         "module": "commonjs",
+        "sourceMap": true,
         "esModuleInterop": true,
         "declaration": true,
         "resolveJsonModule": true,
         "removeComments": true,
+
+      
+        "moduleResolution": "node",
+     
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "isolatedModules": true,
+        
+
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "importHelpers": true,
-        "outDir": "../../dist/server",
-        "lib": ["ES2019"],
-        "moduleResolution": "node",
+        "outDir": "../../dist",
         "incremental": true,
+        "jsx": "react",
         "composite": true,
-        "skipLibCheck": true,
+        "rootDir": "../..",
+        "lib": ["ES2019", "DOM", "ES5"],
+
     },
-    "include": ["**/*.ts"],
-    "exclude": ["**/*.test.ts"],
+    "include": ["./**/*.ts", "./../**/*.tsx", "./../**/*.ts"],
+    // "exclude": ["**/*.test.ts"],
     "references": [{ "path": "../shared" }],
     "typeRoots": ["./node_modules/@types", "./global.d.ts"],
 }

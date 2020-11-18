@@ -70,6 +70,7 @@ const config: Configuration = {
                                 { loose: true },
                             ],
                             "@babel/plugin-proposal-object-rest-spread",
+                            // ["import", { libraryName: "antd", style: true }],
                         ],
                     },
                 },
@@ -83,6 +84,11 @@ const config: Configuration = {
                     {
                         loader: "css-loader",
                         options: {
+                            url: true,
+                            import: true,
+                            modules: true,
+                            // auto: true,
+
                             // modules: true,
                             // localsConvention: "camelCase",
                             // sourceMap: IS_DEV,
@@ -97,6 +103,35 @@ const config: Configuration = {
                     // },
                 ],
             },
+            {
+                test: /\.less$/,
+                use: [
+                    "style-loader",
+                    { loader: "css-loader", options: { sourceMap: 1 } },
+                    "postcss-loader",
+                    "less-loader",
+                ],
+            },
+            // {
+            //     test: /\.css$/,
+            //     include: [/node_modules\/.*antd/],
+            //     use: [
+            //         {
+            //             loader: "style-loader",
+            //         },
+            //         {
+            //             loader: "css-loader",
+            //         },
+            //         {
+            //             loader: "postcss-loader",
+            //             options: {
+            //                 config: {
+            //                     path: "./tools/postcss.config.js",
+            //                 },
+            //             },
+            //         },
+            //     ],
+            // },
             // {
             //     test: /\.less$/,
             //     use: [

@@ -9,7 +9,6 @@ import {
     Mutation,
 } from "../../../../service/types/types";
 import { ADD_CLIENT } from "./gql/add-client";
-import "react-phone-number-input/style.css";
 import { UPDATE_CLIENT } from "./gql/update-client";
 import { DELETE_CLIENT } from "./gql/delete-client";
 

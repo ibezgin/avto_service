@@ -15,7 +15,8 @@
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
-        }
+        },
+        "createDefaultProgram": true
     },
     "plugins": ["@typescript-eslint", "import", "prefer-arrow", "react-hooks"],
     "settings": {

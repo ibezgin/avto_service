@@ -15,7 +15,7 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
             (elem: any) => data.username === elem.username,
         );
         if (!checkUserName) {
-            const password = await bcrypt.hash(data.password, 10);
+            const password = await bcrypt.hash(String(data?.password), 10);
             // eslint-disable-next-line no-console
             console.log(password);
             return await this.context.helpers.database.add(UsersEntity, {
