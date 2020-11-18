@@ -18,9 +18,14 @@ export class ServiceContextHelper extends AbstractRequestContextHelper {
     }
 
     public async updateService(id: string, title: string, price: number) {
-        return await this.context.helpers.database.update(ServiceEntity, id, {
-            title,
-            price,
-        });
+        return await this.context.helpers.database.update<ServiceEntity>(
+            ServiceEntity,
+            id,
+            {
+                id,
+                title,
+                price,
+            },
+        );
     }
 }

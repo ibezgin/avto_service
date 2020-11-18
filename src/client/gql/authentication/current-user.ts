@@ -5,8 +5,9 @@ export const CURRENT_USER = gql`
         authentication {
             currentUser {
                 id
-                firstname
                 username
+                permission
+                position
             }
         }
     }

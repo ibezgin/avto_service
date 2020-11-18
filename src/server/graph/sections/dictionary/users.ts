@@ -10,7 +10,7 @@ const types = gql`
         users: UsersMutation!
     }
     type UsersQuery {
-        allUsers: [UserType!]!
+        allUsers: [UserType]
     }
     type UsersMutation {
         addUser(data: UserInput): Boolean
@@ -19,18 +19,21 @@ const types = gql`
     }
 
     type UserType {
-        id: String
-        firstname: String
-        username: String
-        password: String
-        permission: [String]
+        id: String!
+        firstname: String!
+        lastname: String!
+        username: String!
+        permission: JSON
+        position: String!
     }
 
     input UserInput {
-        firstname: String
-        username: String
+        firstname: String!
+        lastname: String!
+        username: String!
         password: String
-        permission: [String]
+        permission: JSON
+        position: String!
     }
 `;
 

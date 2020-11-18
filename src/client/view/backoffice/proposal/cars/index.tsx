@@ -11,6 +11,7 @@ import { ALL_MODELS } from "../../dictionary/models/gql/all-models";
 import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
 import { ALL_CLIENTS } from "../clients/gql/all-clients";
 import _ from "lodash";
+import { TableClientInfo } from "../../../../components/table-client-info";
 
 const { confirm } = Modal;
 
@@ -54,8 +55,13 @@ export const ProposalCars = React.memo(() => {
             dataIndex: "clientId",
             title: "Клиент",
             render: (clientId: any) => {
-                const client = allClients.find(elem => elem.id === clientId);
-                return `${client.firstName} ${client.lastName}`;
+                const client = allClients?.find(elem => elem.id === clientId);
+                return (
+                    <TableClientInfo
+                        nameAndLastName={`${client?.firstName} ${client?.lastName}`}
+                        phoneNumber={client?.phone}
+                    />
+                );
             },
         },
         {

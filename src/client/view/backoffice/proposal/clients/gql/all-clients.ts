@@ -8,6 +8,7 @@ export const ALL_CLIENTS = gql`
                 firstName
                 lastName
                 phone
+                createTime
             }
         }
     }
