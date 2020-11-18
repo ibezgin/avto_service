@@ -104,8 +104,10 @@ export const ModalForm = React.memo((props: IProps) => {
                 </FormikAntd.FormItem>
             ),
             checkboxField: (
-                <FormikAntd.FormItem name={field.name} label={field.title}>
-                    <FormikAntd.Checkbox name={field.name} />
+                <FormikAntd.FormItem name={field.name}>
+                    <FormikAntd.Checkbox name={field.name}>
+                        {field.title}
+                    </FormikAntd.Checkbox>
                 </FormikAntd.FormItem>
             ),
             phoneField: (

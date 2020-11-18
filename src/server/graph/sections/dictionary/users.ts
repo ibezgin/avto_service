@@ -23,7 +23,7 @@ const types = gql`
         firstname: String!
         lastname: String!
         username: String!
-        permission: [String]
+        permission: JSON
         position: String!
     }
 
@@ -32,7 +32,7 @@ const types = gql`
         lastname: String!
         username: String!
         password: String
-        permission: [String]
+        permission: JSON
         position: String!
     }
 `;
