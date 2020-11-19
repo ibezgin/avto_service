@@ -9,6 +9,7 @@ export const ALL_USERS = gql`
                 lastname
                 username
                 position
+                permission
             }
         }
     }

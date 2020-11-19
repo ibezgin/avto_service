@@ -31,15 +31,19 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
     }
 
     public async updateUser(id: string, data: any) {
+        const user = await this.context.helpers.database.getById<UsersEntity>(
+            UsersEntity,
+            id,
+        );
         return await this.context.helpers.database.update<UsersEntity>(
             UsersEntity,
             id,
             {
+                ...user,
                 ...data,
-                id,
                 password: data.password
                     ? await bcrypt.hash(data.password, 10)
-                    : undefined,
+                    : user.password,
             },
         );
     }

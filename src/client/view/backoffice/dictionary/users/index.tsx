@@ -52,6 +52,7 @@ export const DictionaryUsers = React.memo(() => {
                 render: (position: any) =>
                     positions.find(elem => elem.value === position)?.label,
             },
+
             {
                 title: "",
                 dataIndex: "edit",
@@ -68,6 +69,7 @@ export const DictionaryUsers = React.memo(() => {
                                         "position",
                                         "password",
                                         "lastname",
+                                        "permission",
                                     ),
                                 );
                                 values.setVisible();
