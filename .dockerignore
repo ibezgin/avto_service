@@ -1,6 +1,6 @@
 # Build Folder
 build
-config/main.local.js
+
 # Logs
 logs
 *.log
@@ -35,9 +35,8 @@ node_modules
 # OS X
 .DS_STORE
 
-# JetBrains
-.idea/*
-!.idea/runConfigurations/
-!.idea/inspectionProfiles/
-.awcache/
-.jest/cache/
+# TypeScript
+typings
+
+# Git
+.git
