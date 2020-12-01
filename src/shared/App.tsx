@@ -5,9 +5,9 @@ import { useTranslation } from "react-i18next";
 import { Link, Route, Switch } from "react-router-dom";
 import favicon from "../shared/assets/favicon.png";
 import { ReactComponent as ReactLogo } from "./assets/react.svg";
-import Home from "./pages/Home";
-import Page1 from "./pages/Page-1";
-import Page2 from "./pages/Page-2";
+import Home from "./view/Home";
+import Page1 from "./view/Page-1";
+import Page2 from "./view/Page-2";
 import routes from "./routes";
 import css from "./App.module.css";
 
@@ -53,4 +53,5 @@ const App: React.FC<any> = () => {
     );
 };
 
+// eslint-disable-next-line import/no-default-export
 export default App;

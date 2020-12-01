@@ -1,4 +1,6 @@
 // import * as React from 'react';
+import "reflect-metadata";
+
 import path from "path";
 import express from "express";
 import cors from "cors";
@@ -12,6 +14,8 @@ import serverRenderer from "./middleware/serverRenderer";
 import addStore from "./middleware/addStore";
 import webhookVerification from "./middleware/webhookVerification";
 import { i18nextXhr, refreshTranslations } from "./middleware/i18n";
+import { apolloServer } from "./graph";
+import { getOrCreateConnection } from "db";
 
 require("dotenv").config();
 
@@ -47,9 +51,13 @@ app.use(
     }),
 );
 
+apolloServer.applyMiddleware({ app });
+
 app.use(serverRenderer());
 
 app.use(errorHandler);
+
+getOrCreateConnection();
 
 app.listen(process.env.PORT || 8080, () => {
     // eslint-disable-next-line no-console
