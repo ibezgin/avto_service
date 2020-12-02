@@ -6,6 +6,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDictionaryBrandHelper } from "./helper";
 import { IFormField, ModalForm } from "../../../../components/modal-form";
 import { AllBrand } from "gql/types/operation-result-types";
+import { useTranslation } from "react-i18next";
 
 const { confirm } = Modal;
 
@@ -13,6 +14,8 @@ export const formFields: IFormField[] = [
     { title: "Название", name: "title", type: "textField" },
 ];
 export const DictionaryBrand = React.memo(() => {
+    const [__] = useTranslation();
+
     const brandsQuery = useQuery<AllBrand>(All_BRAND);
 
     const { sendDeleteBrand, loadingMutation } = useDictionaryBrandHelper();
@@ -32,7 +35,7 @@ export const DictionaryBrand = React.memo(() => {
     const columns = useMemo(
         () => [
             {
-                title: "Название",
+                title: __("Название"),
                 dataIndex: "title",
             },
             {
@@ -74,7 +77,7 @@ export const DictionaryBrand = React.memo(() => {
                 ),
             },
         ],
-        [coursorPointer, sendDeleteBrand, sendUpdateBrand],
+        [__, coursorPointer, sendDeleteBrand, sendUpdateBrand],
     );
 
     return (
