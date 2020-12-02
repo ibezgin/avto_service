@@ -2,19 +2,19 @@ import { Modal, Table } from "antd";
 import React, { useMemo } from "react";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useStyleUtils } from "../../../../hooks/use-style-utils";
-import { ALL_MODELS } from "./gql/all-models";
-import { Query } from "../../../../service/types/types";
 import { useQuery } from "@apollo/client";
 import { useModelsHelper } from "./helper";
 import _ from "lodash";
 import { ModalForm } from "../../../../components/modal-form";
+import ALL_MODELS from "./gql/all-models.gql";
+import { AllModels } from "gql/types/operation-result-types";
 
 const { confirm } = Modal;
 
 export const DictionaryModels = React.memo(() => {
     const styleUtils = useStyleUtils();
 
-    const allModelsQuery = useQuery<Query>(ALL_MODELS);
+    const allModelsQuery = useQuery<AllModels>(ALL_MODELS);
 
     const allModels = useMemo(
         () => allModelsQuery.data?.models.allModels || [],
@@ -39,12 +39,12 @@ export const DictionaryModels = React.memo(() => {
                 title: "Марка",
                 dataIndex: "brandId",
                 render: (brandId: string) =>
-                    allBrand.find(elem => elem.id === brandId).title,
+                    allBrand?.find(elem => elem.id === brandId)?.title,
             },
             {
                 title: "",
                 dataIndex: "edit",
-                render: (edit: any, record: any) => (
+                render: (_edit: any, record: any) => (
                     <>
                         <ModalForm
                             edit={_.pick(record, ["id", "title", "brandId"])}

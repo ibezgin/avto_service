@@ -4,9 +4,10 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { ModalForm, IFormField } from "../../../../components/modal-form";
 import { useStyleUtils } from "../../../../hooks/use-style-utils";
 import { useQuery } from "@apollo/client";
-import { Query } from "../../../../service/types/types";
-import { ALL_CAR_PARTS } from "./gql/all-car-parts";
 import { useCarPartHelper } from "./helper";
+
+import ALL_CAR_PARTS from "./gql/all-car-parts.gql";
+import { AllCarParts } from "gql/types/operation-result-types";
 
 const { confirm } = Modal;
 
@@ -26,7 +27,7 @@ export const formFields: IFormField[] = [
 export const DictionaryCarPart = React.memo(() => {
     const { cursorPointer } = useStyleUtils();
 
-    const allCarPartsQuery = useQuery<Query>(ALL_CAR_PARTS);
+    const allCarPartsQuery = useQuery<AllCarParts>(ALL_CAR_PARTS);
 
     const allCarParts = useMemo(
         () => allCarPartsQuery.data?.carPart.allCarParts || [],
@@ -52,7 +53,7 @@ export const DictionaryCarPart = React.memo(() => {
             {
                 title: "",
                 dataIndex: "edit",
-                render: (edit: any, record: any) => (
+                render: (_edit: any, record: any) => (
                     <>
                         <ModalForm
                             formFields={formFields}

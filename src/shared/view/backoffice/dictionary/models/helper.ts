@@ -1,18 +1,20 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { notification } from "antd";
-import {
-    ModelsMutationAddModelArgs,
-    ModelsMutationDeleteModelArgs,
-    Mutation,
-    Query,
-} from "../../../../service/types/types";
-import { ADD_MODEL } from "./gql/add-model";
-import { DELETE_MODEL } from "./gql/delete-model";
-import { UPDATE_MODEL } from "./gql/update-model";
-// eslint-disable-next-line @typescript-eslint/camelcase
-import { All_BRAND } from "../brand/gql/all-brands";
+import ADD_MODEL from "./gql/add-model.gql";
+import DELETE_MODEL from "./gql/delete-model.gql";
+import UPDATE_MODEL from "./gql/update-model.gql";
+import All_BRAND from "../brand/gql/all-brands.gql";
 import { useMemo } from "react";
 import { IFormField } from "../../../../components/modal-form";
+import {
+    AddModel,
+    AddModelVariables,
+    AllBrand,
+    DeleteModel,
+    DeleteModelVariables,
+    UpdateModel,
+    UpdateModelVariables,
+} from "gql/types/operation-result-types";
 
 export function useModelsHelper() {
     const options = {
@@ -24,7 +26,7 @@ export function useModelsHelper() {
         },
     };
 
-    const allBrandsQuery = useQuery<Query>(All_BRAND);
+    const allBrandsQuery = useQuery<AllBrand>(All_BRAND);
 
     const allBrand = useMemo(() => allBrandsQuery.data?.brand.allBrands, [
         allBrandsQuery.data?.brand.allBrands,
@@ -32,19 +34,19 @@ export function useModelsHelper() {
 
     const refetchQueries = ["AllModels"];
 
-    const [addModel, addModelHelper] = useMutation<
-        Mutation,
-        ModelsMutationAddModelArgs
-    >(ADD_MODEL, options);
+    const [addModel, addModelHelper] = useMutation<AddModel, AddModelVariables>(
+        ADD_MODEL,
+        options,
+    );
 
     const [deletesModel, deleteModelHelper] = useMutation<
-        Mutation,
-        ModelsMutationDeleteModelArgs
+        DeleteModel,
+        DeleteModelVariables
     >(DELETE_MODEL, options);
 
     const [updateModel, updateModelHelper] = useMutation<
-        Mutation,
-        ModelsMutationDeleteModelArgs
+        UpdateModel,
+        UpdateModelVariables
     >(UPDATE_MODEL, options);
 
     const sendAddModel = (title: string, brandId: string) => {

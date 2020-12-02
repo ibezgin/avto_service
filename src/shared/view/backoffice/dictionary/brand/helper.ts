@@ -1,14 +1,18 @@
 import { useMutation } from "@apollo/client";
 import { notification } from "antd";
 import {
-    BrandMutationAddBrandArgs,
-    BrandMutationDeleteBrandArgs,
-    Mutation,
-    BrandMutationUpdateBrandArgs,
-} from "../../../../service/types/types";
-import { ADD_BRAND } from "./gql/add-brand";
-import { DELETE_BRAND } from "./gql/delete-brand";
-import { UPDATE_BRAND } from "./gql/update-brand";
+    AddBrand,
+    AddBrandVariables,
+    DeleteBrand,
+    DeleteBrandVariables,
+    UpdateBrand,
+    UpdateBrandVariables,
+} from "gql/types/operation-result-types";
+
+import ADD_BRAND from "./gql/add-brand.gql";
+import DELETE_BRAND from "./gql/delete-brand.gql";
+import UPDATE_BRAND from "./gql/update-brand.gql";
+
 export function useDictionaryBrandHelper() {
     const options = {
         onCompleted: () => {
@@ -18,18 +22,18 @@ export function useDictionaryBrandHelper() {
             notification.error({ message: "Ошибка" });
         },
     };
-    const [addBrand, addBrandProps] = useMutation<
-        Mutation,
-        BrandMutationAddBrandArgs
-    >(ADD_BRAND, options);
+    const [addBrand, addBrandProps] = useMutation<AddBrand, AddBrandVariables>(
+        ADD_BRAND,
+        options,
+    );
 
     const [deleteBrand, deleteBrandProps] = useMutation<
-        Mutation,
-        BrandMutationDeleteBrandArgs
+        DeleteBrand,
+        DeleteBrandVariables
     >(DELETE_BRAND, options);
     const [updateBrand, updateBrandProps] = useMutation<
-        Mutation,
-        BrandMutationUpdateBrandArgs
+        UpdateBrand,
+        UpdateBrandVariables
     >(UPDATE_BRAND, options);
 
     const sendAddBrand = (

@@ -1,42 +1,48 @@
 import { useQuery } from "@apollo/client";
 import { Table } from "antd";
 import React, { useEffect, useMemo } from "react";
-import { Query } from "../../../../service/types/types";
-import { ALL_PROPOSALS } from "./gql/all-proposals";
+import ALL_PROPOSALS from "./gql/all-proposals.gql";
 import { EditOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import { TableDateTime } from "../../../../components/table-date-time";
 import { StatusColorTag } from "../../../../components/status-color-tag";
-import { ALL_USERS } from "../../dictionary/users/gql/all-users";
-import { ALL_CLIENTS } from "../clients/gql/all-clients";
-import { ALL_MODELS } from "../../dictionary/models/gql/all-models";
-// eslint-disable-next-line @typescript-eslint/camelcase
-import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
+import ALL_USERS from "../../dictionary/users/gql/all-users.gql";
+import ALL_CLIENTS from "../clients/gql/all-clients.gql";
+import ALL_MODELS from "../../dictionary/models/gql/all-models.gql";
+import All_BRAND from "../../dictionary/brand/gql/all-brands.gql";
 import { Specialization } from "../../../../service/enums/specialization";
 import { TableClientInfo } from "../../../../components/table-client-info";
-import { ALL_CARS } from "../cars/gql/all-cars";
+import ALL_CARS from "../cars/gql/all-cars.gql";
+import {
+    AllBrand,
+    AllCars,
+    AllClients,
+    AllModels,
+    AllProposals,
+    AllUsers,
+} from "gql/types/operation-result-types";
 
 export const ProposalAll = React.memo(() => {
     const history = useHistory();
 
-    const allProposalsQuery = useQuery<Query>(ALL_PROPOSALS, {
+    const allProposalsQuery = useQuery<AllProposals>(ALL_PROPOSALS, {
         fetchPolicy: "network-only",
     });
 
-    const allUsersQuery = useQuery<Query>(ALL_USERS);
+    const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
-    const allClientsQuery = useQuery<Query>(ALL_CLIENTS);
+    const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
 
-    const allModelsQuery = useQuery<Query>(ALL_MODELS);
+    const allModelsQuery = useQuery<AllModels>(ALL_MODELS);
 
-    const allBrandsQuery = useQuery<Query>(All_BRAND);
+    const allBrandsQuery = useQuery<AllBrand>(All_BRAND);
 
-    const allCarsQuery = useQuery<Query>(ALL_CARS);
+    const allCarsQuery = useQuery<AllCars>(ALL_CARS);
 
     const technicalUsers = useMemo(
         () =>
-            allUsersQuery.data?.users.allUsers.filter(
-                elem => elem.position === Specialization.TECHNICAL,
+            allUsersQuery.data?.users.allUsers?.filter(
+                elem => elem?.position === Specialization.TECHNICAL,
             ),
         [allUsersQuery.data?.users.allUsers],
     );
@@ -87,7 +93,7 @@ export const ProposalAll = React.memo(() => {
                 return (
                     <TableClientInfo
                         nameAndLastName={`${client?.firstName} ${client?.lastName}`}
-                        phoneNumber={client?.phone}
+                        phoneNumber={client?.phone as string}
                     />
                 );
             },
@@ -112,7 +118,7 @@ export const ProposalAll = React.memo(() => {
             dataIndex: "userId",
             title: "Технический специалист",
             render: (userId: any) => {
-                const user = technicalUsers?.find(elem => elem.id === userId);
+                const user = technicalUsers?.find(elem => elem?.id === userId);
 
                 return (
                     <span>
@@ -124,7 +130,7 @@ export const ProposalAll = React.memo(() => {
         {
             dataIndex: "edit",
             title: "",
-            render: (edit: any, record: any) => (
+            render: (_edit: any, record: any) => (
                 <EditOutlined
                     onClick={() => {
                         history.push(`/proposal/form?id=${record.id}`);

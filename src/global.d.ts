@@ -1,43 +1,43 @@
 declare namespace NodeJS {
     interface ProcessEnv {
-        NODE_ENV: 'development' | 'production' | 'test';
+        NODE_ENV: "development" | "production" | "test";
         PUBLIC_URL: string;
-        SOURCE_LANGUAGE: 'string';
+        SOURCE_LANGUAGE: "string";
     }
 }
 
-declare module '*.bmp' {
+declare module "*.bmp" {
     const src: string;
     export default src;
 }
 
-declare module '*.gif' {
+declare module "*.gif" {
     const src: string;
     export default src;
 }
 
-declare module '*.jpg' {
+declare module "*.jpg" {
     const src: string;
     export default src;
 }
 
-declare module '*.jpeg' {
+declare module "*.jpeg" {
     const src: string;
     export default src;
 }
 
-declare module '*.png' {
+declare module "*.png" {
     const src: string;
     export default src;
 }
 
-declare module '*.webp' {
+declare module "*.webp" {
     const src: string;
     export default src;
 }
 
-declare module '*.svg' {
-    import * as React from 'react';
+declare module "*.svg" {
+    import * as React from "react";
 
     export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
 
@@ -45,12 +45,19 @@ declare module '*.svg' {
     export default src;
 }
 
-declare module '*.module.css' {
+declare module "*.module.css" {
     const css: { [key: string]: string };
     export default css;
 }
 
-declare module '*.css' {
+declare module "*.css" {
+    export default any;
+}
+
+declare module "*.gql" {
+    export default any;
+}
+declare module "*.graphql" {
     export default any;
 }
 
@@ -64,4 +71,4 @@ interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
 }
 
-declare module 'express-manifest-helpers';
+declare module "express-manifest-helpers";

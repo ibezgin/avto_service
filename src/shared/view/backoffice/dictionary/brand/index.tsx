@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { useQuery } from "@apollo/client";
 import { Modal, Table } from "antd";
 import React, { useMemo } from "react";
-import { Query } from "../../../../service/types/types";
-import { All_BRAND } from "./gql/all-brands";
+import All_BRAND from "./gql/all-brands.gql";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDictionaryBrandHelper } from "./helper";
 import { IFormField, ModalForm } from "../../../../components/modal-form";
+import { AllBrand } from "gql/types/operation-result-types";
 
 const { confirm } = Modal;
 
@@ -14,7 +13,7 @@ export const formFields: IFormField[] = [
     { title: "Название", name: "title", type: "textField" },
 ];
 export const DictionaryBrand = React.memo(() => {
-    const brandsQuery = useQuery<Query>(All_BRAND);
+    const brandsQuery = useQuery<AllBrand>(All_BRAND);
 
     const { sendDeleteBrand, loadingMutation } = useDictionaryBrandHelper();
 
@@ -39,7 +38,7 @@ export const DictionaryBrand = React.memo(() => {
             {
                 title: "",
                 dataIndex: "edit",
-                render: (edit: any, record: any) => (
+                render: (_edit: any, record: any) => (
                     <>
                         <ModalForm
                             formFields={formFields}

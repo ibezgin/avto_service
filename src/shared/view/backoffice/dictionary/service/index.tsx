@@ -3,10 +3,10 @@ import { useQuery } from "@apollo/client";
 import { Modal, Table } from "antd";
 import React, { useMemo } from "react";
 import { useStyleUtils } from "../../../../hooks/use-style-utils";
-import { Query } from "../../../../service/types/types";
-import { ALL_SERVICES } from "./gql/all-services";
+import ALL_SERVICES from "./gql/all-services.gql";
 import { useServiceHelper } from "./helper";
 import { IFormField, ModalForm } from "../../../../components/modal-form";
+import { AllServices } from "gql/types/operation-result-types";
 
 const { confirm } = Modal;
 
@@ -26,7 +26,7 @@ export const formFields = [
 export const DictionaryService = React.memo(() => {
     const styleUtils = useStyleUtils();
 
-    const allServiceQuery = useQuery<Query>(ALL_SERVICES);
+    const allServiceQuery = useQuery<AllServices>(ALL_SERVICES);
 
     const allServices = useMemo(
         () => allServiceQuery.data?.service.allServices || [],
@@ -52,7 +52,7 @@ export const DictionaryService = React.memo(() => {
             {
                 title: "",
                 dataIndex: "edit",
-                render: (edit: any, record: any) => (
+                render: (_edit: any, record: any) => (
                     <>
                         <ModalForm
                             onSubmit={values => {

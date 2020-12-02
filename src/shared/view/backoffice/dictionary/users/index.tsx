@@ -3,12 +3,12 @@ import { useQuery } from "@apollo/client";
 import { Modal, Table } from "antd";
 import React, { useMemo } from "react";
 import { useStyleUtils } from "../../../../hooks/use-style-utils";
-import { Query } from "../../../../service/types/types";
 import { useUsersHelper } from "./helper";
 import { ModalForm } from "../../../../components/modal-form";
-import { ALL_USERS } from "./gql/all-users";
+import ALL_USERS from "./gql/all-users.gql";
 import _ from "lodash";
 import { useUser } from "../../../../hooks/use-user";
+import { AllUsers } from "gql/types/operation-result-types";
 
 const { confirm } = Modal;
 
@@ -18,7 +18,7 @@ export const DictionaryUsers = React.memo(() => {
     const user = useUser();
     // eslint-disable-next-line no-console
     console.log(user);
-    const allUsersQuery = useQuery<Query>(ALL_USERS);
+    const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
     const allUsers = useMemo(() => allUsersQuery.data?.users.allUsers || [], [
         allUsersQuery.data?.users.allUsers,
@@ -56,7 +56,7 @@ export const DictionaryUsers = React.memo(() => {
             {
                 title: "",
                 dataIndex: "edit",
-                render: (edit: any, record: any) => (
+                render: (_edit: any, record: any) => (
                     <>
                         <ModalForm
                             onSubmit={values => {

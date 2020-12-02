@@ -6,9 +6,9 @@ import { SC } from "../styled";
 import { useUser } from "../../../hooks/use-user";
 import { Redirect } from "react-router-dom";
 import { NetworkStatus, useMutation } from "@apollo/client";
-import { Mutation } from "../../../service/types/types";
-import { LOGOUT } from "../../../gql/authentication/logout";
-import { CURRENT_USER } from "../../../gql/authentication/current-user";
+import LOGOUT from "gql/authentication/logout.gql";
+import CURRENT_USER from "gql/authentication/current-user.gql";
+import { Logout } from "gql/types/operation-result-types";
 const { Text } = Typography;
 
 export const UserInfo = React.memo(() => {
@@ -48,7 +48,7 @@ export const UserInfo = React.memo(() => {
 });
 
 function useLogoutMutation() {
-    const [mutation, mutationHelper] = useMutation<Mutation>(LOGOUT);
+    const [mutation, mutationHelper] = useMutation<Logout>(LOGOUT);
 
     const updateCacheAfterLogin = cache => {
         cache.writeQuery({

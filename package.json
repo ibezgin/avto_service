@@ -29,7 +29,7 @@
         "transpile": "yarn-or-npm babel -d build/transpiled ./src --extensions .es6,.js,.es,.jsx,.mjs,.ts,.tsx --ignore **/*.d.ts",
         "tsc": "tsc --noEmit",
         "stop": "taskkill /f /im node.exe",
-        "build:gql": "apollo client:codegen --endpoint=http://localhost:8080/graphql --target=typescript src/client/gql/types/operation-result-types.ts"
+        "build:gql": "apollo client:codegen --endpoint=http://localhost:8080/graphql --target=typescript --outputFlat --addTypename --includes='./src/shared/**/*.gql' --excludes='**/*.rest.gql' ./src/shared/gql/types/operation-result-types.ts"
     },
     "dependencies": {
         "@apollo/client": "^3.3.2",
@@ -138,6 +138,8 @@
         "babel-eslint": "^10.1.0",
         "babel-jest": "^26.0.1",
         "babel-loader": "^8.1.0",
+        "babel-plugin-graphql-tag": "^3.1.0",
+        "babel-plugin-import-graphql": "^2.7.0",
         "babel-plugin-macros": "^2.8.0",
         "babel-plugin-named-asset-import": "^0.3.6",
         "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",

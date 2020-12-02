@@ -1,14 +1,16 @@
 import { useMutation } from "@apollo/client";
 import { notification } from "antd";
 import {
-    Mutation,
-    ServiceMutationAddServiceArgs,
-    ServiceMutationDeleteServiceArgs,
-    ServiceMutationUpdateServiceArgs,
-} from "../../../../service/types/types";
-import { ADD_SERVICE } from "./gql/add-service";
-import { DELETE_SERVICE } from "./gql/delete-service";
-import { UPDATE_SERVICE } from "./gql/update-service";
+    AddService,
+    AddServiceVariables,
+    DeleteService,
+    DeleteServiceVariables,
+    UpdateService,
+    UpdateServiceVariables,
+} from "gql/types/operation-result-types";
+import ADD_SERVICE from "./gql/add-service.gql";
+import DELETE_SERVICE from "./gql/delete-service.gql";
+import UPDATE_SERVICE from "./gql/update-service.gql";
 
 export function useServiceHelper() {
     const options = {
@@ -23,18 +25,18 @@ export function useServiceHelper() {
     const refetchQueries = ["AllServices"];
 
     const [addService, addServiceHelper] = useMutation<
-        Mutation,
-        ServiceMutationAddServiceArgs
+        AddService,
+        AddServiceVariables
     >(ADD_SERVICE, options);
 
     const [deleteService, deleteServiceHelper] = useMutation<
-        Mutation,
-        ServiceMutationDeleteServiceArgs
+        DeleteService,
+        DeleteServiceVariables
     >(DELETE_SERVICE, options);
 
     const [updateService, updateServiceHelper] = useMutation<
-        Mutation,
-        ServiceMutationUpdateServiceArgs
+        UpdateService,
+        UpdateServiceVariables
     >(UPDATE_SERVICE, options);
 
     const sendAddService = (title: string, price: number) => {

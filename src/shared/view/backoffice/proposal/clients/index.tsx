@@ -2,18 +2,18 @@ import { useQuery } from "@apollo/client";
 import { Modal, Table } from "antd";
 import React, { useMemo } from "react";
 import { useGenerateCode } from "../../../../hooks/use-generate-tempory-code";
-import { Query } from "../../../../service/types/types";
-import { ALL_CLIENTS } from "./gql/all-clients";
+import ALL_CLIENTS from "./gql/all-clients.gql";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { formFields, useClientsHelper } from "./helper";
 import _ from "lodash";
 import { ModalForm } from "../../../../components/modal-form";
 import { TableDateTime } from "../../../../components/table-date-time";
+import { AllClients } from "gql/types/operation-result-types";
 
 const { confirm } = Modal;
 
 export const ProposalClients = React.memo(() => {
-    const allClientsQuery = useQuery<Query>(ALL_CLIENTS);
+    const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
 
     const { generateTemporyCode } = useGenerateCode();
 
@@ -58,7 +58,7 @@ export const ProposalClients = React.memo(() => {
         {
             dataIndex: "edit",
             title: "",
-            render: (edit: any, record: any) => (
+            render: (_edit: any, record: any) => (
                 <ModalForm
                     onSubmit={values => {
                         sendUpdateClient(
@@ -89,7 +89,7 @@ export const ProposalClients = React.memo(() => {
         {
             dataIndex: "delete",
             title: "",
-            render: (del: any, record: any) => (
+            render: (_del: any, record: any) => (
                 <DeleteOutlined
                     onClick={() => {
                         confirm({

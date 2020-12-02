@@ -2,31 +2,35 @@ import { useQuery } from "@apollo/client";
 import { Modal, Table } from "antd";
 import React, { useMemo } from "react";
 import { ModalForm } from "../../../../components/modal-form";
-import { Query } from "../../../../service/types/types";
-import { ALL_CARS } from "./gql/all-cars";
+import ALL_CARS from "./gql/all-cars.gql";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useCarsHelper } from "./helper";
-import { ALL_MODELS } from "../../dictionary/models/gql/all-models";
-// eslint-disable-next-line @typescript-eslint/camelcase
-import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
-import { ALL_CLIENTS } from "../clients/gql/all-clients";
+import ALL_MODELS from "../../dictionary/models/gql/all-models.gql";
+import All_BRAND from "../../dictionary/brand/gql/all-brand.gql";
+import ALL_CLIENTS from "../clients/gql/all-clients.gql";
 import _ from "lodash";
 import { TableClientInfo } from "../../../../components/table-client-info";
+import {
+    AllBrand,
+    AllCars,
+    AllClients,
+    AllModels,
+} from "gql/types/operation-result-types";
 
 const { confirm } = Modal;
 
 export const ProposalCars = React.memo(() => {
-    const allCarsQuery = useQuery<Query>(ALL_CARS);
+    const allCarsQuery = useQuery<AllCars>(ALL_CARS);
 
     const allCars = useMemo(() => allCarsQuery.data?.cars.allCars, [
         allCarsQuery.data?.cars.allCars,
     ]);
 
-    const allClientsQuery = useQuery<Query>(ALL_CLIENTS);
+    const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
 
-    const allBrandQuery = useQuery<Query>(All_BRAND);
+    const allBrandQuery = useQuery<AllBrand>(All_BRAND);
 
-    const allModelsQuery = useQuery<Query>(ALL_MODELS);
+    const allModelsQuery = useQuery<AllModels>(ALL_MODELS);
 
     const allClients = useMemo(
         () => allClientsQuery.data?.clients.allClients || [],
@@ -59,7 +63,7 @@ export const ProposalCars = React.memo(() => {
                 return (
                     <TableClientInfo
                         nameAndLastName={`${client?.firstName} ${client?.lastName}`}
-                        phoneNumber={client?.phone}
+                        phoneNumber={client?.phone as string}
                     />
                 );
             },
@@ -87,7 +91,7 @@ export const ProposalCars = React.memo(() => {
         {
             dataIndex: "edit",
             title: "",
-            render: (edit: any, record: any) => {
+            render: (_edit: any, record: any) => {
                 return (
                     <ModalForm
                         onSubmit={values => {
@@ -124,7 +128,7 @@ export const ProposalCars = React.memo(() => {
         {
             dataIndex: "delete",
             title: "",
-            render: (del: any, record: any) => (
+            render: (_del: any, record: any) => (
                 <DeleteOutlined
                     onClick={() => {
                         confirm({

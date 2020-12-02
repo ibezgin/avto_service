@@ -33,6 +33,7 @@ module.exports = api => {
             "@babel/proposal-optional-chaining",
             "@babel/syntax-dynamic-import",
             "macros",
+            "import-graphql",
             isDev && isTargetWeb && "react-refresh/babel",
         ].filter(Boolean),
         env: {

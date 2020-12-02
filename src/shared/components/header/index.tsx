@@ -6,11 +6,9 @@ import { SC } from "./styled";
 import { UserInfo } from "./user-info";
 const { Header } = Layout;
 
-interface IProps {}
-
-export const HeaderWrapper = React.memo((props: IProps) => {
+export const HeaderWrapper = React.memo(() => {
     const routes = useRoutes();
-    const headerRoutes = [];
+    const headerRoutes: any = [];
     for (const category of routes) {
         for (const menuItem of category.children) {
             if (menuItem.header) {

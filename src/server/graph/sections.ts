@@ -4,14 +4,14 @@ import { IResolvers } from "apollo-server-express";
 import { makeExecutableSchema } from "graphql-tools";
 import { mergeResolvers } from "@graphql-tools/merge";
 import { mergeTypeDefs } from "@graphql-tools/merge";
+import { authenticationSubSchema } from "./auth";
 import { dictionaryBrandSubSchema } from "./sections/dictionary/brand";
+import { dictionaryCarPartSubSchema } from "./sections/dictionary/car-part";
 import { dictionaryModelsSubSchema } from "./sections/dictionary/models";
 import { dictionaryServiceSubSchema } from "./sections/dictionary/service";
-import { dictionaryCarPartSubSchema } from "./sections/dictionary/car-part";
-import { proposalClientsSubSchema } from "./sections/proposal/clients";
 import { dictionaryUsersSubSchema } from "./sections/dictionary/users";
-import { authenticationSubSchema } from "./auth";
 import { proposalCarsSubSchema } from "./sections/proposal/cars";
+import { proposalClientsSubSchema } from "./sections/proposal/clients";
 import { proposalSubSchema } from "./sections/proposal/proposal";
 
 export const sections: SubSchema[] = [

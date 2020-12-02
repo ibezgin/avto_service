@@ -1,22 +1,25 @@
 import { useMutation, useQuery } from "@apollo/client";
+import {
+    AddCar,
+    AddCarVariables,
+    AllBrand,
+    AllClients,
+    AllModels,
+    CarInput,
+    DeleteCar,
+    DeleteCarVariables,
+    UpdateCar,
+    UpdateCarVariables,
+} from "gql/types/operation-result-types";
 import { useMemo, useState } from "react";
 import { IFormField } from "../../../../components/modal-form";
 import { useMutationOptions } from "../../../../hooks/use-mutation-options";
-import {
-    CarInput,
-    CarsMutationAddCarArgs,
-    CarsMutationDeleteCarArgs,
-    CarsMutationUpdateCarArgs,
-    Mutation,
-    Query,
-} from "../../../../service/types/types";
-// eslint-disable-next-line @typescript-eslint/camelcase
-import { All_BRAND } from "../../dictionary/brand/gql/all-brands";
-import { ALL_MODELS } from "../../dictionary/models/gql/all-models";
-import { ALL_CLIENTS } from "../clients/gql/all-clients";
-import { ADD_CAR } from "./gql/add-car";
-import { DELETE_CAR } from "./gql/delete-car";
-import { UPDATE_CAR } from "./gql/update-car";
+import All_BRAND from "../../dictionary/brand/gql/all-brands.gql";
+import ALL_MODELS from "../../dictionary/models/gql/all-models.gql";
+import ALL_CLIENTS from "../clients/gql/all-clients.gql";
+import ADD_CAR from "./gql/add-car.gql";
+import DELETE_CAR from "./gql/delete-car.gql";
+import UPDATE_CAR from "./gql/update-car.gql";
 
 const refetchQueries = ["AllCars"];
 
@@ -25,11 +28,11 @@ export function useCarsHelper() {
 
     const [brandState, setBrandState] = useState();
 
-    const allClientsQuery = useQuery<Query>(ALL_CLIENTS);
+    const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
 
-    const allBrandQuery = useQuery<Query>(All_BRAND);
+    const allBrandQuery = useQuery<AllBrand>(All_BRAND);
 
-    const allModelsQuery = useQuery<Query>(ALL_MODELS);
+    const allModelsQuery = useQuery<AllModels>(ALL_MODELS);
 
     const allClients = useMemo(
         () => allClientsQuery.data?.clients.allClients || [],
@@ -87,19 +90,19 @@ export function useCarsHelper() {
         },
     ] as IFormField[];
 
-    const [addCar, addCarHelper] = useMutation<
-        Mutation,
-        CarsMutationAddCarArgs
-    >(ADD_CAR, options);
+    const [addCar, addCarHelper] = useMutation<AddCar, AddCarVariables>(
+        ADD_CAR,
+        options,
+    );
 
     const [deleteCar, deleteCarHelper] = useMutation<
-        Mutation,
-        CarsMutationDeleteCarArgs
+        DeleteCar,
+        DeleteCarVariables
     >(DELETE_CAR, options);
 
     const [updateCar, updateCarHelper] = useMutation<
-        Mutation,
-        CarsMutationUpdateCarArgs
+        UpdateCar,
+        UpdateCarVariables
     >(UPDATE_CAR, options);
 
     const sendAddCar = (data: CarInput) => {

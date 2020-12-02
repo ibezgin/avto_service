@@ -1,19 +1,21 @@
 import { ApolloError, useMutation } from "@apollo/client";
+import {
+    AddUser,
+    AddUserVariables,
+    DeleteUser,
+    DeleteUserVariables,
+    UpdateUser,
+    UpdateUserVariables,
+    UserInput,
+} from "gql/types/operation-result-types";
+import { Specialization } from "service/enums/specialization";
 import { IFormField } from "../../../../components/modal-form";
 import { useAccess } from "../../../../hooks/use-access";
 import { useMutationOptions } from "../../../../hooks/use-mutation-options";
-import { Specialization } from "../../../../service/enums/specialization";
-import {
-    Mutation,
-    UserInput,
-    UsersMutationAddUserArgs,
-    UsersMutationDeleteUserArgs,
-    UsersMutationUpdateUserArgs,
-} from "../../../../service/types/types";
 import { errorHandler } from "../../../../service/utils/error-handler";
-import { ADD_USER } from "./gql/add-user";
-import { DELETE_USER } from "./gql/delete-user";
-import { UPDATE_USER } from "./gql/update-user";
+import ADD_USER from "./gql/add-user.gql";
+import DELETE_USER from "./gql/delete-user.gql";
+import UPDATE_USER from "./gql/update-user.gql";
 
 export function useUsersHelper() {
     const access = useAccess();
@@ -66,24 +68,24 @@ export function useUsersHelper() {
 
     const refetchQueries = ["AllUsers", "CurrentUser"];
 
-    const [addUser, addUserHelper] = useMutation<
-        Mutation,
-        UsersMutationAddUserArgs
-    >(ADD_USER, {
-        ...options,
-        onError: (error: ApolloError) => {
-            errorHandler(error);
+    const [addUser, addUserHelper] = useMutation<AddUser, AddUserVariables>(
+        ADD_USER,
+        {
+            ...options,
+            onError: (error: ApolloError) => {
+                errorHandler(error);
+            },
         },
-    });
+    );
 
     const [deleteUser, deleteUserHelper] = useMutation<
-        Mutation,
-        UsersMutationDeleteUserArgs
+        DeleteUser,
+        DeleteUserVariables
     >(DELETE_USER, options);
 
     const [updateUser, updateUserHelper] = useMutation<
-        Mutation,
-        UsersMutationUpdateUserArgs
+        UpdateUser,
+        UpdateUserVariables
     >(UPDATE_USER, options);
 
     const sendAddUser = (data: UserInput) => {

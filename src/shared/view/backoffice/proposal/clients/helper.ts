@@ -1,17 +1,18 @@
 import { useMutation } from "@apollo/client";
 import { IFormField } from "../../../../components/modal-form";
 import { useMutationOptions } from "../../../../hooks/use-mutation-options";
+import ADD_CLIENT from "./gql/add-client.gql";
+import UPDATE_CLIENT from "./gql/update-client.gql";
+import DELETE_CLIENT from "./gql/delete-client.gql";
 import {
+    AddClient,
+    AddClientVariables,
     ClientInput,
-    ClientsMutationAddClientArgs,
-    ClientsMutationDeleteClientArgs,
-    ClientsMutationUpdateClientArgs,
-    Mutation,
-} from "../../../../service/types/types";
-import { ADD_CLIENT } from "./gql/add-client";
-import "react-phone-number-input/style.css";
-import { UPDATE_CLIENT } from "./gql/update-client";
-import { DELETE_CLIENT } from "./gql/delete-client";
+    DeleteClient,
+    DeleteClientVariables,
+    UpdateClient,
+    UpdateClientVariables,
+} from "gql/types/operation-result-types";
 
 export const formFields = [
     {
@@ -37,18 +38,18 @@ export function useClientsHelper() {
     const refetchQueries = ["AllClients"];
 
     const [addClient, addClientHelper] = useMutation<
-        Mutation,
-        ClientsMutationAddClientArgs
+        AddClient,
+        AddClientVariables
     >(ADD_CLIENT, options);
 
     const [updateClient, updateClientHelper] = useMutation<
-        Mutation,
-        ClientsMutationUpdateClientArgs
+        UpdateClient,
+        UpdateClientVariables
     >(UPDATE_CLIENT, options);
 
     const [deleteClient, deleteClientHelper] = useMutation<
-        Mutation,
-        ClientsMutationDeleteClientArgs
+        DeleteClient,
+        DeleteClientVariables
     >(DELETE_CLIENT, options);
 
     const sendAddClient = (data: ClientInput) => {
