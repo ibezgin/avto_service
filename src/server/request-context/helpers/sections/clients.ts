@@ -1,6 +1,6 @@
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 import { ClientsEntity } from "../../../db/entities/clients";
-import { ClientInput } from "../../../../client/service/types/types";
+import { ClientInput } from "gql/types/operation-result-types";
 export class ClientsContextHelper extends AbstractRequestContextHelper {
     public async allClients() {
         return (

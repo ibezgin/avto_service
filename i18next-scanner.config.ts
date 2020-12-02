@@ -13,10 +13,10 @@ export default {
         trans: {
             extensions: [".js"],
         },
-        lngs: ["en_US", "de_DE"],
+        lngs: ["ru_RU", "en_US", "de_DE"],
         ns: ["translation"],
-        fallbackLng: "en_US",
-        defaultLng: "en_US",
+        fallbackLng: "ru_RU",
+        defaultLng: "ru_RU",
         defaultNs: "translation",
         resource: {
             loadPath: path.join(paths.locales, "/{{lng}}/{{ns}}.json"),

@@ -3,7 +3,7 @@ import { ActionTypes } from "./actions";
 import { IAction, AppState } from "./types";
 
 export const initialState = Object.freeze<AppState>({
-    locale: "en_US",
+    locale: "ru_RU",
 });
 
 // eslint-disable-next-line import/no-default-export
