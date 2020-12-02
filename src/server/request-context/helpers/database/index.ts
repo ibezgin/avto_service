@@ -8,7 +8,7 @@ interface IValuesType {
 }
 
 export class DatabaseContextHelper extends AbstractRequestContextHelper {
-    private isAuthorized = this.context.authentification.isAuthenticated;
+    // private isAuthorized = this.context.authentification.isAuthenticated;
 
     public async getAll<T>(entity: new () => T) {
         const manager = getMongoManager();
@@ -17,14 +17,18 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
     }
 
     public async getById<T>(entity: new () => T, id: string) {
+        // eslint-disable-next-line no-console
+        console.log(id);
         const manager = getMongoManager();
         const result = await manager.findOne(entity, id);
+        // eslint-disable-next-line no-console
+        console.log(result);
+
         return result;
     }
 
     public async add<T>(entity: new () => T, values: IValuesType) {
-        this.checkAuth();
-        const newEntity = new entity();
+        const newEntity: any = new entity();
         // eslint-disable-next-line guard-for-in
         for (const key in values) {
             newEntity[key] = values[key];
@@ -34,22 +38,19 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
         return !!result;
     }
     public async delete<T>(entity: new () => T, id: string) {
-        this.checkAuth();
         const manager = getMongoManager();
         const result = await manager.delete(entity, id);
         return _.isEmpty(result);
     }
     public async update<T>(entity: new () => T, id: string, values: T) {
-        this.checkAuth();
-
         const manager = getMongoManager();
         const result = await manager.update(entity, id, values);
         return !result.generatedMaps.length;
     }
-    private checkAuth() {
-        if (this.isAuthorized) {
-            return;
-        }
-        throw Error("Ошибка авторизации");
-    }
+    // private checkAuth() {
+    //     if (this.isAuthorized()) {
+    //         return;
+    //     }
+    //     throw Error("Ошибка авторизации");
+    // }
 }

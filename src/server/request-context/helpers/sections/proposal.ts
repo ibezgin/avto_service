@@ -3,7 +3,7 @@ import { ProposalEntity } from "../../../db/entities/proposal";
 
 export class ProposalContextHelper extends AbstractRequestContextHelper {
     public async allProposals() {
-        return await (
+        return (
             await this.context.helpers.database.getAll<ProposalEntity>(
                 ProposalEntity,
             )

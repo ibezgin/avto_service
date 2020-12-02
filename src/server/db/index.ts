@@ -1,5 +1,4 @@
 import { createConnection } from "typeorm";
-import { CONNECTION_STRING } from "../config";
 import { BrandEntity } from "./entities/brand";
 import { CarPartEntity } from "./entities/car-part";
 import { CarsEntity } from "./entities/cars";
@@ -25,13 +24,14 @@ const entities = [
 export const getOrCreateConnection = () => {
     if (!connection) {
         connection = createConnection({
-            url: CONNECTION_STRING,
+            url: process.env.CONNECTION_STRING,
             type: "mongodb",
+            entities,
             useNewUrlParser: true,
             reconnectTries: Number.MAX_VALUE,
-            entities,
             synchronize: true,
         });
     }
+
     return connection;
 };

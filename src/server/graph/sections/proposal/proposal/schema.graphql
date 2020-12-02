@@ -1,0 +1,42 @@
+extend type Query {
+    proposal: ProposalQuery!
+}
+extend type Mutation {
+    proposal: ProposalMutation!
+}
+type ProposalQuery {
+    allProposals: [ProposalType!]!
+    proposalById(id: String!): ProposalType!
+}
+type ProposalMutation {
+    addProposal(data: ProposalInput!): Boolean
+    deleteProposal(id: String!): Boolean
+    updateProposal(id: String!, data: ProposalInput): Boolean
+}
+
+type ProposalType {
+    id: String!
+    createTime: String!
+    changeTime: String!
+    status: Int!
+    clientId: String!
+    carId: String!
+    userId: String
+    proposalReason: String
+    technicalInspectionResult: String
+    recomendedWork: [String]
+    completedWork: JSON
+}
+
+input ProposalInput {
+    createTime: String!
+    changeTime: String!
+    status: Int!
+    clientId: String!
+    carId: String!
+    userId: String!
+    proposalReason: String
+    technicalInspectionResult: String
+    recomendedWork: [String]
+    completedWork: JSON
+}

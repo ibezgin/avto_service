@@ -1,6 +1,5 @@
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 import { UsersEntity } from "../../../db/entities/users";
-import { UserInput } from "../../../../client/service/types/types";
 import bcrypt from "bcryptjs";
 export class UsersContextHelper extends AbstractRequestContextHelper {
     public async allUsers() {
@@ -9,7 +8,7 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
         return result;
     }
 
-    public async addUser(data: UserInput) {
+    public async addUser(data: any) {
         const allUsers = await this.allUsers();
         const checkUserName = allUsers.find(
             (elem: any) => data.username === elem.username,
@@ -31,7 +30,7 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
     }
 
     public async updateUser(id: string, data: any) {
-        const user = await this.context.helpers.database.getById<UsersEntity>(
+        const user: any = await this.context.helpers.database.getById<UsersEntity>(
             UsersEntity,
             id,
         );
