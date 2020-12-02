@@ -16,7 +16,7 @@ import webhookVerification from "./middleware/webhookVerification";
 import { i18nextXhr, refreshTranslations } from "./middleware/i18n";
 import { apolloServer } from "./graph";
 import { getOrCreateConnection } from "db";
-
+import { passportAuth } from "./middleware/passport";
 require("dotenv").config();
 
 const app = express();
@@ -50,6 +50,8 @@ app.use(
         manifestPath: `${manifestPath}/manifest.json`,
     }),
 );
+
+const passport = passportAuth();
 
 apolloServer.applyMiddleware({ app });
 
