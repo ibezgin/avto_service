@@ -20,7 +20,7 @@ import ALL_USERS from "../../../dictionary/users/gql/all-users.gql";
 import { useEditProposalHelper } from "../helper";
 import moment from "moment";
 import { useQueryParams } from "../../../../../hooks/use-query-params";
-import PROPOSAL_BY_ID from "../gql/proposal-by-id.gql";
+import ALL_PROPOSALS from "../gql/all-proposals.gql";
 import { StatusColorTag } from "../../../../../components/status-color-tag";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
@@ -29,10 +29,11 @@ import {
     AllCars,
     AllClients,
     AllModels,
+    AllProposals,
     AllServices,
     AllUsers,
-    ProposalById,
-    ProposalByIdVariables,
+    // ProposalById,
+    // ProposalByIdVariables,
 } from "gql/types/operation-result-types";
 import { Specialization } from "service/enums/specialization";
 import { ProposalStatus } from "service/enums/proposal-status";
@@ -63,17 +64,15 @@ export const ProposalForm = React.memo(() => {
 
     const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
-    const proposalByIdQuery = useQuery<ProposalById, ProposalByIdVariables>(
-        PROPOSAL_BY_ID,
-        {
-            variables: { id },
-            skip: _.isUndefined(id),
-        },
-    );
-
+    const allProposalsQuery = useQuery<AllProposals>(ALL_PROPOSALS, {
+        fetchPolicy: "network-only",
+    });
     const proposalById = useMemo(
-        () => proposalByIdQuery.data?.proposal.proposalById,
-        [proposalByIdQuery.data?.proposal.proposalById],
+        () =>
+            allProposalsQuery.data?.proposal.allProposals.find(
+                elem => elem.id === id,
+            ),
+        [allProposalsQuery.data?.proposal.allProposals, id],
     );
 
     const allClients = useMemo(() => allClientsQuery.data?.clients.allClients, [
@@ -110,13 +109,16 @@ export const ProposalForm = React.memo(() => {
         [allServiceQuery.data?.service.allServices],
     );
 
+    // eslint-disable-next-line no-console
+    console.log(service);
+
     const recomendedWorkDatasourse = useMemo(
         () =>
             service && service?.length
-                ? service?.map(elem => ({
+                ? _.map(service, elem => ({
                       id: elem,
                       title: allServices?.find(serv => serv.id === elem)?.title,
-                  }))
+                  })) || []
                 : [],
         [allServices, service],
     );
@@ -153,7 +155,8 @@ export const ProposalForm = React.memo(() => {
     const recomendedPriceChecker = useCallback(() => {
         let totalPrice = 0;
 
-        const prices = (service || []).map(
+        const prices = _.map(
+            service,
             serviceId =>
                 allServices?.find(elem => elem.id === serviceId)?.price,
         );
@@ -289,8 +292,9 @@ export const ProposalForm = React.memo(() => {
         allBrandsQuery.loading ||
         allServiceQuery.loading ||
         allUsersQuery.loading ||
-        proposalByIdQuery.loading ||
+        allProposalsQuery.loading ||
         mutationLoading;
+
     return (
         <Spin spinning={loading}>
             <Formik
@@ -311,7 +315,7 @@ export const ProposalForm = React.memo(() => {
 
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
-                        setService(String(values?.recomendedWork));
+                        setService(values.recomendedWork);
                     }, [values?.recomendedWork]);
 
                     // eslint-disable-next-line react-hooks/rules-of-hooks

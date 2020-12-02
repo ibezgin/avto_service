@@ -17,9 +17,11 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
     }
 
     public async getById<T>(entity: new () => T, id: string) {
+        // eslint-disable-next-line no-console
         console.log(id);
         const manager = getMongoManager();
         const result = await manager.findOne(entity, id);
+        // eslint-disable-next-line no-console
         console.log(result);
 
         return result;
