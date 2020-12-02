@@ -30,7 +30,7 @@ export const LoginPage = React.memo(() => {
     }
 
     return (
-        <Layout>
+        <Layout style={{ height: "100vh" }}>
             <Layout className="site-layout">
                 <SC.LoginForm>
                     <h2 style={{ textAlign: "center" }}>Service.Auto</h2>

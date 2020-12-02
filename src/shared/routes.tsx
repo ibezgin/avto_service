@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import { GlobalStyles } from "service/styled-components/global";
 import { AppTemplate } from "view/backoffice";
 import { LoginPage } from "view/login";
+
 import "antd/dist/antd.css";
 
 export const RoutesList = React.memo(() => {
