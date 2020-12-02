@@ -1,4 +1,4 @@
-import { IResolvers, ITypedef } from "graphql-tools/dist/Interfaces";
+import { IResolvers, ITypedef } from "graphql-tools";
 import _ from "lodash";
 import { RequestContext } from "../request-context";
 

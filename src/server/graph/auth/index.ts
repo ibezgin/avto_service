@@ -19,8 +19,9 @@ const types = gql`
 
     type LoginType {
         id: String
-        firstname: String
         username: String
+        permission: JSON
+        position: String
     }
     input LoginInput {
         username: String
@@ -36,13 +37,13 @@ export const authenticationSubSchema = new SubSchema(types, {
         authentication: () => ({}),
     },
     AuthenticationQuery: {
-        currentUser: async (obj, params, context) => {
+        currentUser: async (_obj, _params, context) => {
             return await context.authentification.getUser();
         },
     },
 
     AuthenticationMutation: {
-        login: async (obj, { username, password }, context) => {
+        login: async (_obj, { username, password }, context) => {
             const { user } = await context.authentification.authenticate(
                 "graphql-local",
                 {
@@ -54,7 +55,7 @@ export const authenticationSubSchema = new SubSchema(types, {
 
             return user;
         },
-        logout: async (obj, params, context) =>
-            await context.authentification.logout(),
+        logout: async (_obj, _params, context) =>
+            context.authentification.logout(),
     },
 });

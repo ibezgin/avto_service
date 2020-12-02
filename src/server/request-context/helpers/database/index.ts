@@ -8,46 +8,49 @@ interface IValuesType {
 }
 
 export class DatabaseContextHelper extends AbstractRequestContextHelper {
-    private isAuthorized = this.context.authentification.isAuthenticated;
+    // private isAuthorized = this.context.authentification.isAuthenticated;
 
-    public async getAll(Entity: any) {
+    public async getAll<T>(entity: new () => T) {
         const manager = getMongoManager();
-        const result = await manager.find(Entity);
+        const result = await manager.find(entity);
         return result;
     }
 
-    public async add(Entity: any, values: IValuesType) {
-        this.checkAuth();
+    public async getById<T>(entity: new () => T, id: string) {
+        // eslint-disable-next-line no-console
+        console.log(id);
+        const manager = getMongoManager();
+        const result = await manager.findOne(entity, id);
+        // eslint-disable-next-line no-console
+        console.log(result);
 
-        const entity = new Entity();
-        // eslint-disable-next-line guard-for-in
+        return result;
+    }
 
+    public async add<T>(entity: new () => T, values: IValuesType) {
+        const newEntity: any = new entity();
         // eslint-disable-next-line guard-for-in
         for (const key in values) {
-            entity[key] = values[key];
+            newEntity[key] = values[key];
         }
         const manager = getMongoManager();
-        const result = await manager.save(entity);
-        return !!result.id;
+        const result = await manager.save(newEntity);
+        return !!result;
     }
-    public async delete(entity: any, id: string) {
-        this.checkAuth();
-
+    public async delete<T>(entity: new () => T, id: string) {
         const manager = getMongoManager();
         const result = await manager.delete(entity, id);
         return _.isEmpty(result);
     }
-    public async update(Entity: any, id: string, values: IValuesType) {
-        this.checkAuth();
-
+    public async update<T>(entity: new () => T, id: string, values: T) {
         const manager = getMongoManager();
-        const result = await manager.update(Entity, id, values);
+        const result = await manager.update(entity, id, values);
         return !result.generatedMaps.length;
     }
-    private checkAuth() {
-        if (this.isAuthorized) {
-            return;
-        }
-        throw Error("Ошибка авторизации");
-    }
+    // private checkAuth() {
+    //     if (this.isAuthorized()) {
+    //         return;
+    //     }
+    //     throw Error("Ошибка авторизации");
+    // }
 }
