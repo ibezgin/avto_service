@@ -6,7 +6,7 @@ import ALL_CARS from "./gql/all-cars.gql";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useCarsHelper } from "./helper";
 import ALL_MODELS from "../../dictionary/models/gql/all-models.gql";
-import All_BRAND from "../../dictionary/brand/gql/all-brand.gql";
+import All_BRAND from "../../dictionary/brand/gql/all-brands.gql";
 import ALL_CLIENTS from "../clients/gql/all-clients.gql";
 import _ from "lodash";
 import { TableClientInfo } from "../../../../components/table-client-info";

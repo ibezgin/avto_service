@@ -1,5 +1,6 @@
 import { CardWrapper, CardInner } from "./styled";
 import { ReactNode } from "react";
+import React from "react";
 
 interface IProps {
     children: ReactNode;
