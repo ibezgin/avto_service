@@ -8,6 +8,9 @@ import { HelmetProvider } from "react-helmet-async";
 import IntlProvider from "../../shared/i18n/IntlProvider";
 import App from "../../shared/App";
 import Html from "../components/HTML";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { RequestContext } from "request-context/index";
+import { SchemaLink } from "apollo-link-schema";
 
 const helmetContext = {};
 const routerContext = {};
@@ -16,16 +19,43 @@ const serverRenderer: any = () => (
     req: express.Request & { store: Store },
     res: express.Response,
 ) => {
+    const requestContext = new RequestContext(req, res);
+
+    const client = new ApolloClient({
+        ssrMode: true,
+        link: new SchemaLink({
+            schema,
+            context: requestContext,
+        }) as any,
+        cache: new InMemoryCache({
+            dataIdFromObject: (result: any) => {
+                if (result.__typename) {
+                    if (result.id !== undefined) {
+                        return `${result.__typename}:${result.id}`;
+                    }
+                    if (result._id !== undefined) {
+                        return `${result.__typename}:${result._id}`;
+                    }
+                    if (result.Id !== undefined) {
+                        return `${result.__typename}:${result.Id}`;
+                    }
+                }
+                return null;
+            },
+        }),
+    });
     const content = renderToString(
-        <Provider store={res.locals.store}>
-            <Router location={req.url} context={routerContext}>
-                <IntlProvider>
-                    <HelmetProvider context={helmetContext}>
-                        <App />
-                    </HelmetProvider>
-                </IntlProvider>
-            </Router>
-        </Provider>,
+        <ApolloProvider client={client}>
+            <Provider store={res.locals.store}>
+                <Router location={req.url} context={routerContext}>
+                    <IntlProvider>
+                        <HelmetProvider context={helmetContext}>
+                            <App />
+                        </HelmetProvider>
+                    </IntlProvider>
+                </Router>
+            </Provider>
+        </ApolloProvider>,
     );
 
     const state = JSON.stringify(res.locals.store.getState());

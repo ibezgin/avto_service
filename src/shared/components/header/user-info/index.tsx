@@ -12,7 +12,7 @@ import { Logout } from "gql/types/operation-result-types";
 const { Text } = Typography;
 
 export const UserInfo = React.memo(() => {
-    const user = useUser();
+    const user: any = useUser();
 
     const { sendLogout } = useLogoutMutation();
     const menu = (
@@ -52,7 +52,7 @@ function useLogoutMutation() {
 
     const updateCacheAfterLogin = cache => {
         cache.writeQuery({
-            query: CURRENT_USER,
+            query: CURRENT_USER as any,
             data: {
                 authentication: {
                     currentUser: null,

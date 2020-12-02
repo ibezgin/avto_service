@@ -1,9 +1,9 @@
 import { useQuery } from "@apollo/client";
-import { CURRENT_USER } from "../gql/authentication/current-user";
-import { Query } from "../service/types/types";
+import { CurrentUser } from "gql/types/operation-result-types";
+import CURRENT_USER from "../gql/authentication/current-user.gql";
 
 export function useUser() {
-    const currentUserQuery = useQuery<Query>(CURRENT_USER);
+    const currentUserQuery = useQuery<CurrentUser>(CURRENT_USER);
 
     const currentUser = currentUserQuery.data?.authentication.currentUser;
 

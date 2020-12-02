@@ -8,6 +8,7 @@ import { configureStore } from "../shared/store";
 import App from "../shared/App";
 import IntlProvider from "../shared/i18n/IntlProvider";
 import createHistory from "../shared/store/history";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 const history = createHistory();
 
@@ -19,16 +20,23 @@ const store =
         initialState: window.__PRELOADED_STATE__,
     });
 
+const client = new ApolloClient({
+    uri: `${window.location.protocol}//${window.location.host}/graphql`,
+    cache: new InMemoryCache(),
+});
+
 hydrate(
-    <Provider store={store}>
-        <Router history={history as any}>
-            <IntlProvider>
-                <HelmetProvider>
-                    <App />
-                </HelmetProvider>
-            </IntlProvider>
-        </Router>
-    </Provider>,
+    <ApolloProvider client={client}>
+        <Provider store={store}>
+            <Router history={history as any}>
+                <IntlProvider>
+                    <HelmetProvider>
+                        <App />
+                    </HelmetProvider>
+                </IntlProvider>
+            </Router>
+        </Provider>
+    </ApolloProvider>,
     document.getElementById("app"),
 );
 

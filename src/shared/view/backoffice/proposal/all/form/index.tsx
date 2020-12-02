@@ -10,24 +10,32 @@ import {
     CardTitle,
     CardWrapper,
 } from "../../../../../components/ui/card/styled";
-import { Query } from "../../../../../service/types/types";
-import { ALL_CLIENTS } from "../../clients/gql/all-clients";
+import ALL_CLIENTS from "../../clients/gql/all-clients.gql";
 import * as FormikAntd from "formik-antd";
-import { ALL_CARS } from "../../cars/gql/all-cars";
-import { ALL_MODELS } from "../../../dictionary/models/gql/all-models";
-// eslint-disable-next-line @typescript-eslint/camelcase
-import { All_BRAND } from "../../../dictionary/brand/gql/all-brands";
-import { ProposalStatus } from "../../../../../service/enums/proposal-status";
-import { ALL_SERVICES } from "../../../dictionary/service/gql/all-services";
-import { ALL_USERS } from "../../../dictionary/users/gql/all-users";
-import { Specialization } from "../../../../../service/enums/specialization";
+import ALL_CARS from "../../cars/gql/all-cars.gql";
+import ALL_MODELS from "../../../dictionary/models/gql/all-models.gql";
+import All_BRAND from "../../../dictionary/brand/gql/all-brands.gql";
+import ALL_SERVICES from "../../../dictionary/service/gql/all-services.gql";
+import ALL_USERS from "../../../dictionary/users/gql/all-users.gql";
 import { useEditProposalHelper } from "../helper";
 import moment from "moment";
 import { useQueryParams } from "../../../../../hooks/use-query-params";
-import { PROPOSAL_BY_ID } from "../gql/proposal-by-id";
+import PROPOSAL_BY_ID from "../gql/proposal-by-id.gql";
 import { StatusColorTag } from "../../../../../components/status-color-tag";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
+import {
+    AllBrand,
+    AllCars,
+    AllClients,
+    AllModels,
+    AllServices,
+    AllUsers,
+    ProposalById,
+    ProposalByIdVariables,
+} from "gql/types/operation-result-types";
+import { Specialization } from "service/enums/specialization";
+import { ProposalStatus } from "service/enums/proposal-status";
 
 export const ProposalForm = React.memo(() => {
     const history = useHistory();
@@ -39,26 +47,29 @@ export const ProposalForm = React.memo(() => {
 
     const [user, setUser] = useState("");
 
-    const [service, setService] = useState([]);
+    const [service, setService] = useState<any>([]);
 
     const [completedWork, setCompletedWork] = useState<any>({});
 
-    const allClientsQuery = useQuery<Query>(ALL_CLIENTS);
+    const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
 
-    const allCarsQuery = useQuery<Query>(ALL_CARS);
+    const allCarsQuery = useQuery<AllCars>(ALL_CARS);
 
-    const allModelsQuery = useQuery<Query>(ALL_MODELS);
+    const allModelsQuery = useQuery<AllModels>(ALL_MODELS);
 
-    const allBrandsQuery = useQuery<Query>(All_BRAND);
+    const allBrandsQuery = useQuery<AllBrand>(All_BRAND);
 
-    const allServiceQuery = useQuery<Query>(ALL_SERVICES);
+    const allServiceQuery = useQuery<AllServices>(ALL_SERVICES);
 
-    const allUsersQuery = useQuery<Query>(ALL_USERS);
+    const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
-    const proposalByIdQuery = useQuery<Query>(PROPOSAL_BY_ID, {
-        variables: { id },
-        skip: _.isUndefined(id),
-    });
+    const proposalByIdQuery = useQuery<ProposalById, ProposalByIdVariables>(
+        PROPOSAL_BY_ID,
+        {
+            variables: { id },
+            skip: _.isUndefined(id),
+        },
+    );
 
     const proposalById = useMemo(
         () => proposalByIdQuery.data?.proposal.proposalById,
@@ -103,27 +114,27 @@ export const ProposalForm = React.memo(() => {
         () =>
             service?.map(elem => ({
                 id: elem,
-                title: allServices.find(serv => serv.id === elem).title,
+                title: allServices?.find(serv => serv.id === elem)?.title,
             })),
         [allServices, service],
     );
 
     const technicalUsers = useMemo(
         () =>
-            allUsersQuery.data?.users.allUsers.filter(
-                elem => elem.position === Specialization.TECHNICAL,
+            allUsersQuery.data?.users.allUsers?.filter(
+                elem => elem?.position === Specialization.TECHNICAL,
             ),
         [allUsersQuery.data?.users.allUsers],
     );
 
     const specialistInfo = useMemo(
-        () => technicalUsers?.find(elem => elem.id === user),
+        () => technicalUsers?.find(elem => elem?.id === user),
         [technicalUsers, user],
     );
     const completedPriceChecker = useCallback(() => {
         let price = 0;
 
-        const complitedKeys = [];
+        const complitedKeys: any = [];
         for (const serviceId in completedWork) {
             if (completedWork[serviceId]) {
                 complitedKeys.push(serviceId);
@@ -131,7 +142,7 @@ export const ProposalForm = React.memo(() => {
         }
 
         for (const key of complitedKeys) {
-            price += allServices?.find(elem => elem.id === key)?.price;
+            price += Number(allServices?.find(elem => elem.id === key)?.price);
         }
 
         return price || 0;
@@ -141,11 +152,12 @@ export const ProposalForm = React.memo(() => {
         let totalPrice = 0;
 
         const prices = (service || []).map(
-            serviceId => allServices?.find(elem => elem.id === serviceId).price,
+            serviceId =>
+                allServices?.find(elem => elem.id === serviceId)?.price,
         );
 
         for (const price of prices) {
-            totalPrice += price;
+            totalPrice += Number(price);
         }
 
         return totalPrice || 0;
@@ -239,10 +251,10 @@ export const ProposalForm = React.memo(() => {
                 sendAddProposal({
                     createTime: moment().format("X"),
                     changeTime: moment().format("X"),
-                    status: values.status,
-                    clientId: values.clientId,
-                    carId: values.carId,
-                    userId: values.userId,
+                    status: Number(values.status),
+                    clientId: String(values.clientId),
+                    carId: String(values.carId),
+                    userId: String(values.userId),
                     proposalReason: values.proposalReason,
                     technicalInspectionResult: "",
                     recomendedWork: values.recomendedWork,
@@ -252,12 +264,12 @@ export const ProposalForm = React.memo(() => {
             }
             if (id) {
                 sendUpdateProposal(id, {
-                    createTime: values?.createTime,
+                    createTime: String(values?.createTime),
                     changeTime: moment().format("X"),
-                    status: values.status,
-                    clientId: values.clientId,
-                    carId: values.carId,
-                    userId: values.userId,
+                    status: Number(values.status),
+                    clientId: String(values.clientId),
+                    carId: String(values.carId),
+                    userId: String(values.userId),
                     proposalReason: values.proposalReason,
                     technicalInspectionResult: values.technicalInspectionResult,
                     recomendedWork: values.recomendedWork,
@@ -287,17 +299,17 @@ export const ProposalForm = React.memo(() => {
                 {({ values, setFieldValue }) => {
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
-                        setClient(values?.clientId);
+                        setClient(String(values?.clientId));
                     }, [values?.clientId]);
 
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
-                        setCar(values?.carId);
+                        setCar(String(values?.carId));
                     }, [values?.carId]);
 
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
-                        setService(values?.recomendedWork);
+                        setService(String(values?.recomendedWork));
                     }, [values?.recomendedWork]);
 
                     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -307,13 +319,17 @@ export const ProposalForm = React.memo(() => {
 
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
-                        setUser(values?.userId);
+                        setUser(String(values?.userId));
                     }, [values?.userId]);
 
                     // eslint-disable-next-line react-hooks/rules-of-hooks
                     useEffect(() => {
                         for (const key in values?.completedWork) {
-                            if (values?.recomendedWork?.indexOf(key) === -1) {
+                            if (
+                                values?.recomendedWork?.indexOf(
+                                    key as never,
+                                ) === -1
+                            ) {
                                 setFieldValue(
                                     `completedWork[${key}]`,
                                     undefined,
@@ -428,14 +444,14 @@ export const ProposalForm = React.memo(() => {
                                                                         brand =>
                                                                             brand.id ===
                                                                             elem?.brandId,
-                                                                    ).title
+                                                                    )?.title
                                                                 }{" "}
                                                                 {
                                                                     allModels?.find(
                                                                         model =>
                                                                             model.id ===
                                                                             elem?.modelId,
-                                                                    ).title
+                                                                    )?.title
                                                                 }{" "}
                                                                 {
                                                                     elem?.gosNumber
@@ -496,7 +512,8 @@ export const ProposalForm = React.memo(() => {
                                             <StatusColorTag
                                                 status={
                                                     proposalById?.status ||
-                                                    values?.status
+                                                    values?.status ||
+                                                    ProposalStatus.ACCEPTED
                                                 }
                                             />
                                         </CardCell>
@@ -568,7 +585,9 @@ export const ProposalForm = React.memo(() => {
                                                                 key={`specialist-form-option-${String(
                                                                     elem?.id,
                                                                 )}`}
-                                                                value={elem?.id}
+                                                                value={String(
+                                                                    elem?.id,
+                                                                )}
                                                             >
                                                                 {
                                                                     elem?.firstname
@@ -680,7 +699,7 @@ export const ProposalForm = React.memo(() => {
                                                     dataSource={
                                                         recomendedWorkDatasourse
                                                     }
-                                                    renderItem={item => (
+                                                    renderItem={(item: any) => (
                                                         <List.Item>
                                                             {item.title}
                                                         </List.Item>
@@ -706,7 +725,9 @@ export const ProposalForm = React.memo(() => {
                                                             dataSource={
                                                                 recomendedWorkDatasourse
                                                             }
-                                                            renderItem={item => (
+                                                            renderItem={(
+                                                                item: any,
+                                                            ) => (
                                                                 <List.Item>
                                                                     <FormikAntd.Checkbox
                                                                         name={`completedWork[${item.id}]`}

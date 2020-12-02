@@ -101,14 +101,14 @@ export function useRoutes() {
                     access: AccessEnum.PROPOSAL,
                     exact: true,
                     children: [
-                        {
-                            name: "Все заявки",
-                            path: "/proposal",
-                            component: ProposalAll,
-                            icon: FileOutlined,
-                            access: AccessEnum.PROPOSAL_ALL,
-                            exact: true,
-                        },
+                        // {
+                        //     name: "Все заявки",
+                        //     path: "/proposal",
+                        //     component: ProposalAll,
+                        //     icon: FileOutlined,
+                        //     access: AccessEnum.PROPOSAL_ALL,
+                        //     exact: true,
+                        // },
                         {
                             name: "Добавить заявку",
                             path: "/proposal/form",
@@ -124,14 +124,14 @@ export function useRoutes() {
                             access: AccessEnum.PROPOSAL_CLIENTS,
                             header: ProposalClientsHeader,
                         },
-                        {
-                            name: "Обслуживаемые автомобили",
-                            path: "/proposal/cars",
-                            component: ProposalCars,
-                            icon: FileOutlined,
-                            access: AccessEnum.PROPOSAL_CARS,
-                            header: ProposalCarsHeader,
-                        },
+                        // {
+                        //     name: "Обслуживаемые автомобили",
+                        //     path: "/proposal/cars",
+                        //     component: ProposalCars,
+                        //     icon: FileOutlined,
+                        //     access: AccessEnum.PROPOSAL_CARS,
+                        //     header: ProposalCarsHeader,
+                        // },
                     ],
                 },
                 {

@@ -17,7 +17,7 @@ export const Router = React.memo(() => {
     // .map(elem => ({ ...elem.map(elemChild => ({ ...elemChild })) }));
     // eslint-disable-next-line no-console
 
-    const routes = [];
+    const routes: string[] = [];
 
     for (const category of routesList) {
         for (const menuItem of category.children) {
