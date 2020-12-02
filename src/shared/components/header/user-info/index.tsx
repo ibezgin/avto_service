@@ -4,8 +4,8 @@ import { Typography, Avatar, Dropdown, Menu } from "antd";
 import { UserInfoArrowIcon } from "../../user-info-arrow-icon";
 import { SC } from "../styled";
 import { useUser } from "../../../hooks/use-user";
-// import { Redirect } from "react-router-dom";
-import { useMutation } from "@apollo/client";
+import { Redirect } from "react-router-dom";
+import { NetworkStatus, useMutation } from "@apollo/client";
 import LOGOUT from "../../../gql/authentication/logout.gql";
 import CURRENT_USER from "../../../gql/authentication/current-user.gql";
 import { Logout } from "gql/types/operation-result-types";
@@ -31,9 +31,9 @@ export const UserInfo = React.memo(() => {
         </Menu>
     );
 
-    // if (!user?.username && user.networkStatus === NetworkStatus.ready) {
-    //     return <Redirect to="/login" />;
-    // }
+    if (!user?.username && user.networkStatus === NetworkStatus.ready) {
+        return <Redirect to="/login" />;
+    }
     return (
         <Dropdown overlay={menu} placement="bottomRight">
             <div>

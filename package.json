@@ -52,6 +52,7 @@
         "eslint-plugin-prefer-arrow": "^1.2.2",
         "express": "^4.16.4",
         "express-manifest-helpers": "^0.6.0",
+        "express-session": "^1.17.1",
         "formik": "^2.2.5",
         "formik-antd": "^2.0.1",
         "glob": "^7.1.6",
@@ -80,7 +81,8 @@
         "serve-static": "^1.13.2",
         "styled-components": "^5.2.1",
         "styled-normalize": "^8.0.7",
-        "typeorm": "0.2.20"
+        "typeorm": "0.2.20",
+        "uuid": "^8.3.1"
     },
     "devDependencies": {
         "@babel/cli": "^7.8.4",
@@ -111,6 +113,7 @@
         "@types/dotenv": "^8.2.0",
         "@types/enzyme": "^3.10.5",
         "@types/express-serve-static-core": "^4.17.7",
+        "@types/express-session": "^1.17.3",
         "@types/graphql": "^14.5.0",
         "@types/jest": "^26.0.3",
         "@types/lodash": "^4.14.165",

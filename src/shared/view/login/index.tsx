@@ -6,7 +6,6 @@ import { SC } from "./styled";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
 import LOGIN from "../../gql/authentication/login.gql";
-
 import CURRENT_USER from "../../gql/authentication/current-user.gql";
 import { useUser } from "../../hooks/use-user";
 import { Redirect } from "react-router-dom";
@@ -16,8 +15,6 @@ import { Login, LoginVariables } from "gql/types/operation-result-types";
 
 export const LoginPage = React.memo(() => {
     const user: any = useUser();
-
-    // console.log(user);
 
     const { sendLogin, loading } = useLoginMutation();
 

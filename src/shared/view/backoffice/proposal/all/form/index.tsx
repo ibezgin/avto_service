@@ -112,10 +112,12 @@ export const ProposalForm = React.memo(() => {
 
     const recomendedWorkDatasourse = useMemo(
         () =>
-            service?.map(elem => ({
-                id: elem,
-                title: allServices?.find(serv => serv.id === elem)?.title,
-            })),
+            service && service?.length
+                ? service?.map(elem => ({
+                      id: elem,
+                      title: allServices?.find(serv => serv.id === elem)?.title,
+                  }))
+                : [],
         [allServices, service],
     );
 

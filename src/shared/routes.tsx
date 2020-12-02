@@ -4,6 +4,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { GlobalStyles } from "service/styled-components/global";
 import { AppTemplate } from "view/backoffice";
+import { LoginPage } from "view/login";
 
 export const RoutesList = React.memo(() => {
     const routesList = useRoutes();
@@ -47,6 +48,9 @@ export const RoutesList = React.memo(() => {
                 {/* <Route path="/login">
                     <LoginPage />
                 </Route> */}
+                <Route path="/login" exact={true}>
+                    <LoginPage />
+                </Route>
             </Switch>
         </>
     );

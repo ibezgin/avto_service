@@ -12,12 +12,19 @@ export const passportAuth = () => {
             const users = await manager.find(UsersEntity);
 
             const user = users?.find(elem => elem?.username === username);
-            const checkPassword = await bcrypt.compare(password, user.password);
+            if (user) {
+                const checkPassword = await bcrypt.compare(
+                    password,
+                    String(user?.password),
+                );
 
-            if (!user || !checkPassword) {
-                error = new Error("Пользователь не найден");
+                if (!user || !checkPassword) {
+                    error = new Error("Пользователь не найден");
+                }
+                await done(error, user);
             }
-            await done(error, user);
+
+            await done(error);
         }),
     );
     passport.serializeUser((user: any, done) => {

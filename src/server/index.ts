@@ -1,6 +1,6 @@
 // import * as React from 'react';
 import "reflect-metadata";
-
+// грокаем алгоритмы
 import path from "path";
 import express from "express";
 import cors from "cors";
@@ -17,6 +17,9 @@ import { i18nextXhr, refreshTranslations } from "./middleware/i18n";
 import { apolloServer } from "./graph";
 import { getOrCreateConnection } from "db";
 import { passportAuth } from "./middleware/passport";
+import session from "express-session";
+import { v4 as uuidv4 } from "uuid";
+
 require("dotenv").config();
 
 const app = express();
@@ -51,17 +54,37 @@ app.use(
     }),
 );
 
+// database connection
+(async () => {
+    await getOrCreateConnection();
+})();
+
+// ===== Passport ====
 const passport = passportAuth();
+
+const SESSION_SECRECT = "qwerty_auto_service_qwerty";
+
+app.use(
+    session({
+        genid: () => uuidv4(),
+        // genid: () => generateTemporyCode(),
+        secret: SESSION_SECRECT,
+        resave: false,
+        saveUninitialized: false,
+        // use secure cookies for production meaning they will only be sent via https
+        // cookie: { secure: true }
+    }),
+);
+
+app.use(passport.initialize());
+
+app.use(passport.session()); // will call the deserializeUser
 
 apolloServer.applyMiddleware({ app });
 
 app.use(serverRenderer());
 
 app.use(errorHandler);
-
-(async () => {
-    await getOrCreateConnection();
-})();
 
 app.listen(process.env.PORT || 8080, () => {
     // eslint-disable-next-line no-console
