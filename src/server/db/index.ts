@@ -26,11 +26,12 @@ export const getOrCreateConnection = () => {
         connection = createConnection({
             url: process.env.CONNECTION_STRING,
             type: "mongodb",
+            entities,
             useNewUrlParser: true,
             reconnectTries: Number.MAX_VALUE,
-            entities,
             synchronize: true,
         });
     }
+
     return connection;
 };

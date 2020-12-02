@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Switch } from "react-router";
 import { useRoutes } from "../../hooks/use-routes";
 import { SC } from "./styled";
-// import { UserInfo } from "./user-info";
+import { UserInfo } from "./user-info";
 const { Header } = Layout;
 
 export const HeaderWrapper = React.memo(() => {
@@ -33,8 +33,8 @@ export const HeaderWrapper = React.memo(() => {
                                 <div></div>
                             </Route>
                         ))}
-                        {/* <Route
-                            path={""}
+                        <Route
+                            path={"/"}
                             exact={false}
                             component={() => (
                                 <>
@@ -42,10 +42,13 @@ export const HeaderWrapper = React.memo(() => {
                                     <div></div>
                                 </>
                             )}
-                        /> */}
+                        />
                     </Switch>
                     <div>
-                        <SC.UserInfo>{/* <UserInfo /> */}</SC.UserInfo>
+                        <SC.UserInfo>
+                            {" "}
+                            <UserInfo />{" "}
+                        </SC.UserInfo>
                     </div>
                 </SC.Header>
             </Header>

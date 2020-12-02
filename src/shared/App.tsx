@@ -1,7 +1,6 @@
 // import React, { Suspense } from 'react';
 import * as React from "react";
 import { Helmet } from "react-helmet-async";
-import { useTranslation } from "react-i18next";
 import favicon from "../shared/assets/logo.png";
 // import Home from "./view/Home";
 // import Page1 from "./view/Page-1";

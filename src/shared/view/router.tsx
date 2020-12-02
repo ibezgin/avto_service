@@ -4,11 +4,11 @@ import React from "react";
 import { AppTemplate } from "./backoffice";
 import { GlobalStyles } from "../service/styled-components/global";
 import { LoginPage } from "./login";
-import { usePermission } from "../hooks/use-permission";
+// import { usePermission } from "../hooks/use-permission";
 
 export const Router = React.memo(() => {
     const routesList = useRoutes();
-    const { hasPermission } = usePermission();
+    // const { hasPermission } = usePermission();
     const resultRoutes: any[] = [];
 
     // const routes = routesList.map(elem => ({

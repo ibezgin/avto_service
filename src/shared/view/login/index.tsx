@@ -5,19 +5,17 @@ import * as FormikAntd from "formik-antd";
 import { SC } from "./styled";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useMutation } from "@apollo/client";
-import { LOGIN } from "../../gql/authentication/login";
-import {
-    AuthenticationMutationLoginArgs,
-    Mutation,
-} from "../../service/types/types";
-import { CURRENT_USER } from "../../gql/authentication/current-user";
+import LOGIN from "../../gql/authentication/login.gql";
+
+import CURRENT_USER from "../../gql/authentication/current-user.gql";
 import { useUser } from "../../hooks/use-user";
 import { Redirect } from "react-router-dom";
 import { errorHandler } from "service/utils/error-handler";
+import { Login, LoginVariables } from "gql/types/operation-result-types";
 // import { errorHandler } from "../../service/utils/error-handler";
 
 export const LoginPage = React.memo(() => {
-    const user = useUser();
+    const user: any = useUser();
 
     // console.log(user);
 
@@ -109,14 +107,14 @@ export const LoginPage = React.memo(() => {
 });
 
 function useLoginMutation() {
-    const [mutation, mutationHelper] = useMutation<
-        Mutation,
-        AuthenticationMutationLoginArgs
-    >(LOGIN, {
-        onError: error => {
-            errorHandler(error);
+    const [mutation, mutationHelper] = useMutation<Login, LoginVariables>(
+        LOGIN,
+        {
+            onError: error => {
+                errorHandler(error);
+            },
         },
-    });
+    );
 
     const updateCacheAfterLogin = (cache, { data }) => {
         cache.writeQuery({
