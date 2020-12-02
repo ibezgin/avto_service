@@ -33,15 +33,15 @@ export const dictionaryModelsSubSchema = new SubSchema(types, {
         models: () => ({}),
     },
     ModelsQuery: {
-        allModels: async (obj, props, { helpers }) =>
+        allModels: async (_obj, _props, { helpers }) =>
             await helpers.sections.models.allModels(),
     },
     ModelsMutation: {
-        addModel: async (obj, { brandId, title }, { helpers }) =>
+        addModel: async (_obj, { brandId, title }, { helpers }) =>
             await helpers.sections.models.addModel(brandId, title),
-        deleteModel: async (obj, { id }, { helpers }) =>
+        deleteModel: async (_obj, { id }, { helpers }) =>
             await helpers.sections.models.deleteModel(id),
-        updateModel: async (obj, { id, title, brandId }, { helpers }) =>
+        updateModel: async (_obj, { id, title, brandId }, { helpers }) =>
             await helpers.sections.models.updateModel(id, brandId, title),
     },
 });

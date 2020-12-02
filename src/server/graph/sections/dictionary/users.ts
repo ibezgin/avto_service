@@ -45,15 +45,15 @@ export const dictionaryUsersSubSchema = new SubSchema(types, {
         users: () => ({}),
     },
     UsersQuery: {
-        allUsers: async (obj, props, { helpers }) =>
+        allUsers: async (_obj, _props, { helpers }) =>
             await helpers.sections.users.allUsers(),
     },
     UsersMutation: {
-        addUser: async (obj, { data }, { helpers }) =>
+        addUser: async (_obj, { data }, { helpers }) =>
             await helpers.sections.users.addUser(data),
-        deleteUser: async (obj, { id }, { helpers }) =>
+        deleteUser: async (_obj, { id }, { helpers }) =>
             await helpers.sections.users.deleteUser(id),
-        updateUser: async (obj, { id, data }, { helpers }) =>
+        updateUser: async (_obj, { id, data }, { helpers }) =>
             await helpers.sections.users.updateUser(id, data),
     },
 });

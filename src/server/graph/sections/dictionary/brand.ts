@@ -32,15 +32,15 @@ export const dictionaryBrandSubSchema = new SubSchema(types, {
         brand: () => ({}),
     },
     BrandQuery: {
-        allBrands: async (obj, props, { helpers }) =>
+        allBrands: async (_obj, _props, { helpers }) =>
             await helpers.sections.brand.allBrands(),
     },
     BrandMutation: {
-        addBrand: async (obj, { title }, { helpers }) =>
+        addBrand: async (_obj, { title }, { helpers }) =>
             await helpers.sections.brand.addBrand(title),
-        deleteBrand: async (obj, { id }, { helpers }) =>
+        deleteBrand: async (_obj, { id }, { helpers }) =>
             await helpers.sections.brand.deleteBrand(id),
-        updateBrand: async (obj, { id, title }, { helpers }) =>
+        updateBrand: async (_obj, { id, title }, { helpers }) =>
             await helpers.sections.brand.updateBrand(id, title),
     },
 });

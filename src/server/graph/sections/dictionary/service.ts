@@ -33,15 +33,15 @@ export const dictionaryServiceSubSchema = new SubSchema(types, {
         service: () => ({}),
     },
     ServiceQuery: {
-        allServices: async (obj, props, { helpers }) =>
+        allServices: async (_obj, _props, { helpers }) =>
             await helpers.sections.service.allServices(),
     },
     ServiceMutation: {
-        addService: async (obj, { title, price }, { helpers }) =>
+        addService: async (_obj, { title, price }, { helpers }) =>
             await helpers.sections.service.addService(title, price),
-        deleteService: async (obj, { id }, { helpers }) =>
+        deleteService: async (_obj, { id }, { helpers }) =>
             await helpers.sections.service.deleteService(id),
-        updateService: async (obj, { id, title, price }, { helpers }) =>
+        updateService: async (_obj, { id, title, price }, { helpers }) =>
             await helpers.sections.service.updateService(id, title, price),
     },
 });
