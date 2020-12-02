@@ -30,11 +30,14 @@ i18next.init({
     // i18next-xhr-backend, otherwise no calls will be made if resources are defined.
     partialBundledLanguages: true,
     resources: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         de_DE: { translation: deDE },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         en_US: { translation: enUS },
     },
     parseMissingKeyHandler: (missing: any) => {
         if (process.env.NODE_ENV === "development" && __BROWSER__) {
+            // eslint-disable-next-line no-console
             console.warn("MISSING TRANSLATION:", missing);
         }
         return missing;
@@ -52,4 +55,5 @@ const I18N: React.FC<any> = ({ children }) => {
     return <I18nextProvider i18n={i18next}>{children}</I18nextProvider>;
 };
 
+// eslint-disable-next-line import/no-default-export
 export default React.memo(I18N);
