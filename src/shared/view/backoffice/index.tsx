@@ -6,6 +6,7 @@ import React from "react";
 import { HeaderWrapper } from "../../components/header";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 import { SC } from "./styled";
+import logo from "../../assets/logo.png";
 
 const { Sider, Content } = Layout;
 
@@ -20,7 +21,7 @@ export const AppTemplate = React.memo((props: IProps) => {
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed}>
                 <div className="logo">
-                    <img src={"/assets/images/logo.png"} width={60} />
+                    <img src={logo} width={60} />
                 </div>
                 <BackofficeMenu />
             </Sider>
