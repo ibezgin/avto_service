@@ -5,17 +5,12 @@ import { Route, Switch } from "react-router-dom";
 import { GlobalStyles } from "service/styled-components/global";
 import { AppTemplate } from "view/backoffice";
 import { LoginPage } from "view/login";
+import "antd/dist/antd.css";
 
 export const RoutesList = React.memo(() => {
     const routesList = useRoutes();
     const { hasPermission } = usePermission();
     const resultRoutes: any[] = [];
-
-    // const routes = routesList.map(elem => ({
-    //     ...elem.children,
-    // }));
-    // .map(elem => ({ ...elem.map(elemChild => ({ ...elemChild })) }));
-    // eslint-disable-next-line no-console
 
     const routes: string[] = [];
 
@@ -48,9 +43,6 @@ export const RoutesList = React.memo(() => {
                         <GlobalStyles />
                     </AppTemplate>
                 </Route>
-                {/* <Route path="/login">
-                    <LoginPage />
-                </Route> */}
                 <Route path="/login" exact={true}>
                     <LoginPage />
                 </Route>

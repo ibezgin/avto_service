@@ -1,6 +1,5 @@
 import { Layout } from "antd";
 import { ReactNode, useState } from "react";
-import "antd/dist/antd.css";
 import { BackofficeMenu } from "./menu";
 import React from "react";
 import { HeaderWrapper } from "../../components/header";
