@@ -1,6 +1,7 @@
 import path from "path";
 import paths from "./config/paths";
 
+// eslint-disable-next-line import/no-default-export
 export default {
     options: {
         src: "build/transpiled/**/*.js",

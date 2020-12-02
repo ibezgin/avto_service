@@ -11,7 +11,7 @@ import Html from "../components/HTML";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { RequestContext } from "request-context/index";
 import { SchemaLink } from "apollo-link-schema";
-
+import { schema } from "graph/index";
 const helmetContext = {};
 const routerContext = {};
 
@@ -27,22 +27,7 @@ const serverRenderer: any = () => (
             schema,
             context: requestContext,
         }) as any,
-        cache: new InMemoryCache({
-            dataIdFromObject: (result: any) => {
-                if (result.__typename) {
-                    if (result.id !== undefined) {
-                        return `${result.__typename}:${result.id}`;
-                    }
-                    if (result._id !== undefined) {
-                        return `${result.__typename}:${result._id}`;
-                    }
-                    if (result.Id !== undefined) {
-                        return `${result.__typename}:${result.Id}`;
-                    }
-                }
-                return null;
-            },
-        }),
+        cache: new InMemoryCache(),
     });
     const content = renderToString(
         <ApolloProvider client={client}>
