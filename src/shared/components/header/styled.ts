@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Radio } from "antd";
 
 const UserInfo = styled.div`
     cursor: pointer;
@@ -99,6 +100,18 @@ const Search = styled.div`
     }
 `;
 
+const CheckboxListRadio = styled(Radio)`
+    &.ant-radio-wrapper {
+        display: block;
+        margin: 10px 0px;
+        font-size: 16px;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+`;
+
 export const SC = {
     Header,
     Search,
@@ -106,4 +119,5 @@ export const SC = {
     UserInfoTitle,
     UserInfoValue,
     UserInfoLogout,
+    CheckboxListRadio,
 };

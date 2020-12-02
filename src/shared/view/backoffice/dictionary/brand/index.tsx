@@ -35,7 +35,7 @@ export const DictionaryBrand = React.memo(() => {
     const columns = useMemo(
         () => [
             {
-                title: __("Название"),
+                title: __("Title"),
                 dataIndex: "title",
             },
             {
