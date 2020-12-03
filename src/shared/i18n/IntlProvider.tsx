@@ -5,8 +5,8 @@ import { I18nextProvider } from "react-i18next";
 import { useSelector } from "react-redux";
 import { getLocale } from "../store/app/selectors";
 
-import deDE from "./locales/de_DE/translation.json";
 import enUS from "./locales/en_US/translation.json";
+import ruRU from "./locales/ru_RU/translation.json";
 
 if (__BROWSER__) {
     i18next.use(i18nextXHRBackend);
@@ -24,24 +24,27 @@ i18next.init({
         wait: true,
     },
     debug: process.env.NODE_ENV === "development" && __BROWSER__,
-    fallbackLng: "en_US",
+    fallbackLng: "ru_RU",
     fallbackNS: ["translation"],
     // This option is necessary to tell i18next to try loading missing resources via
     // i18next-xhr-backend, otherwise no calls will be made if resources are defined.
     partialBundledLanguages: true,
     resources: {
-        de_DE: { translation: deDE },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        ru_RU: { translation: ruRU },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         en_US: { translation: enUS },
     },
     parseMissingKeyHandler: (missing: any) => {
         if (process.env.NODE_ENV === "development" && __BROWSER__) {
+            // eslint-disable-next-line no-console
             console.warn("MISSING TRANSLATION:", missing);
         }
         return missing;
     },
 });
 
-i18next.languages = ["de_DE", "en_US"];
+i18next.languages = ["en_US", "ru_RU"];
 
 const I18N: React.FC<any> = ({ children }) => {
     const locale = useSelector(getLocale);
@@ -52,4 +55,5 @@ const I18N: React.FC<any> = ({ children }) => {
     return <I18nextProvider i18n={i18next}>{children}</I18nextProvider>;
 };
 
+// eslint-disable-next-line import/no-default-export
 export default React.memo(I18N);

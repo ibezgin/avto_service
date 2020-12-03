@@ -4,10 +4,12 @@ exports.getRoute = void 0;
 var routes = {
     home: "/",
     page1: "/page-1",
-    page2: "/page-2"
+    page2: "/page-2",
 };
 exports.getRoute = function (path, params, routesConfig) {
-    if (routesConfig === void 0) { routesConfig = routes; }
+    if (routesConfig === void 0) {
+        routesConfig = routes;
+    }
     return path.split(".").reduce(function (routeBranch, pathItem) {
         if (routeBranch && routeBranch[pathItem]) {
             var route = routeBranch[pathItem];
@@ -16,7 +18,8 @@ exports.getRoute = function (path, params, routesConfig) {
                     return route;
                 }
                 return Object.entries(params).reduce(function (replaced, _a) {
-                    var key = _a[0], value = _a[1];
+                    const key = _a[0];
+                    const value = _a[1];
                     return replaced.replace(":" + key, String(value));
                 }, route);
             }
@@ -25,4 +28,4 @@ exports.getRoute = function (path, params, routesConfig) {
     }, routesConfig);
 };
 // eslint-disable-next-line import/no-default-export
-exports["default"] = routes;
+exports.default = routes;

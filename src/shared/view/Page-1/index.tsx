@@ -1,7 +1,6 @@
 import * as React from "react";
-import css from "./Page-1.module.css";
 
-const Page = () => <div className={css.wrapper}>Page 1</div>;
+const Page = () => <div>Page 1</div>;
 
 // eslint-disable-next-line import/no-default-export
 export default Page;

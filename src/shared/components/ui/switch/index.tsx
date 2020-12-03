@@ -2,6 +2,7 @@ import { SC } from "./styled";
 import { Switch as AntdSwitch, Typography } from "antd";
 import { SwitchProps } from "antd/lib/switch";
 import * as FormikAntd from "formik-antd";
+import React from "react";
 
 const { Text } = Typography;
 

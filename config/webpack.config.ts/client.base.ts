@@ -1,15 +1,16 @@
-import path from 'path';
-import TerserPlugin from 'terser-webpack-plugin';
-import paths from '../paths';
-import resolvers from './resolvers';
-import plugins from './plugins';
+import path from "path";
+import TerserPlugin from "terser-webpack-plugin";
+import paths from "../paths";
+import resolvers from "./resolvers";
+import plugins from "./plugins";
 // const { client: clientLoaders } = require('./loaders');
-import { client as clientLoaders } from './loaders';
-const generateSourceMap = process.env.OMIT_SOURCEMAP === 'true' ? false : true;
+import { client as clientLoaders } from "./loaders";
+const generateSourceMap = process.env.OMIT_SOURCEMAP === "true" ? false : true;
 
+// eslint-disable-next-line import/no-default-export
 export default {
-    name: 'client',
-    target: 'web',
+    name: "client",
+    target: "web",
     entry: {
         bundle: [
             // Experimentally switched to @babel-env's useBuiltIns: 'entry'
@@ -20,9 +21,9 @@ export default {
     },
     output: {
         path: path.join(paths.clientBuild, paths.publicPath),
-        filename: 'bundle.js',
+        filename: "bundle.js",
         publicPath: paths.publicPath,
-        chunkFilename: '[name].[chunkhash:8].chunk.js',
+        chunkFilename: "[name].[chunkhash:8].chunk.js",
     },
     module: {
         rules: clientLoaders,
@@ -30,11 +31,11 @@ export default {
     resolve: { ...resolvers },
     plugins: [...plugins.shared, ...plugins.client],
     node: {
-        dgram: 'empty',
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty',
-        child_process: 'empty',
+        dgram: "empty",
+        fs: "empty",
+        net: "empty",
+        tls: "empty",
+        child_process: "empty",
     },
     optimization: {
         minimizer: [
@@ -89,8 +90,8 @@ export default {
             cacheGroups: {
                 commons: {
                     test: /[\\/]node_modules[\\/]/,
-                    name: 'vendor',
-                    chunks: 'all',
+                    name: "vendor",
+                    chunks: "all",
                 },
             },
         },
