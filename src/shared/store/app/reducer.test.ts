@@ -6,10 +6,10 @@ describe("App Reducer", () => {
         expect(
             reducer(initialState, {
                 type: ActionTypes.SETLOCALE,
-                payload: "de_DE",
+                payload: "ru_RU",
             }),
         ).toEqual({
-            locale: "de_DE",
+            locale: "ru_RU",
         });
     });
 });

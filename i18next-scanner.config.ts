@@ -13,7 +13,7 @@ export default {
         trans: {
             extensions: [".js"],
         },
-        lngs: ["ru_RU", "en_US", "de_DE"],
+        lngs: ["ru_RU", "en_US"],
         ns: ["translation"],
         fallbackLng: "ru_RU",
         defaultLng: "ru_RU",

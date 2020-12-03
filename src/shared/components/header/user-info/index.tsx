@@ -16,7 +16,7 @@ const { Text } = Typography;
 
 export const UserInfo = React.memo(() => {
     const user: any = useUser();
-    const [__] = useTranslation();
+    const { t } = useTranslation();
 
     const [visibleLanguageModal, setVisibleLanguageModal] = useState<boolean>(
         false,
@@ -40,7 +40,7 @@ export const UserInfo = React.memo(() => {
                 }}
             >
                 <div>
-                    <SC.UserInfoTitle>{__("Язык")}</SC.UserInfoTitle>
+                    <SC.UserInfoTitle>{t("Язык")}</SC.UserInfoTitle>
                     <SC.UserInfoValue>{locale}</SC.UserInfoValue>
                 </div>
             </Menu.Item>

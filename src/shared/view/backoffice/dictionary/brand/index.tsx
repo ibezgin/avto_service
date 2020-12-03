@@ -14,7 +14,7 @@ export const formFields: IFormField[] = [
     { title: "Название", name: "title", type: "textField" },
 ];
 export const DictionaryBrand = React.memo(() => {
-    const [__] = useTranslation();
+    const { t } = useTranslation();
 
     const brandsQuery = useQuery<AllBrand>(All_BRAND);
 
@@ -35,7 +35,7 @@ export const DictionaryBrand = React.memo(() => {
     const columns = useMemo(
         () => [
             {
-                title: __("Title"),
+                title: t("Название"),
                 dataIndex: "title",
             },
             {
@@ -77,7 +77,7 @@ export const DictionaryBrand = React.memo(() => {
                 ),
             },
         ],
-        [__, coursorPointer, sendDeleteBrand, sendUpdateBrand],
+        [coursorPointer, sendDeleteBrand, sendUpdateBrand, t],
     );
 
     return (

@@ -5,7 +5,6 @@ import { I18nextProvider } from "react-i18next";
 import { useSelector } from "react-redux";
 import { getLocale } from "../store/app/selectors";
 
-import deDE from "./locales/de_DE/translation.json";
 import enUS from "./locales/en_US/translation.json";
 import ruRU from "./locales/ru_RU/translation.json";
 
@@ -35,8 +34,6 @@ i18next.init({
         ru_RU: { translation: ruRU },
         // eslint-disable-next-line @typescript-eslint/naming-convention
         en_US: { translation: enUS },
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        de_DE: { translation: deDE },
     },
     parseMissingKeyHandler: (missing: any) => {
         if (process.env.NODE_ENV === "development" && __BROWSER__) {
@@ -47,7 +44,7 @@ i18next.init({
     },
 });
 
-i18next.languages = ["de_DE", "en_US", "ru_RU"];
+i18next.languages = ["en_US", "ru_RU"];
 
 const I18N: React.FC<any> = ({ children }) => {
     const locale = useSelector(getLocale);

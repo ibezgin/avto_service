@@ -15,10 +15,10 @@ import UPDATE_BRAND from "./gql/update-brand.gql";
 import { useTranslation } from "react-i18next";
 
 export function useDictionaryBrandHelper() {
-    const [__] = useTranslation();
+    const { t } = useTranslation();
     const options = {
         onCompleted: () => {
-            notification.success({ message: __("Успех") });
+            notification.success({ message: t("Успех") });
         },
         onError: () => {
             notification.error({ message: "Ошибка" });
