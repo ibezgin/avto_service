@@ -1,7 +1,7 @@
-import { clientOnly } from './utils';
+import { clientOnly } from "./utils";
 
 if (clientOnly()) {
-    require('./build-client');
+    require("./build-client");
 } else {
-    require('./build-ssr');
+    require("./build-ssr");
 }

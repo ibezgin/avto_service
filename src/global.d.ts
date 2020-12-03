@@ -3,6 +3,7 @@ declare namespace NodeJS {
         NODE_ENV: "development" | "production" | "test";
         PUBLIC_URL: string;
         SOURCE_LANGUAGE: "string";
+        CONNECTION_STRING: "string";
     }
 }
 
@@ -69,10 +70,6 @@ interface Window {
     store: any;
     __PRELOADED_STATE__: any;
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-}
-
-declare global {
-    namespace React {}
 }
 
 declare module "express-manifest-helpers";
