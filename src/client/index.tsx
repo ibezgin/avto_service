@@ -23,6 +23,7 @@ const store =
 const client = new ApolloClient({
     uri: `${window.location.protocol}//${window.location.host}/graphql`,
     cache: new InMemoryCache(),
+    ssrForceFetchDelay: 100,
 });
 
 hydrate(

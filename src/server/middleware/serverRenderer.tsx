@@ -28,6 +28,7 @@ const serverRenderer: any = () => (
             context: requestContext,
         }) as any,
         cache: new InMemoryCache(),
+        ssrForceFetchDelay: 100,
     });
     const content = renderToString(
         <ApolloProvider client={client}>
