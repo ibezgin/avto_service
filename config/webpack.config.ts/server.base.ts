@@ -1,19 +1,20 @@
-import path from 'path';
-import nodeExternals from 'webpack-node-externals';
-import paths from '../paths';
-import { server as serverLoaders } from './loaders';
-import resolvers from './resolvers';
-import plugins from './plugins';
+import path from "path";
+import nodeExternals from "webpack-node-externals";
+import paths from "../paths";
+import { server as serverLoaders } from "./loaders";
+import resolvers from "./resolvers";
+import plugins from "./plugins";
 
+// eslint-disable-next-line import/no-default-export
 export default {
-    name: 'server',
-    target: 'node',
+    name: "server",
+    target: "node",
     entry: {
         // server: [path.resolve(paths.srcServer, 'index.js')],
         server: [
-            require.resolve('core-js/stable'),
-            require.resolve('regenerator-runtime/runtime'),
-            path.resolve(paths.srcServer, 'index.ts'),
+            require.resolve("core-js/stable"),
+            require.resolve("regenerator-runtime/runtime"),
+            path.resolve(paths.srcServer, "index.ts"),
         ],
     },
     externals: [
@@ -25,7 +26,7 @@ export default {
     ],
     output: {
         path: paths.serverBuild,
-        filename: 'server.js',
+        filename: "server.js",
         publicPath: paths.publicPath,
         // libraryTarget: 'commonjs2',
     },
