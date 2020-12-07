@@ -781,11 +781,16 @@ export const ProposalForm = React.memo(() => {
                                             </>
                                         )}
                                 </CardInner>
-                                <CardSave>
-                                    <FormikAntd.SubmitButton loading={false}>
-                                        Сохранить
-                                    </FormikAntd.SubmitButton>
-                                </CardSave>
+                                {proposalById?.status !==
+                                    ProposalStatus.PAY_AND_COMPLITED && (
+                                    <CardSave>
+                                        <FormikAntd.SubmitButton
+                                            loading={false}
+                                        >
+                                            Сохранить
+                                        </FormikAntd.SubmitButton>
+                                    </CardSave>
+                                )}
                             </CardWrapper>
                         </FormikAntd.Form>
                     );
