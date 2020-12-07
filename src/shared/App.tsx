@@ -16,7 +16,14 @@ const App: React.FC<any> = () => {
     return (
         <>
             <Helmet
-                link={[{ rel: "icon", type: "image/png", href: favicon }]}
+                link={[
+                    {
+                        rel: "icon",
+                        type: "image/png",
+                        href: favicon,
+                    },
+                ]}
+                title={"Service.Auto"}
             />
             <RoutesList />
         </>
