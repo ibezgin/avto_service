@@ -3,8 +3,6 @@ import { BrandEntity } from "../../../db/entities/brand";
 
 export class BrandContextHelper extends AbstractRequestContextHelper {
     public async allBrands() {
-        // eslint-disable-next-line no-console
-        console.log("request");
         return await this.context.helpers.database.getAll<BrandEntity>(
             BrandEntity,
         );

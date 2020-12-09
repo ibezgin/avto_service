@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
 import * as FormikAntd from "formik-antd";
 import { useQuery } from "@apollo/client";
-import { ALL_CLIENTS } from "../../../view/backoffice/proposal/clients/gql/all-clients";
-import { Query } from "../../../service/types/types";
+import ALL_CLIENTS from "../../../view/backoffice/proposal/clients/gql/all-clients.gql";
+import { AllClients } from "gql/types/operation-result-types";
 
 export const FilterClientId = React.memo(() => {
-    const allClientsQuery = useQuery<Query>(ALL_CLIENTS);
+    const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
     const allClients = useMemo(() => allClientsQuery.data?.clients.allClients, [
         allClientsQuery.data?.clients.allClients,
     ]);

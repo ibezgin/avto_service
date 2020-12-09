@@ -7,6 +7,7 @@ import { ModelsContextHelper } from "./models";
 import { ProposalContextHelper } from "./proposal";
 import { ServiceContextHelper } from "./service";
 import { UsersContextHelper } from "./users";
+import { ReportEveryDayContextHelper } from "./report-every-day";
 
 export class SectionsContextHelper extends AbstractRequestContextHelper {
     public get brand() {
@@ -32,5 +33,8 @@ export class SectionsContextHelper extends AbstractRequestContextHelper {
     }
     public get proposal() {
         return new ProposalContextHelper(this.context);
+    }
+    public get reportEveryDay() {
+        return new ReportEveryDayContextHelper(this.context);
     }
 }
