@@ -1,7 +1,7 @@
 import { useMemo, FunctionComponent } from "react";
 import { FileOutlined } from "@ant-design/icons";
 import { AccessEnum } from "../service/enums/access";
-import { GapPage } from "components/gap-page";
+// import { GapPage } from "components/gap-page";
 import { ProposalForm } from "view/backoffice/proposal/all/form";
 import { DictionaryUsers } from "view/backoffice/dictionary/users";
 import { DictionaryUsersHeader } from "view/backoffice/dictionary/users/header";
@@ -18,6 +18,7 @@ import { ProposalCars } from "view/backoffice/proposal/cars";
 import { ProposalCarsHeader } from "view/backoffice/proposal/cars/header";
 import { ProposalClients } from "view/backoffice/proposal/clients";
 import { ProposalClientsHeader } from "view/backoffice/proposal/clients/header";
+import { ReportEveryDayComponent } from "view/backoffice/report/every-day";
 
 export interface IRoute {
     name: string;
@@ -144,7 +145,7 @@ export function useRoutes() {
                         {
                             name: "Отчет о постипивших заявках по дням",
                             path: "/report/every-day-proposal",
-                            component: GapPage,
+                            component: ReportEveryDayComponent,
                             icon: FileOutlined,
                             access: AccessEnum.REPORT_EVERYDAY,
                             exact: true,

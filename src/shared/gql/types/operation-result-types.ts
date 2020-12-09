@@ -8,20 +8,20 @@
 // ====================================================
 
 export interface CurrentUser_authentication_currentUser {
-  __typename: "LoginType";
-  id: string | null;
-  username: string | null;
-  permission: any | null;
-  position: string | null;
+    __typename: "LoginType";
+    id: string | null;
+    username: string | null;
+    permission: any | null;
+    position: string | null;
 }
 
 export interface CurrentUser_authentication {
-  __typename: "AuthenticationQuery";
-  currentUser: CurrentUser_authentication_currentUser | null;
+    __typename: "AuthenticationQuery";
+    currentUser: CurrentUser_authentication_currentUser | null;
 }
 
 export interface CurrentUser {
-  authentication: CurrentUser_authentication;
+    authentication: CurrentUser_authentication;
 }
 
 /* tslint:disable */
@@ -34,23 +34,23 @@ export interface CurrentUser {
 // ====================================================
 
 export interface Login_authentication_login {
-  __typename: "LoginType";
-  id: string | null;
-  username: string | null;
+    __typename: "LoginType";
+    id: string | null;
+    username: string | null;
 }
 
 export interface Login_authentication {
-  __typename: "AuthenticationMutation";
-  login: Login_authentication_login | null;
+    __typename: "AuthenticationMutation";
+    login: Login_authentication_login | null;
 }
 
 export interface Login {
-  authentication: Login_authentication;
+    authentication: Login_authentication;
 }
 
 export interface LoginVariables {
-  username?: string | null;
-  password?: string | null;
+    username?: string | null;
+    password?: string | null;
 }
 
 /* tslint:disable */
@@ -63,12 +63,12 @@ export interface LoginVariables {
 // ====================================================
 
 export interface Logout_authentication {
-  __typename: "AuthenticationMutation";
-  logout: boolean | null;
+    __typename: "AuthenticationMutation";
+    logout: boolean | null;
 }
 
 export interface Logout {
-  authentication: Logout_authentication;
+    authentication: Logout_authentication;
 }
 
 /* tslint:disable */
@@ -81,16 +81,16 @@ export interface Logout {
 // ====================================================
 
 export interface AddBrand_brand {
-  __typename: "BrandMutation";
-  addBrand: boolean | null;
+    __typename: "BrandMutation";
+    addBrand: boolean | null;
 }
 
 export interface AddBrand {
-  brand: AddBrand_brand;
+    brand: AddBrand_brand;
 }
 
 export interface AddBrandVariables {
-  title: string;
+    title: string;
 }
 
 /* tslint:disable */
@@ -103,18 +103,18 @@ export interface AddBrandVariables {
 // ====================================================
 
 export interface AllBrand_brand_allBrands {
-  __typename: "BrandType";
-  id: string;
-  title: string;
+    __typename: "BrandType";
+    id: string;
+    title: string;
 }
 
 export interface AllBrand_brand {
-  __typename: "BrandQuery";
-  allBrands: AllBrand_brand_allBrands[];
+    __typename: "BrandQuery";
+    allBrands: AllBrand_brand_allBrands[];
 }
 
 export interface AllBrand {
-  brand: AllBrand_brand;
+    brand: AllBrand_brand;
 }
 
 /* tslint:disable */
@@ -127,16 +127,16 @@ export interface AllBrand {
 // ====================================================
 
 export interface DeleteBrand_brand {
-  __typename: "BrandMutation";
-  deleteBrand: boolean | null;
+    __typename: "BrandMutation";
+    deleteBrand: boolean | null;
 }
 
 export interface DeleteBrand {
-  brand: DeleteBrand_brand;
+    brand: DeleteBrand_brand;
 }
 
 export interface DeleteBrandVariables {
-  id: string;
+    id: string;
 }
 
 /* tslint:disable */
@@ -149,17 +149,17 @@ export interface DeleteBrandVariables {
 // ====================================================
 
 export interface UpdateBrand_brand {
-  __typename: "BrandMutation";
-  updateBrand: boolean | null;
+    __typename: "BrandMutation";
+    updateBrand: boolean | null;
 }
 
 export interface UpdateBrand {
-  brand: UpdateBrand_brand;
+    brand: UpdateBrand_brand;
 }
 
 export interface UpdateBrandVariables {
-  id: string;
-  title: string;
+    id: string;
+    title: string;
 }
 
 /* tslint:disable */
@@ -172,17 +172,17 @@ export interface UpdateBrandVariables {
 // ====================================================
 
 export interface AddCarPart_carPart {
-  __typename: "CarPartMutation";
-  addCarPart: boolean | null;
+    __typename: "CarPartMutation";
+    addCarPart: boolean | null;
 }
 
 export interface AddCarPart {
-  carPart: AddCarPart_carPart;
+    carPart: AddCarPart_carPart;
 }
 
 export interface AddCarPartVariables {
-  title: string;
-  price: number;
+    title: string;
+    price: number;
 }
 
 /* tslint:disable */
@@ -195,19 +195,19 @@ export interface AddCarPartVariables {
 // ====================================================
 
 export interface AllCarParts_carPart_allCarParts {
-  __typename: "CarPartType";
-  id: string;
-  title: string;
-  price: number;
+    __typename: "CarPartType";
+    id: string;
+    title: string;
+    price: number;
 }
 
 export interface AllCarParts_carPart {
-  __typename: "CarPartQuery";
-  allCarParts: AllCarParts_carPart_allCarParts[];
+    __typename: "CarPartQuery";
+    allCarParts: AllCarParts_carPart_allCarParts[];
 }
 
 export interface AllCarParts {
-  carPart: AllCarParts_carPart;
+    carPart: AllCarParts_carPart;
 }
 
 /* tslint:disable */
@@ -220,16 +220,16 @@ export interface AllCarParts {
 // ====================================================
 
 export interface DeleteCarPart_carPart {
-  __typename: "CarPartMutation";
-  deleteCarPart: boolean | null;
+    __typename: "CarPartMutation";
+    deleteCarPart: boolean | null;
 }
 
 export interface DeleteCarPart {
-  carPart: DeleteCarPart_carPart;
+    carPart: DeleteCarPart_carPart;
 }
 
 export interface DeleteCarPartVariables {
-  id: string;
+    id: string;
 }
 
 /* tslint:disable */
@@ -242,18 +242,18 @@ export interface DeleteCarPartVariables {
 // ====================================================
 
 export interface UpdateCarPart_carPart {
-  __typename: "CarPartMutation";
-  updateCarPart: boolean | null;
+    __typename: "CarPartMutation";
+    updateCarPart: boolean | null;
 }
 
 export interface UpdateCarPart {
-  carPart: UpdateCarPart_carPart;
+    carPart: UpdateCarPart_carPart;
 }
 
 export interface UpdateCarPartVariables {
-  id: string;
-  title: string;
-  price: number;
+    id: string;
+    title: string;
+    price: number;
 }
 
 /* tslint:disable */
@@ -266,17 +266,17 @@ export interface UpdateCarPartVariables {
 // ====================================================
 
 export interface AddModel_models {
-  __typename: "ModelsMutation";
-  addModel: boolean | null;
+    __typename: "ModelsMutation";
+    addModel: boolean | null;
 }
 
 export interface AddModel {
-  models: AddModel_models;
+    models: AddModel_models;
 }
 
 export interface AddModelVariables {
-  title: string;
-  brandId: string;
+    title: string;
+    brandId: string;
 }
 
 /* tslint:disable */
@@ -289,19 +289,19 @@ export interface AddModelVariables {
 // ====================================================
 
 export interface AllModels_models_allModels {
-  __typename: "ModelType";
-  id: string;
-  brandId: string | null;
-  title: string;
+    __typename: "ModelType";
+    id: string;
+    brandId: string | null;
+    title: string;
 }
 
 export interface AllModels_models {
-  __typename: "ModelsQuery";
-  allModels: AllModels_models_allModels[];
+    __typename: "ModelsQuery";
+    allModels: AllModels_models_allModels[];
 }
 
 export interface AllModels {
-  models: AllModels_models;
+    models: AllModels_models;
 }
 
 /* tslint:disable */
@@ -314,16 +314,16 @@ export interface AllModels {
 // ====================================================
 
 export interface DeleteModel_models {
-  __typename: "ModelsMutation";
-  deleteModel: boolean | null;
+    __typename: "ModelsMutation";
+    deleteModel: boolean | null;
 }
 
 export interface DeleteModel {
-  models: DeleteModel_models;
+    models: DeleteModel_models;
 }
 
 export interface DeleteModelVariables {
-  id: string;
+    id: string;
 }
 
 /* tslint:disable */
@@ -336,18 +336,18 @@ export interface DeleteModelVariables {
 // ====================================================
 
 export interface UpdateModel_models {
-  __typename: "ModelsMutation";
-  updateModel: boolean | null;
+    __typename: "ModelsMutation";
+    updateModel: boolean | null;
 }
 
 export interface UpdateModel {
-  models: UpdateModel_models;
+    models: UpdateModel_models;
 }
 
 export interface UpdateModelVariables {
-  id: string;
-  title: string;
-  brandId: string;
+    id: string;
+    title: string;
+    brandId: string;
 }
 
 /* tslint:disable */
@@ -360,17 +360,17 @@ export interface UpdateModelVariables {
 // ====================================================
 
 export interface AddService_service {
-  __typename: "ServiceMutation";
-  addService: boolean | null;
+    __typename: "ServiceMutation";
+    addService: boolean | null;
 }
 
 export interface AddService {
-  service: AddService_service;
+    service: AddService_service;
 }
 
 export interface AddServiceVariables {
-  title: string;
-  price: number;
+    title: string;
+    price: number;
 }
 
 /* tslint:disable */
@@ -383,19 +383,19 @@ export interface AddServiceVariables {
 // ====================================================
 
 export interface AllServices_service_allServices {
-  __typename: "ServiceType";
-  id: string;
-  title: string;
-  price: number;
+    __typename: "ServiceType";
+    id: string;
+    title: string;
+    price: number;
 }
 
 export interface AllServices_service {
-  __typename: "ServiceQuery";
-  allServices: AllServices_service_allServices[];
+    __typename: "ServiceQuery";
+    allServices: AllServices_service_allServices[];
 }
 
 export interface AllServices {
-  service: AllServices_service;
+    service: AllServices_service;
 }
 
 /* tslint:disable */
@@ -408,16 +408,16 @@ export interface AllServices {
 // ====================================================
 
 export interface DeleteService_service {
-  __typename: "ServiceMutation";
-  deleteService: boolean | null;
+    __typename: "ServiceMutation";
+    deleteService: boolean | null;
 }
 
 export interface DeleteService {
-  service: DeleteService_service;
+    service: DeleteService_service;
 }
 
 export interface DeleteServiceVariables {
-  id: string;
+    id: string;
 }
 
 /* tslint:disable */
@@ -430,18 +430,18 @@ export interface DeleteServiceVariables {
 // ====================================================
 
 export interface UpdateService_service {
-  __typename: "ServiceMutation";
-  updateService: boolean | null;
+    __typename: "ServiceMutation";
+    updateService: boolean | null;
 }
 
 export interface UpdateService {
-  service: UpdateService_service;
+    service: UpdateService_service;
 }
 
 export interface UpdateServiceVariables {
-  id: string;
-  title: string;
-  price: number;
+    id: string;
+    title: string;
+    price: number;
 }
 
 /* tslint:disable */
@@ -454,16 +454,16 @@ export interface UpdateServiceVariables {
 // ====================================================
 
 export interface AddUser_users {
-  __typename: "UsersMutation";
-  addUser: boolean | null;
+    __typename: "UsersMutation";
+    addUser: boolean | null;
 }
 
 export interface AddUser {
-  users: AddUser_users;
+    users: AddUser_users;
 }
 
 export interface AddUserVariables {
-  data?: UserInput | null;
+    data?: UserInput | null;
 }
 
 /* tslint:disable */
@@ -476,22 +476,22 @@ export interface AddUserVariables {
 // ====================================================
 
 export interface AllUsers_users_allUsers {
-  __typename: "UserType";
-  id: string;
-  firstname: string;
-  lastname: string;
-  username: string;
-  position: string;
-  permission: any | null;
+    __typename: "UserType";
+    id: string;
+    firstname: string;
+    lastname: string;
+    username: string;
+    position: string;
+    permission: any | null;
 }
 
 export interface AllUsers_users {
-  __typename: "UsersQuery";
-  allUsers: (AllUsers_users_allUsers | null)[] | null;
+    __typename: "UsersQuery";
+    allUsers: (AllUsers_users_allUsers | null)[] | null;
 }
 
 export interface AllUsers {
-  users: AllUsers_users;
+    users: AllUsers_users;
 }
 
 /* tslint:disable */
@@ -504,16 +504,16 @@ export interface AllUsers {
 // ====================================================
 
 export interface DeleteUser_users {
-  __typename: "UsersMutation";
-  deleteUser: boolean | null;
+    __typename: "UsersMutation";
+    deleteUser: boolean | null;
 }
 
 export interface DeleteUser {
-  users: DeleteUser_users;
+    users: DeleteUser_users;
 }
 
 export interface DeleteUserVariables {
-  id: string;
+    id: string;
 }
 
 /* tslint:disable */
@@ -526,17 +526,17 @@ export interface DeleteUserVariables {
 // ====================================================
 
 export interface UpdateUser_users {
-  __typename: "UsersMutation";
-  updateUser: boolean | null;
+    __typename: "UsersMutation";
+    updateUser: boolean | null;
 }
 
 export interface UpdateUser {
-  users: UpdateUser_users;
+    users: UpdateUser_users;
 }
 
 export interface UpdateUserVariables {
-  id: string;
-  data: UserInput;
+    id: string;
+    data: UserInput;
 }
 
 /* tslint:disable */
@@ -549,16 +549,16 @@ export interface UpdateUserVariables {
 // ====================================================
 
 export interface AddProposal_proposal {
-  __typename: "ProposalMutation";
-  addProposal: boolean | null;
+    __typename: "ProposalMutation";
+    addProposal: boolean | null;
 }
 
 export interface AddProposal {
-  proposal: AddProposal_proposal;
+    proposal: AddProposal_proposal;
 }
 
 export interface AddProposalVariables {
-  data: ProposalInput;
+    data: ProposalInput;
 }
 
 /* tslint:disable */
@@ -571,27 +571,27 @@ export interface AddProposalVariables {
 // ====================================================
 
 export interface AllProposals_proposal_allProposals {
-  __typename: "ProposalType";
-  id: string;
-  createTime: string;
-  changeTime: string;
-  status: number;
-  clientId: string;
-  carId: string;
-  userId: string | null;
-  proposalReason: string | null;
-  technicalInspectionResult: string | null;
-  recomendedWork: (string | null)[] | null;
-  completedWork: any | null;
+    __typename: "ProposalType";
+    id: string;
+    createTime: string;
+    changeTime: string;
+    status: number;
+    clientId: string;
+    carId: string;
+    userId: string | null;
+    proposalReason: string | null;
+    technicalInspectionResult: string | null;
+    recomendedWork: (string | null)[] | null;
+    completedWork: any | null;
 }
 
 export interface AllProposals_proposal {
-  __typename: "ProposalQuery";
-  allProposals: AllProposals_proposal_allProposals[];
+    __typename: "ProposalQuery";
+    allProposals: AllProposals_proposal_allProposals[];
 }
 
 export interface AllProposals {
-  proposal: AllProposals_proposal;
+    proposal: AllProposals_proposal;
 }
 
 /* tslint:disable */
@@ -604,31 +604,31 @@ export interface AllProposals {
 // ====================================================
 
 export interface ProposalById_proposal_proposalById {
-  __typename: "ProposalType";
-  id: string;
-  createTime: string;
-  changeTime: string;
-  status: number;
-  clientId: string;
-  carId: string;
-  userId: string | null;
-  proposalReason: string | null;
-  technicalInspectionResult: string | null;
-  recomendedWork: (string | null)[] | null;
-  completedWork: any | null;
+    __typename: "ProposalType";
+    id: string;
+    createTime: string;
+    changeTime: string;
+    status: number;
+    clientId: string;
+    carId: string;
+    userId: string | null;
+    proposalReason: string | null;
+    technicalInspectionResult: string | null;
+    recomendedWork: (string | null)[] | null;
+    completedWork: any | null;
 }
 
 export interface ProposalById_proposal {
-  __typename: "ProposalQuery";
-  proposalById: ProposalById_proposal_proposalById;
+    __typename: "ProposalQuery";
+    proposalById: ProposalById_proposal_proposalById;
 }
 
 export interface ProposalById {
-  proposal: ProposalById_proposal;
+    proposal: ProposalById_proposal;
 }
 
 export interface ProposalByIdVariables {
-  id: string;
+    id: string;
 }
 
 /* tslint:disable */
@@ -641,17 +641,17 @@ export interface ProposalByIdVariables {
 // ====================================================
 
 export interface UpdateProposal_proposal {
-  __typename: "ProposalMutation";
-  updateProposal: boolean | null;
+    __typename: "ProposalMutation";
+    updateProposal: boolean | null;
 }
 
 export interface UpdateProposal {
-  proposal: UpdateProposal_proposal;
+    proposal: UpdateProposal_proposal;
 }
 
 export interface UpdateProposalVariables {
-  id: string;
-  data?: ProposalInput | null;
+    id: string;
+    data?: ProposalInput | null;
 }
 
 /* tslint:disable */
@@ -664,16 +664,16 @@ export interface UpdateProposalVariables {
 // ====================================================
 
 export interface AddCar_cars {
-  __typename: "CarsMutation";
-  addCar: boolean | null;
+    __typename: "CarsMutation";
+    addCar: boolean | null;
 }
 
 export interface AddCar {
-  cars: AddCar_cars;
+    cars: AddCar_cars;
 }
 
 export interface AddCarVariables {
-  data: CarInput;
+    data: CarInput;
 }
 
 /* tslint:disable */
@@ -686,22 +686,22 @@ export interface AddCarVariables {
 // ====================================================
 
 export interface AllCars_cars_allCars {
-  __typename: "CarType";
-  id: string;
-  brandId: string;
-  modelId: string;
-  clientId: string;
-  gosNumber: string;
-  color: string;
+    __typename: "CarType";
+    id: string;
+    brandId: string;
+    modelId: string;
+    clientId: string;
+    gosNumber: string;
+    color: string;
 }
 
 export interface AllCars_cars {
-  __typename: "CarsQuery";
-  allCars: AllCars_cars_allCars[];
+    __typename: "CarsQuery";
+    allCars: AllCars_cars_allCars[];
 }
 
 export interface AllCars {
-  cars: AllCars_cars;
+    cars: AllCars_cars;
 }
 
 /* tslint:disable */
@@ -714,16 +714,16 @@ export interface AllCars {
 // ====================================================
 
 export interface DeleteCar_cars {
-  __typename: "CarsMutation";
-  deleteCar: boolean | null;
+    __typename: "CarsMutation";
+    deleteCar: boolean | null;
 }
 
 export interface DeleteCar {
-  cars: DeleteCar_cars;
+    cars: DeleteCar_cars;
 }
 
 export interface DeleteCarVariables {
-  id: string;
+    id: string;
 }
 
 /* tslint:disable */
@@ -736,17 +736,17 @@ export interface DeleteCarVariables {
 // ====================================================
 
 export interface UpdateCar_cars {
-  __typename: "CarsMutation";
-  updateCar: boolean | null;
+    __typename: "CarsMutation";
+    updateCar: boolean | null;
 }
 
 export interface UpdateCar {
-  cars: UpdateCar_cars;
+    cars: UpdateCar_cars;
 }
 
 export interface UpdateCarVariables {
-  id: string;
-  data: CarInput;
+    id: string;
+    data: CarInput;
 }
 
 /* tslint:disable */
@@ -759,16 +759,16 @@ export interface UpdateCarVariables {
 // ====================================================
 
 export interface AddClient_clients {
-  __typename: "ClientsMutation";
-  addClient: boolean | null;
+    __typename: "ClientsMutation";
+    addClient: boolean | null;
 }
 
 export interface AddClient {
-  clients: AddClient_clients;
+    clients: AddClient_clients;
 }
 
 export interface AddClientVariables {
-  data: ClientInput;
+    data: ClientInput;
 }
 
 /* tslint:disable */
@@ -781,21 +781,21 @@ export interface AddClientVariables {
 // ====================================================
 
 export interface AllClients_clients_allClients {
-  __typename: "ClientType";
-  id: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  createTime: string;
+    __typename: "ClientType";
+    id: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    createTime: string;
 }
 
 export interface AllClients_clients {
-  __typename: "ClientsQuery";
-  allClients: AllClients_clients_allClients[];
+    __typename: "ClientsQuery";
+    allClients: AllClients_clients_allClients[];
 }
 
 export interface AllClients {
-  clients: AllClients_clients;
+    clients: AllClients_clients;
 }
 
 /* tslint:disable */
@@ -808,16 +808,16 @@ export interface AllClients {
 // ====================================================
 
 export interface DeleteClient_clients {
-  __typename: "ClientsMutation";
-  deleteClient: boolean | null;
+    __typename: "ClientsMutation";
+    deleteClient: boolean | null;
 }
 
 export interface DeleteClient {
-  clients: DeleteClient_clients;
+    clients: DeleteClient_clients;
 }
 
 export interface DeleteClientVariables {
-  id: string;
+    id: string;
 }
 
 /* tslint:disable */
@@ -830,17 +830,35 @@ export interface DeleteClientVariables {
 // ====================================================
 
 export interface UpdateClient_clients {
-  __typename: "ClientsMutation";
-  updateClient: boolean | null;
+    __typename: "ClientsMutation";
+    updateClient: boolean | null;
 }
 
 export interface UpdateClient {
-  clients: UpdateClient_clients;
+    clients: UpdateClient_clients;
 }
 
 export interface UpdateClientVariables {
-  id: string;
-  data: ClientInput;
+    id: string;
+    data: ClientInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: ReportEveryDay
+// ====================================================
+
+export interface ReportEveryDay_reportEveryDay {
+    __typename: "ReportEveryDayQuery";
+    report: any | null;
+}
+
+export interface ReportEveryDay {
+    reportEveryDay: ReportEveryDay_reportEveryDay;
 }
 
 /* tslint:disable */
@@ -853,40 +871,40 @@ export interface UpdateClientVariables {
 //==============================================================
 
 export interface CarInput {
-  brandId: string;
-  modelId: string;
-  clientId: string;
-  gosNumber: string;
-  color: string;
+    brandId: string;
+    modelId: string;
+    clientId: string;
+    gosNumber: string;
+    color: string;
 }
 
 export interface ClientInput {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  createTime: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    createTime: string;
 }
 
 export interface ProposalInput {
-  createTime: string;
-  changeTime: string;
-  status: number;
-  clientId: string;
-  carId: string;
-  userId: string;
-  proposalReason?: string | null;
-  technicalInspectionResult?: string | null;
-  recomendedWork?: (string | null)[] | null;
-  completedWork?: any | null;
+    createTime: string;
+    changeTime: string;
+    status: number;
+    clientId: string;
+    carId: string;
+    userId: string;
+    proposalReason?: string | null;
+    technicalInspectionResult?: string | null;
+    recomendedWork?: (string | null)[] | null;
+    completedWork?: any | null;
 }
 
 export interface UserInput {
-  firstname: string;
-  lastname: string;
-  username: string;
-  password?: string | null;
-  permission?: any | null;
-  position: string;
+    firstname: string;
+    lastname: string;
+    username: string;
+    password?: string | null;
+    permission?: any | null;
+    position: string;
 }
 
 //==============================================================
