@@ -1,0 +1,7 @@
+extend type Query {
+    reportEveryDay: ReportEveryDayQuery!
+}
+
+type ReportEveryDayQuery {
+    report: JSON
+}

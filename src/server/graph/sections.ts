@@ -13,6 +13,7 @@ import { dictionaryUsersSubSchema } from "./sections/dictionary/users";
 import { proposalCarsSubSchema } from "./sections/proposal/cars";
 import { proposalClientsSubSchema } from "./sections/proposal/clients";
 import { proposalSubSchema } from "./sections/proposal/proposal";
+import { reportEveryDaySubSchema } from "./sections/report/every-day";
 
 export const sections: SubSchema[] = [
     dictionaryBrandSubSchema,
@@ -24,6 +25,7 @@ export const sections: SubSchema[] = [
     authenticationSubSchema,
     proposalCarsSubSchema,
     proposalSubSchema,
+    reportEveryDaySubSchema,
 ];
 
 export const schemas: SubSchema[] = [...sections, querySubSchema];
