@@ -16,7 +16,7 @@ import moment from "moment";
 import { Table } from "antd";
 export const ReportEveryDayComponent = React.memo(() => {
     return (
-        <Filter<ReportEveryDay> filterItems={[]} query={EVERY_DAY} skip={true}>
+        <Filter<ReportEveryDay> filterItems={[]} query={EVERY_DAY} skip={false}>
             {({ data }) => {
                 const result =
                     data?.reportEveryDay.report.map(elem => ({
