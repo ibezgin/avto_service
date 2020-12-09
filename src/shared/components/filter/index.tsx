@@ -6,11 +6,15 @@ import * as FormikAntd from "formik-antd";
 import { Button, Form } from "antd";
 import { useHasWindow } from "../../hooks/use-has-window";
 import _ from "lodash";
-import { OperationVariables, QueryFunctionOptions } from "@apollo/client";
+import {
+    OperationVariables,
+    QueryFunctionOptions,
+    QueryResult,
+    useQuery,
+} from "@apollo/client";
 import { SC } from "./styled";
 import { useChangeFormik } from "../../hooks/use-change-formik";
 import { TablePaginationConfig } from "antd/lib/table";
-import { Query, QueryResult } from "@apollo/react-components";
 import moment from "moment";
 
 export interface ITypeFilterItems {
@@ -202,92 +206,73 @@ export function Filter<T>(props: IProps<T>) {
 
     const hasWindow = useHasWindow();
 
-    // const data = useQuery<T>(props.query, {
-    //     skip,
-    //     notifyOnNetworkStatusChange: true,
-    //     variables: queryVariables,
-    // });
-
+    const data = useQuery<T>(props.query, {
+        skip,
+        notifyOnNetworkStatusChange: true,
+        variables: queryVariables,
+    });
+    const loading = Boolean(
+        hasWindow && (data.loading || data.networkStatus === 4),
+    );
     return (
         <SC.Wrapper>
-            <Query<T>
-                query={props.query}
-                variables={queryVariables}
-                skip={skip}
-                notifyOnNetworkStatusChange={true}
+            <Formik
+                initialValues={initialValues}
+                onSubmit={values => {
+                    if (isRefetch) {
+                        data.refetch();
+                    } else {
+                        setVariables({
+                            ...values,
+                        });
+                        setRefetchState(true);
+                    }
+                    setSkip(false);
+                }}
             >
-                {data => {
-                    const loading = Boolean(
-                        hasWindow && (data.loading || data.networkStatus === 4),
-                    );
-
+                {({ values }) => {
+                    // eslint-disable-next-line react-hooks/rules-of-hooks
+                    useChangeFormik(values, changeForm);
                     return (
-                        <Formik
-                            initialValues={initialValues}
-                            onSubmit={values => {
-                                if (isRefetch) {
-                                    data.refetch();
-                                } else {
-                                    setVariables({
-                                        ...values,
+                        <>
+                            <FormikAntd.Form layout="inline">
+                                {props.filterItems.map(name => {
+                                    const found = _.find(items, {
+                                        name,
                                     });
-                                    setRefetchState(true);
-                                }
-                                setSkip(false);
-                            }}
-                        >
-                            {({ values }) => {
-                                // eslint-disable-next-line react-hooks/rules-of-hooks
-                                useChangeFormik(values, changeForm);
-                                return (
-                                    <>
-                                        <FormikAntd.Form layout="inline">
-                                            {props.filterItems.map(name => {
-                                                const found = _.find(items, {
-                                                    name,
-                                                });
-                                                return found ? (
-                                                    <Form.Item>
-                                                        <found.component />
-                                                    </Form.Item>
-                                                ) : null;
-                                            })}
-                                            <Form.Item>
-                                                <div
-                                                    onClick={buttonHandler(
-                                                        loading,
-                                                    )}
-                                                >
-                                                    <Button
-                                                        htmlType="submit"
-                                                        type="primary"
-                                                        loading={loading}
-                                                    >
-                                                        {loading && "Отменить"}
-                                                        {!loading &&
-                                                            "Применить"}
-                                                    </Button>
-                                                </div>
-                                            </Form.Item>
-                                        </FormikAntd.Form>
-                                        {props.children(data, {
-                                            pagination: {
-                                                pageSize,
-                                                defaultPageSize: pageSize,
-                                                position: ["topRight"],
-                                                simple: true,
-                                                size: "small",
-                                                itemRender:
-                                                    props.paginationItemRender,
-                                            },
-                                        })}
-                                    </>
-                                );
-                            }}
-                        </Formik>
+                                    return found ? (
+                                        <Form.Item>
+                                            <found.component />
+                                        </Form.Item>
+                                    ) : null;
+                                })}
+                                <Form.Item>
+                                    <div onClick={buttonHandler(loading)}>
+                                        <Button
+                                            htmlType="submit"
+                                            type="primary"
+                                            loading={loading}
+                                        >
+                                            {loading && "Отменить"}
+                                            {!loading && "Применить"}
+                                        </Button>
+                                    </div>
+                                </Form.Item>
+                            </FormikAntd.Form>
+                            {props.children(data, {
+                                pagination: {
+                                    pageSize,
+                                    defaultPageSize: pageSize,
+                                    position: ["topRight"],
+                                    simple: true,
+                                    size: "small",
+                                    itemRender: props.paginationItemRender,
+                                },
+                            })}
+                        </>
                     );
                 }}
-            </Query>
+            </Formik>
         </SC.Wrapper>
     );
 }
