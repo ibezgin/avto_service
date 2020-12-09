@@ -58,5 +58,10 @@ export function useAccess(): IFormField[] {
             title: "Отчеты",
             type: "checkboxField",
         },
+        {
+            name: AccessEnum.REPORT_EVERYDAY,
+            title: "Отчеты.Отчет о постипивших заявках по дням",
+            type: "checkboxField",
+        },
     ];
 }
