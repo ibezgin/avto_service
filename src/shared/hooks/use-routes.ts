@@ -14,8 +14,8 @@ import { DictionaryModelsHeader } from "view/backoffice/dictionary/models/header
 import { DictionaryService } from "view/backoffice/dictionary/service";
 import { DictionaryServiceHeader } from "view/backoffice/dictionary/service/header";
 import { ProposalAll } from "view/backoffice/proposal/all";
-// import { ProposalCars } from "view/backoffice/proposal/cars";
-// import { ProposalCarsHeader } from "view/backoffice/proposal/cars/header";
+import { ProposalCars } from "view/backoffice/proposal/cars";
+import { ProposalCarsHeader } from "view/backoffice/proposal/cars/header";
 import { ProposalClients } from "view/backoffice/proposal/clients";
 import { ProposalClientsHeader } from "view/backoffice/proposal/clients/header";
 
@@ -124,14 +124,14 @@ export function useRoutes() {
                             access: AccessEnum.PROPOSAL_CLIENTS,
                             header: ProposalClientsHeader,
                         },
-                        // {
-                        //     name: "Обслуживаемые автомобили",
-                        //     path: "/proposal/cars",
-                        //     component: ProposalCars,
-                        //     icon: FileOutlined,
-                        //     access: AccessEnum.PROPOSAL_CARS,
-                        //     header: ProposalCarsHeader,
-                        // },
+                        {
+                            name: "Обслуживаемые автомобили",
+                            path: "/proposal/cars",
+                            component: ProposalCars,
+                            icon: FileOutlined,
+                            access: AccessEnum.PROPOSAL_CARS,
+                            header: ProposalCarsHeader,
+                        },
                     ],
                 },
                 {
