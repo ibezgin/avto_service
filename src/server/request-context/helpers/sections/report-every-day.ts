@@ -9,12 +9,22 @@ export class ReportEveryDayContextHelper extends AbstractRequestContextHelper {
 
         _.forIn(
             _.groupBy(allProposals, elem =>
-                moment(Number(elem.createTime) * 1000).startOf("day"),
+                moment(Number(elem.createTime) * 1000)
+                    .startOf("day")
+                    .format("YYYY-MM-DD"),
             ),
             (value, key) => {
                 result = [
                     ...result,
-                    { key: moment(key).format("X"), value: value.length },
+                    {
+                        date: key,
+                        count: value.length,
+                        proposals: value.map(elem => ({
+                            ...elem,
+                            key: String(elem.id),
+                        })),
+                        key,
+                    },
                 ];
             },
         );

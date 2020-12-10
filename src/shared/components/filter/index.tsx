@@ -50,6 +50,7 @@ interface IProps<P> extends IQueryComponentOptions<P> {
     skip?: boolean;
     ssr?: boolean;
     paginationItemRender?: any;
+    withoutButton?: boolean;
 }
 const items = [
     {
@@ -207,7 +208,7 @@ export function Filter<T>(props: IProps<T>) {
     const hasWindow = useHasWindow();
 
     const data = useQuery<T>(props.query, {
-        skip,
+        skip: props.withoutButton ? false : skip,
         notifyOnNetworkStatusChange: true,
         variables: queryVariables,
     });
@@ -246,18 +247,20 @@ export function Filter<T>(props: IProps<T>) {
                                         </Form.Item>
                                     ) : null;
                                 })}
-                                <Form.Item>
-                                    <div onClick={buttonHandler(loading)}>
-                                        <Button
-                                            htmlType="submit"
-                                            type="primary"
-                                            loading={loading}
-                                        >
-                                            {loading && "Отменить"}
-                                            {!loading && "Применить"}
-                                        </Button>
-                                    </div>
-                                </Form.Item>
+                                {!props.withoutButton && (
+                                    <Form.Item>
+                                        <div onClick={buttonHandler(loading)}>
+                                            <Button
+                                                htmlType="submit"
+                                                type="primary"
+                                                loading={loading}
+                                            >
+                                                {loading && "Отменить"}
+                                                {!loading && "Применить"}
+                                            </Button>
+                                        </div>
+                                    </Form.Item>
+                                )}
                             </FormikAntd.Form>
                             {props.children(data, {
                                 pagination: {

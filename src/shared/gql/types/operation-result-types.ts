@@ -852,13 +852,59 @@ export interface UpdateClientVariables {
 // GraphQL query operation: ReportEveryDay
 // ====================================================
 
+export interface ReportEveryDay_reportEveryDay_report_proposals {
+    __typename: "ProposalType";
+    id: string;
+    createTime: string;
+    changeTime: string;
+    status: number;
+    clientId: string;
+    carId: string;
+    userId: string | null;
+    proposalReason: string | null;
+    technicalInspectionResult: string | null;
+    recomendedWork: (string | null)[] | null;
+    completedWork: any | null;
+}
+
+export interface ReportEveryDay_reportEveryDay_report {
+    __typename: "ReportEveryDayType";
+    count: number;
+    date: string;
+    proposals: (ReportEveryDay_reportEveryDay_report_proposals | null)[] | null;
+}
+
 export interface ReportEveryDay_reportEveryDay {
     __typename: "ReportEveryDayQuery";
-    report: any | null;
+    report: (ReportEveryDay_reportEveryDay_report | null)[] | null;
 }
 
 export interface ReportEveryDay {
     reportEveryDay: ReportEveryDay_reportEveryDay;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: proposalType
+// ====================================================
+
+export interface proposalType {
+    __typename: "ProposalType";
+    id: string;
+    createTime: string;
+    changeTime: string;
+    status: number;
+    clientId: string;
+    carId: string;
+    userId: string | null;
+    proposalReason: string | null;
+    technicalInspectionResult: string | null;
+    recomendedWork: (string | null)[] | null;
+    completedWork: any | null;
 }
 
 /* tslint:disable */
