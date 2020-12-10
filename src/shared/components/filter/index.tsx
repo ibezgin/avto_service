@@ -211,6 +211,7 @@ export function Filter<T>(props: IProps<T>) {
         skip: props.withoutButton ? false : skip,
         notifyOnNetworkStatusChange: true,
         variables: queryVariables,
+        fetchPolicy: props.fetchPolicy,
     });
     const loading = Boolean(
         hasWindow && (data.loading || data.networkStatus === 4),
