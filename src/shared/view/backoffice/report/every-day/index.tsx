@@ -20,7 +20,7 @@ import {
     ResponsiveContainer,
     Line,
 } from "recharts";
-import { Table } from "antd";
+import { Table, Spin } from "antd";
 import { useQuery } from "@apollo/client";
 import { Specialization } from "service/enums/specialization";
 import { TableDateTime } from "components/table-date-time";
@@ -33,12 +33,15 @@ import All_BRAND from "../../dictionary/brand/gql/all-brands.gql";
 import ALL_CARS from "../../proposal/cars/gql/all-cars.gql";
 import { useHistory } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
+import { useHasWindow } from "hooks/use-has-window";
 
 interface IProps {
     proposals: ReportEveryDay_reportEveryDay_report_proposals[];
 }
 const ExpandableSubTable = React.memo((props: IProps) => {
     const history = useHistory();
+
+    const hasWindow = useHasWindow();
 
     const proposals = useMemo(
         () => props.proposals.map(elem => ({ ...elem, key: elem.id })),
@@ -151,6 +154,27 @@ const ExpandableSubTable = React.memo((props: IProps) => {
             ),
         },
     ];
+
+    const loading = useMemo(() => {
+        if (hasWindow) {
+            return (
+                allUsersQuery.loading ||
+                allClientsQuery.loading ||
+                allModelsQuery.loading ||
+                allBrandsQuery.loading ||
+                allCarsQuery.loading ||
+                allClientsQuery.loading
+            );
+        }
+        return false;
+    }, [
+        allBrandsQuery.loading,
+        allCarsQuery.loading,
+        allClientsQuery.loading,
+        allModelsQuery.loading,
+        allUsersQuery.loading,
+        hasWindow,
+    ]);
     return (
         <Table
             columns={columns}
@@ -160,12 +184,13 @@ const ExpandableSubTable = React.memo((props: IProps) => {
                 x: true,
             }}
             pagination={false}
+            loading={loading}
         />
     );
 });
 
 export const ReportEveryDayComponent = React.memo(() => {
-    // const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
+    const hasWindow = useHasWindow();
 
     const expandedRowRender = useCallback(record => {
         return <ExpandableSubTable proposals={record.proposals} />;
@@ -182,7 +207,7 @@ export const ReportEveryDayComponent = React.memo(() => {
             withoutButton={true}
             fetchPolicy={"cache-and-network"}
         >
-            {({ data }) => {
+            {({ data, loading }) => {
                 const result =
                     data?.reportEveryDay.report?.map(elem => ({
                         ...elem,
@@ -199,37 +224,42 @@ export const ReportEveryDayComponent = React.memo(() => {
                         title: "Количество",
                     },
                 ];
+
+                const loadState = hasWindow && loading;
+
                 return (
                     <>
-                        <Table
-                            dataSource={result as any}
-                            columns={columns}
-                            size="small"
-                            expandable={expandable}
-                        />
-                        <ResponsiveContainer
-                            height="100%"
-                            width="100%"
-                            aspect={8.0 / 2.0}
-                        >
-                            <LineChart
-                                data={result}
-                                margin={{ top: 5, bottom: 20 }}
+                        <Spin spinning={loadState}>
+                            <Table
+                                dataSource={result as any}
+                                columns={columns}
+                                size="small"
+                                expandable={expandable}
+                            />
+                            <ResponsiveContainer
+                                height="100%"
+                                width="100%"
+                                aspect={8.0 / 2.0}
                             >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="date" />
-                                <YAxis />
-                                <Tooltip />
-                                <Line
-                                    type="monotone"
-                                    dataKey="count"
-                                    name={"Количество заявок"}
-                                    stroke="#f45b5b"
-                                    activeDot={{ r: 8 }}
-                                />
-                                <Legend />
-                            </LineChart>
-                        </ResponsiveContainer>
+                                <LineChart
+                                    data={result}
+                                    margin={{ top: 5, bottom: 20 }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="date" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="count"
+                                        name={"Количество заявок"}
+                                        stroke="#f45b5b"
+                                        activeDot={{ r: 8 }}
+                                    />
+                                    <Legend />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </Spin>
                     </>
                 );
             }}
