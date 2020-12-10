@@ -199,6 +199,7 @@ export const ReportEveryDayComponent = React.memo(() => {
     const expandable = useMemo(() => ({ expandedRowRender }), [
         expandedRowRender,
     ]);
+
     return (
         <Filter<ReportEveryDay>
             filterItems={[]}
