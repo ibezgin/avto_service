@@ -5,7 +5,14 @@ export const reportEveryDaySubSchema = new SubSchema(schema, {
     Query: {
         reportEveryDay: () => ({}),
     },
+    Mutation: {
+        reportEveryDay: () => ({}),
+    },
     ReportEveryDayQuery: {
+        report: async (_obj, _props, { helpers }) =>
+            await helpers.sections.reportEveryDay.report(),
+    },
+    ReportEveryDayMutation: {
         report: async (_obj, _props, { helpers }) =>
             await helpers.sections.reportEveryDay.report(),
     },

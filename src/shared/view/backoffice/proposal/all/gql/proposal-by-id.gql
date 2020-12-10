@@ -1,17 +1,9 @@
+#import "gql/fragments/proposal-type"
+
 query ProposalById($id: String!) {
     proposal {
         proposalById(id: $id) {
-            id
-            createTime
-            changeTime
-            status
-            clientId
-            carId
-            userId
-            proposalReason
-            technicalInspectionResult
-            recomendedWork
-            completedWork
+            ...proposalType
         }
     }
 }
