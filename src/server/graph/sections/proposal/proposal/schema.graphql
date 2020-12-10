@@ -26,6 +26,7 @@ type ProposalType {
     technicalInspectionResult: String
     recomendedWork: [String]
     completedWork: JSON
+    key: String
 }
 
 input ProposalInput {
