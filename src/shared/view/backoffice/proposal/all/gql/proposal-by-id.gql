@@ -1,4 +1,4 @@
-#import "gql/fragments/proposal-type"
+#import "../../../../../gql/fragments/proposal-type.gql"
 
 query ProposalById($id: String!) {
     proposal {
