@@ -190,6 +190,8 @@ const ExpandableSubTable = React.memo((props: IProps) => {
 });
 
 export const ReportEveryDayComponent = React.memo(() => {
+    const hasWindow = useHasWindow();
+
     const expandedRowRender = useCallback(record => {
         return <ExpandableSubTable proposals={record.proposals} />;
     }, []);
@@ -223,9 +225,12 @@ export const ReportEveryDayComponent = React.memo(() => {
                         title: "Количество",
                     },
                 ];
+
+                const loadState = hasWindow && loading;
+
                 return (
                     <>
-                        <Spin spinning={loading}>
+                        <Spin spinning={loadState}>
                             <Table
                                 dataSource={result as any}
                                 columns={columns}
