@@ -207,14 +207,14 @@ export function Filter<T>(props: IProps<T>) {
 
     const hasWindow = useHasWindow();
 
-    const data = useQuery<T>(props.query, {
+    const query = useQuery<T>(props.query, {
         skip: props.withoutButton ? false : skip,
         notifyOnNetworkStatusChange: true,
         variables: queryVariables,
         fetchPolicy: props.fetchPolicy,
     });
     const loading = Boolean(
-        hasWindow && (data.loading || data.networkStatus === 4),
+        hasWindow && (query.loading || query.networkStatus === 4),
     );
     return (
         <SC.Wrapper>
@@ -222,7 +222,7 @@ export function Filter<T>(props: IProps<T>) {
                 initialValues={initialValues}
                 onSubmit={values => {
                     if (isRefetch) {
-                        data.refetch();
+                        query.refetch();
                     } else {
                         setVariables({
                             ...values,
@@ -263,7 +263,7 @@ export function Filter<T>(props: IProps<T>) {
                                     </Form.Item>
                                 )}
                             </FormikAntd.Form>
-                            {props.children(data, {
+                            {props.children(query, {
                                 pagination: {
                                     pageSize,
                                     defaultPageSize: pageSize,
