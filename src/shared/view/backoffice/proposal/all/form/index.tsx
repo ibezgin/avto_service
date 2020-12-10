@@ -29,13 +29,10 @@ import {
     AllCars,
     AllClients,
     AllModels,
-    AllProposals,
     AllServices,
     AllUsers,
     ProposalById,
     ProposalByIdVariables,
-    // ProposalById,
-    // ProposalByIdVariables,
 } from "gql/types/operation-result-types";
 import { Specialization } from "service/enums/specialization";
 import { ProposalStatus } from "service/enums/proposal-status";
