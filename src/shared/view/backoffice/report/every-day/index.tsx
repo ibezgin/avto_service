@@ -1,14 +1,14 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Filter } from "components/filter";
 import EVERY_DAY from "./gql/every-day.gql";
 import {
     ReportEveryDay,
-    ReportEveryDay_reportEveryDay_report,
     AllUsers,
     AllClients,
     AllModels,
     AllBrand,
     AllCars,
+    ReportEveryDay_reportEveryDay_report_proposals,
 } from "gql/types/operation-result-types";
 import {
     LineChart,
@@ -35,13 +35,15 @@ import { useHistory } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
 
 interface IProps {
-    proposals: ReportEveryDay_reportEveryDay_report[];
+    proposals: ReportEveryDay_reportEveryDay_report_proposals[];
 }
 const ExpandableSubTable = React.memo((props: IProps) => {
     const history = useHistory();
 
-    const { proposals } = props;
-
+    const proposals = useMemo(
+        () => props.proposals.map(elem => ({ ...elem, key: elem.id })),
+        [props.proposals],
+    );
     const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
     const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
@@ -157,35 +159,35 @@ const ExpandableSubTable = React.memo((props: IProps) => {
             scroll={{
                 x: true,
             }}
-            showHeader={true}
+            pagination={false}
         />
     );
 });
 
 export const ReportEveryDayComponent = React.memo(() => {
-    const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
+    // const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
 
     const expandedRowRender = useCallback(record => {
         return <ExpandableSubTable proposals={record.proposals} />;
     }, []);
 
-    const onExpand = useCallback(keys => {
-        setExpandedRowKeys(keys);
-    }, []);
-
-    const expandable = useMemo(
-        () => ({ expandedRowRender, expandedRowKeys, onExpand }),
-        [expandedRowKeys, expandedRowRender, onExpand],
-    );
+    const expandable = useMemo(() => ({ expandedRowRender }), [
+        expandedRowRender,
+    ]);
     return (
         <Filter<ReportEveryDay>
             filterItems={[]}
             query={EVERY_DAY}
             skip={false}
-            withoutButton={false}
+            withoutButton={true}
+            fetchPolicy={"cache-and-network"}
         >
             {({ data }) => {
-                const result = data?.reportEveryDay.report || [];
+                const result =
+                    data?.reportEveryDay.report?.map(elem => ({
+                        ...elem,
+                        key: elem?.date,
+                    })) || [];
 
                 const columns = [
                     {

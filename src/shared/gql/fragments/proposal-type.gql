@@ -10,5 +10,4 @@ fragment proposalType on ProposalType {
     technicalInspectionResult
     recomendedWork
     completedWork
-    key
 }
