@@ -20,7 +20,7 @@ import ALL_USERS from "../../../dictionary/users/gql/all-users.gql";
 import { useEditProposalHelper } from "../helper";
 import moment from "moment";
 import { useQueryParams } from "../../../../../hooks/use-query-params";
-import ALL_PROPOSALS from "../gql/all-proposals.gql";
+import PROPOSAL_BY_ID from "../gql/proposal-by-id.gql";
 import { StatusColorTag } from "../../../../../components/status-color-tag";
 import { useHistory } from "react-router-dom";
 import _ from "lodash";
@@ -32,6 +32,8 @@ import {
     AllProposals,
     AllServices,
     AllUsers,
+    ProposalById,
+    ProposalByIdVariables,
     // ProposalById,
     // ProposalByIdVariables,
 } from "gql/types/operation-result-types";
@@ -64,15 +66,19 @@ export const ProposalForm = React.memo(() => {
 
     const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
-    const allProposalsQuery = useQuery<AllProposals>(ALL_PROPOSALS, {
-        fetchPolicy: "network-only",
-    });
+    const allProposalsQuery = useQuery<ProposalById, ProposalByIdVariables>(
+        PROPOSAL_BY_ID,
+        {
+            fetchPolicy: "network-only",
+            variables: {
+                id,
+            },
+            skip: !id,
+        },
+    );
     const proposalById = useMemo(
-        () =>
-            allProposalsQuery.data?.proposal.allProposals.find(
-                elem => elem.id === id,
-            ),
-        [allProposalsQuery.data?.proposal.allProposals, id],
+        () => allProposalsQuery.data?.proposal.proposalById,
+        [allProposalsQuery.data?.proposal.proposalById],
     );
 
     const allClients = useMemo(() => allClientsQuery.data?.clients.allClients, [
