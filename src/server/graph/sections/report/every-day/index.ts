@@ -13,7 +13,7 @@ export const reportEveryDaySubSchema = new SubSchema(schema, {
             await helpers.sections.reportEveryDay.report(),
     },
     ReportEveryDayMutation: {
-        report: async (_obj, _props, { helpers }) =>
+        reportMutation: async (_obj, _props, { helpers }) =>
             await helpers.sections.reportEveryDay.report(),
     },
 });
