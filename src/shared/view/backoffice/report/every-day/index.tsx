@@ -43,10 +43,7 @@ const ExpandableSubTable = React.memo((props: IProps) => {
 
     const hasWindow = useHasWindow();
 
-    const proposals = useMemo(
-        () => props.proposals.map(elem => ({ ...elem, key: elem.id })),
-        [props.proposals],
-    );
+    const proposals = useMemo(() => props.proposals || [], [props.proposals]);
     const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
     const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
@@ -209,11 +206,7 @@ export const ReportEveryDayComponent = React.memo(() => {
             fetchPolicy={"cache-and-network"}
         >
             {({ data, loading }) => {
-                const result =
-                    data?.reportEveryDay.report?.map(elem => ({
-                        ...elem,
-                        key: elem?.date,
-                    })) || [];
+                const result = data?.reportEveryDay.report || [];
 
                 const columns = [
                     {
