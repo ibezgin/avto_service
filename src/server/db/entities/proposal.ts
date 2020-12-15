@@ -1,9 +1,18 @@
-import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
+import {
+    Entity,
+    ObjectIdColumn,
+    ObjectID,
+    Column,
+    // Generated,
+    // Index,
+} from "typeorm";
 
 @Entity({ name: "proposal" })
 export class ProposalEntity {
     @ObjectIdColumn()
     public id: ObjectID | string;
+    @Column()
+    public proposal_id: number;
     @Column()
     public createTime: string;
     @Column()

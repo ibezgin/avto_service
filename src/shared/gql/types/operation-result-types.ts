@@ -572,7 +572,8 @@ export interface AddProposalVariables {
 
 export interface AllProposals_proposal_allProposals {
     __typename: "ProposalType";
-    id: string;
+    id: string | null;
+    proposal_id: number | null;
     createTime: string;
     changeTime: string;
     status: number;
@@ -583,6 +584,7 @@ export interface AllProposals_proposal_allProposals {
     technicalInspectionResult: string | null;
     recomendedWork: (string | null)[] | null;
     completedWork: any | null;
+    key: string | null;
 }
 
 export interface AllProposals_proposal {
@@ -605,7 +607,8 @@ export interface AllProposals {
 
 export interface ProposalById_proposal_proposalById {
     __typename: "ProposalType";
-    id: string;
+    id: string | null;
+    proposal_id: number | null;
     createTime: string;
     changeTime: string;
     status: number;
@@ -616,6 +619,7 @@ export interface ProposalById_proposal_proposalById {
     technicalInspectionResult: string | null;
     recomendedWork: (string | null)[] | null;
     completedWork: any | null;
+    key: string | null;
 }
 
 export interface ProposalById_proposal {
@@ -854,7 +858,8 @@ export interface UpdateClientVariables {
 
 export interface ReportEveryDay_reportEveryDay_report_proposals {
     __typename: "ProposalType";
-    id: string;
+    id: string | null;
+    proposal_id: number | null;
     createTime: string;
     changeTime: string;
     status: number;
@@ -865,18 +870,20 @@ export interface ReportEveryDay_reportEveryDay_report_proposals {
     technicalInspectionResult: string | null;
     recomendedWork: (string | null)[] | null;
     completedWork: any | null;
+    key: string | null;
 }
 
 export interface ReportEveryDay_reportEveryDay_report {
     __typename: "ReportEveryDayType";
     count: number;
     date: string;
-    proposals: (ReportEveryDay_reportEveryDay_report_proposals | null)[] | null;
+    proposals: ReportEveryDay_reportEveryDay_report_proposals[];
+    key: string | null;
 }
 
 export interface ReportEveryDay_reportEveryDay {
     __typename: "ReportEveryDayQuery";
-    report: (ReportEveryDay_reportEveryDay_report | null)[] | null;
+    report: ReportEveryDay_reportEveryDay_report[];
 }
 
 export interface ReportEveryDay {
@@ -894,7 +901,8 @@ export interface ReportEveryDay {
 
 export interface proposalType {
     __typename: "ProposalType";
-    id: string;
+    id: string | null;
+    proposal_id: number | null;
     createTime: string;
     changeTime: string;
     status: number;
@@ -905,6 +913,7 @@ export interface proposalType {
     technicalInspectionResult: string | null;
     recomendedWork: (string | null)[] | null;
     completedWork: any | null;
+    key: string | null;
 }
 
 /* tslint:disable */

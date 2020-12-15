@@ -205,7 +205,7 @@ export const ReportEveryDayComponent = React.memo(() => {
             withoutButton={true}
             fetchPolicy={"cache-and-network"}
         >
-            {({ data, loading }) => {
+            {({ data, loading }, { pagination }) => {
                 const result = data?.reportEveryDay.report || [];
 
                 const columns = [
@@ -229,6 +229,7 @@ export const ReportEveryDayComponent = React.memo(() => {
                                 columns={columns}
                                 size="small"
                                 expandable={expandable}
+                                pagination={pagination}
                             />
                             <ResponsiveContainer
                                 height="100%"

@@ -1,7 +1,14 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const Wrapper = styled.div`
-    background: #e5e6e7;
+const Wrapper = styled.div<{ mode?: "white" }>`
+    ${props =>
+        props.mode === "white"
+            ? css`
+                  background: #fff;
+              `
+            : css`
+                  background: #e5e6e7;
+              `};
     .ant-form {
         float: left;
         width: calc(100% - 210px);
@@ -16,10 +23,6 @@ const Wrapper = styled.div`
         text-align: end;
         margin-top: 24px;
         padding-right: 20px;
-        position: absolute;
-        right: 20px;
-        z-index: 999;
-        top: -70px;
     }
     .form-item-switch {
         display: flex;
@@ -43,8 +46,12 @@ const Wrapper = styled.div`
         .ant-picker {
             padding: 0;
         }
-        position: relative;
-        z-index: 1;
+        td.ant-table-cell.ant-table-cell {
+            padding: 2px 4px 4px 4px;
+        }
+        tr.ant-table-expanded-row > td.ant-table-cell {
+            padding: 8px 8px;
+        }
     }
 `;
 

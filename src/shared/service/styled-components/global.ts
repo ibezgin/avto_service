@@ -334,6 +334,10 @@ const globalStylesCss = css`
             }
         }
     }
+
+    .ant-menu-item a {
+        color: rgba(255, 255, 255, 0.65) !important;
+    }
     #main-sider {
         .ant-menu {
             border: 0;
@@ -347,7 +351,9 @@ const globalStylesCss = css`
             padding: 6px 8px;
             height: 52px;
             line-height: 40px;
+            color: #617279;
         }
+
         .ant-menu-item:active {
             background: none;
         }
