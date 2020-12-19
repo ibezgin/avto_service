@@ -36,7 +36,7 @@
     "dependencies": {
         "@apollo/client": "^3.3.2",
         "@apollo/react-components": "^4.0.0",
-        "antd": "4.2.2",
+        "antd": "4.9.4",
         "antd-mask-input": "^0.1.14",
         "apollo": "^2.31.1",
         "apollo-link-schema": "^1.2.5",

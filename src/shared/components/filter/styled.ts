@@ -9,11 +9,15 @@ const Wrapper = styled.div<{ mode?: "white" }>`
             : css`
                   background: #e5e6e7;
               `};
+    position: relative;
+    .ant-spin-nested-loading,
+    .ant-spin-container {
+        position: static;
+    }
     .ant-form {
-        float: left;
         width: calc(100% - 210px);
         position: relative;
-        z-index: 1;
+        z-index: 5;
         padding: 12px;
         min-height: 72px;
     }
@@ -23,6 +27,9 @@ const Wrapper = styled.div<{ mode?: "white" }>`
         text-align: end;
         margin-top: 24px;
         padding-right: 20px;
+        position: absolute;
+        top: 0;
+        right: 0;
     }
     .form-item-switch {
         display: flex;

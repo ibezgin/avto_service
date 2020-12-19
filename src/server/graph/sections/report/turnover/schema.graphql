@@ -1,0 +1,18 @@
+extend type Query {
+    reportTurnover: ReportTurnoverQuery!
+}
+extend type Mutation {
+    reportTurnover: ReportTurnoverMutation!
+}
+type ReportTurnoverQuery {
+    report: [ReportEveryDayType!]!
+}
+type ReportTurnoverMutation {
+    reportMutation: [ReportEveryDayType!]!
+}
+type ReportEveryDayType {
+    count: Int!
+    date: String!
+    proposals: [ProposalType!]!
+    key: String
+}

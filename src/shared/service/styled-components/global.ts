@@ -334,10 +334,6 @@ const globalStylesCss = css`
             }
         }
     }
-
-    .ant-menu-item a {
-        color: rgba(255, 255, 255, 0.65) !important;
-    }
     #main-sider {
         .ant-menu {
             border: 0;
