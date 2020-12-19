@@ -2,13 +2,14 @@ import React, { useCallback, useMemo } from "react";
 import { Filter } from "components/filter";
 import EVERY_DAY from "./gql/every-day.gql";
 import {
-    ReportEveryDay,
     AllUsers,
     AllClients,
     AllModels,
     AllBrand,
     AllCars,
     ReportEveryDay_reportEveryDay_report_proposals,
+    ReportTurnover,
+    ReportTurnover_reportTurnover_report_transactions,
 } from "gql/types/operation-result-types";
 import {
     LineChart,
@@ -24,8 +25,7 @@ import { Table, Spin } from "antd";
 import { useQuery } from "@apollo/client";
 import { Specialization } from "service/enums/specialization";
 import { TableDateTime } from "components/table-date-time";
-import { StatusColorTag } from "components/status-color-tag";
-import { TableClientInfo } from "components/table-client-info";
+import { NumberFormatter } from "components/number-formatter";
 import ALL_USERS from "../../dictionary/users/gql/all-users.gql";
 import ALL_CLIENTS from "../../proposal/clients/gql/all-clients.gql";
 import ALL_MODELS from "../../dictionary/models/gql/all-models.gql";
@@ -34,16 +34,21 @@ import ALL_CARS from "../../proposal/cars/gql/all-cars.gql";
 import { useHistory } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
 import { useHasWindow } from "hooks/use-has-window";
+import { useFormat } from "hooks/use-format";
 
 interface IProps {
-    proposals: ReportEveryDay_reportEveryDay_report_proposals[];
+    transactions: ReportTurnover_reportTurnover_report_transactions[];
 }
 const ExpandableSubTable = React.memo((props: IProps) => {
     const history = useHistory();
 
     const hasWindow = useHasWindow();
 
-    const proposals = useMemo(() => props.proposals || [], [props.proposals]);
+    const transactions = useMemo(() => props.transactions || [], [
+        props.transactions,
+    ]);
+    const { addZeroToId } = useFormat();
+
     const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
     const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
@@ -79,64 +84,23 @@ const ExpandableSubTable = React.memo((props: IProps) => {
 
     const columns = [
         {
-            dataIndex: "createTime",
-            title: "Дата создания",
-            render: (createTime: any) => (
-                <TableDateTime date={1000 * createTime} />
+            dataIndex: "proposal",
+            title: "Номер заявки",
+            render: (proposal: any) =>
+                addZeroToId(String(proposal.proposal_id) || ""),
+        },
+        {
+            dataIndex: "proposal",
+            title: "Дата",
+            render: (proposal: any) => (
+                <TableDateTime date={1000 * proposal.changeTime} />
             ),
         },
         {
-            dataIndex: "changeTime",
-            title: "Дата последнего изменения",
-            render: (changeTime: any) => (
-                <TableDateTime date={1000 * changeTime} />
-            ),
-        },
-        {
-            dataIndex: "status",
-            title: "Статус",
-            render: (status: any) => <StatusColorTag status={status} />,
-        },
-        {
-            dataIndex: "clientId",
-            title: "Клиент",
-            render: (clientId: any) => {
-                const client = allClients?.find(elem => elem.id === clientId);
-                return (
-                    <TableClientInfo
-                        nameAndLastName={`${client?.firstName} ${client?.lastName}`}
-                        phoneNumber={client?.phone as string}
-                    />
-                );
-            },
-        },
-        {
-            dataIndex: "carId",
-            title: "Авто",
-            render: (carId: any) => {
-                const car = allCars?.find(elem => elem.id === carId);
-                const brand = allBrand?.find(elem => elem.id === car?.brandId)
-                    ?.title;
-                const model = allModels?.find(elem => elem.id === car?.modelId)
-                    ?.title;
-                return (
-                    <span>
-                        {brand} {model}
-                    </span>
-                );
-            },
-        },
-        {
-            dataIndex: "userId",
-            title: "Технический специалист",
-            render: (userId: any) => {
-                const user = technicalUsers?.find(elem => elem?.id === userId);
-
-                return (
-                    <span>
-                        {user?.firstname} {user?.lastname}
-                    </span>
-                );
+            dataIndex: "amount",
+            title: "Сумма",
+            render: (amount: any) => {
+                return <NumberFormatter numb={amount} />;
             },
         },
         {
@@ -145,7 +109,7 @@ const ExpandableSubTable = React.memo((props: IProps) => {
             render: (_edit: any, record: any) => (
                 <EditOutlined
                     onClick={() => {
-                        history.push(`/proposal/form?id=${record.id}`);
+                        history.push(`/proposal/form?id=${record.proposal.id}`);
                     }}
                 />
             ),
@@ -175,7 +139,7 @@ const ExpandableSubTable = React.memo((props: IProps) => {
     return (
         <Table
             columns={columns}
-            dataSource={proposals}
+            dataSource={transactions}
             size="small"
             scroll={{
                 x: true,
@@ -186,11 +150,11 @@ const ExpandableSubTable = React.memo((props: IProps) => {
     );
 });
 
-export const ReportEveryDayComponent = React.memo(() => {
+export const ReportTurnoverComponent = React.memo(() => {
     const hasWindow = useHasWindow();
 
     const expandedRowRender = useCallback(record => {
-        return <ExpandableSubTable proposals={record.proposals} />;
+        return <ExpandableSubTable transactions={record.transactions} />;
     }, []);
 
     const expandable = useMemo(() => ({ expandedRowRender }), [
@@ -198,7 +162,7 @@ export const ReportEveryDayComponent = React.memo(() => {
     ]);
 
     return (
-        <Filter<ReportEveryDay>
+        <Filter<ReportTurnover>
             filterItems={[]}
             query={EVERY_DAY}
             skip={false}
@@ -206,7 +170,7 @@ export const ReportEveryDayComponent = React.memo(() => {
             fetchPolicy={"cache-and-network"}
         >
             {({ data, loading }, { pagination }) => {
-                const result = data?.reportEveryDay.report || [];
+                const result = data?.reportTurnover.report || [];
 
                 const columns = [
                     {
@@ -214,8 +178,15 @@ export const ReportEveryDayComponent = React.memo(() => {
                         title: "Дата",
                     },
                     {
+                        dataIndex: "dayAmount",
+                        title: "Сумма",
+                        render: (dayAmount: number) => (
+                            <NumberFormatter numb={dayAmount} />
+                        ),
+                    },
+                    {
                         dataIndex: "count",
-                        title: "Количество",
+                        title: "Количество оплаченных заявок за день",
                     },
                 ];
 
@@ -225,7 +196,7 @@ export const ReportEveryDayComponent = React.memo(() => {
                     <>
                         <Spin spinning={loadState}>
                             <Table
-                                dataSource={result as any}
+                                dataSource={result}
                                 columns={columns}
                                 size="small"
                                 expandable={expandable}
@@ -247,8 +218,15 @@ export const ReportEveryDayComponent = React.memo(() => {
                                     <Line
                                         type="monotone"
                                         dataKey="count"
-                                        name={"Количество заявок"}
+                                        name={"Количество оплаченных заявок"}
                                         stroke="#f45b5b"
+                                        activeDot={{ r: 8 }}
+                                    />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="dayAmount"
+                                        name={"Общая сумма за день"}
+                                        stroke="#1d2480"
                                         activeDot={{ r: 8 }}
                                     />
                                     <Legend />

@@ -347,7 +347,9 @@ const globalStylesCss = css`
             padding: 6px 8px;
             height: 52px;
             line-height: 40px;
+            color: #617279;
         }
+
         .ant-menu-item:active {
             background: none;
         }

@@ -7,6 +7,7 @@ import { ModelsEntity } from "./entities/models";
 import { ProposalEntity } from "./entities/proposal";
 import { ServiceEntity } from "./entities/service";
 import { UsersEntity } from "./entities/users";
+import { TransactionsEntity } from "./entities/transactions";
 
 let connection: ReturnType<typeof createConnection> | undefined;
 
@@ -19,6 +20,7 @@ const entities = [
     UsersEntity,
     CarsEntity,
     ProposalEntity,
+    TransactionsEntity,
 ];
 
 export const getOrCreateConnection = () => {

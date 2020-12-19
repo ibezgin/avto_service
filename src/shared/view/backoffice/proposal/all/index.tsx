@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { Table } from "antd";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ALL_PROPOSALS from "./gql/all-proposals.gql";
 import { EditOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
@@ -13,6 +13,7 @@ import All_BRAND from "../../dictionary/brand/gql/all-brands.gql";
 import { Specialization } from "../../../../service/enums/specialization";
 import { TableClientInfo } from "../../../../components/table-client-info";
 import ALL_CARS from "../cars/gql/all-cars.gql";
+import { useFormat } from "../../../../hooks/use-format";
 import {
     AllBrand,
     AllCars,
@@ -24,6 +25,10 @@ import {
 
 export const ProposalAll = React.memo(() => {
     const history = useHistory();
+
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const { addZeroToId } = useFormat();
 
     const allProposalsQuery = useQuery<AllProposals>(ALL_PROPOSALS, {
         fetchPolicy: "network-only",
@@ -38,6 +43,21 @@ export const ProposalAll = React.memo(() => {
     const allBrandsQuery = useQuery<AllBrand>(All_BRAND);
 
     const allCarsQuery = useQuery<AllCars>(ALL_CARS);
+
+    useEffect(() => {
+        const isLoading =
+            allUsersQuery.loading ||
+            allCarsQuery.loading ||
+            allModelsQuery.loading ||
+            allBrandsQuery.loading ||
+            allCarsQuery.loading;
+        setLoading(isLoading);
+    }, [
+        allBrandsQuery.loading,
+        allCarsQuery.loading,
+        allModelsQuery.loading,
+        allUsersQuery.loading,
+    ]);
 
     const technicalUsers = useMemo(
         () =>
@@ -66,6 +86,11 @@ export const ProposalAll = React.memo(() => {
         allProposalsQuery.startPolling(5000);
     }, [allProposalsQuery]);
     const columns = [
+        {
+            dataIndex: "proposal_id",
+            title: "Номер заявки",
+            render: (proposalId: any) => addZeroToId(String(proposalId) || ""),
+        },
         {
             dataIndex: "createTime",
             title: "Дата создания",
@@ -144,5 +169,7 @@ export const ProposalAll = React.memo(() => {
         () => allProposalsQuery.data?.proposal.allProposals || [],
         [allProposalsQuery.data?.proposal.allProposals],
     );
-    return <Table columns={columns} dataSource={allProposals} />;
+    return (
+        <Table columns={columns} dataSource={allProposals} loading={loading} />
+    );
 });

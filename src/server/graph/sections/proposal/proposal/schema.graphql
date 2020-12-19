@@ -15,7 +15,8 @@ type ProposalMutation {
 }
 
 type ProposalType {
-    id: String!
+    id: String
+    proposal_id: Int
     createTime: String!
     changeTime: String!
     status: Int!
