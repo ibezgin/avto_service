@@ -14,14 +14,13 @@ export class ReportTurnoverContextHelper extends AbstractRequestContextHelper {
             ),
         }));
         let result: any = [];
-
+        let totalAmount = 0;
         _.forIn(
             _.groupBy(connectProposalsAndTransactions, elem => {
                 const date = moment(Number(elem.proposal?.changeTime) * 1000)
                     .startOf("day")
                     .format("YYYY-MM-DD");
 
-                console.log(elem.proposal);
                 return date;
             }),
             (value, key) => {
@@ -29,6 +28,8 @@ export class ReportTurnoverContextHelper extends AbstractRequestContextHelper {
                 for (const transaction of value) {
                     dayAmount += transaction.amount;
                 }
+
+                totalAmount += dayAmount;
                 result = [
                     ...result,
                     {
@@ -45,6 +46,6 @@ export class ReportTurnoverContextHelper extends AbstractRequestContextHelper {
             },
         );
 
-        return result;
+        return { totalAmount, data: result };
     }
 }

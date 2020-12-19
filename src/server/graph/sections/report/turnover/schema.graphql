@@ -5,12 +5,17 @@ extend type Mutation {
     reportTurnover: ReportTurnoverMutation!
 }
 type ReportTurnoverQuery {
-    report: [ReportTurnoverType!]!
+    report: ReportTurnoverType
 }
 type ReportTurnoverMutation {
-    reportMutation: [ReportTurnoverType!]!
+    reportMutation: ReportTurnoverType
 }
 type ReportTurnoverType {
+    totalAmount: Float
+    data: [TransactionTurnoverByDayType]
+}
+
+type TransactionTurnoverByDayType {
     date: String!
     count: Int!
     dayAmount: Float!
