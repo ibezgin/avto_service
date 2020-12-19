@@ -18,7 +18,7 @@ export class ProposalEntity {
     @Column()
     public changeTime: string;
     @Column()
-    public status: string;
+    public status: number;
     @Column()
     public clientId: string;
     @Column()

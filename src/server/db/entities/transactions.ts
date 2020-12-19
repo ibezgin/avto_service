@@ -7,5 +7,5 @@ export class TransactionsEntity {
     @Column()
     public amount: number;
     @Column()
-    public proposalId: number;
+    public proposalId: ObjectID | string;
 }

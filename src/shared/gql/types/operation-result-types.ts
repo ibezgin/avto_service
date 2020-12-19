@@ -896,6 +896,59 @@ export interface ReportEveryDay {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: ReportTurnover
+// ====================================================
+
+export interface ReportTurnover_reportTurnover_report_transactions_proposal {
+    __typename: "ProposalType";
+    id: string | null;
+    proposal_id: number | null;
+    createTime: string;
+    changeTime: string;
+    status: number;
+    clientId: string;
+    carId: string;
+    userId: string | null;
+    proposalReason: string | null;
+    technicalInspectionResult: string | null;
+    recomendedWork: (string | null)[] | null;
+    completedWork: any | null;
+    key: string | null;
+}
+
+export interface ReportTurnover_reportTurnover_report_transactions {
+    __typename: "TransactionsTutnoverType";
+    key: string | null;
+    proposal: ReportTurnover_reportTurnover_report_transactions_proposal | null;
+    id: string | null;
+    amount: number | null;
+    proposalId: string | null;
+}
+
+export interface ReportTurnover_reportTurnover_report {
+    __typename: "ReportTurnoverType";
+    date: string;
+    count: number;
+    dayAmount: number;
+    transactions: ReportTurnover_reportTurnover_report_transactions[];
+    key: string | null;
+}
+
+export interface ReportTurnover_reportTurnover {
+    __typename: "ReportTurnoverQuery";
+    report: ReportTurnover_reportTurnover_report[];
+}
+
+export interface ReportTurnover {
+    reportTurnover: ReportTurnover_reportTurnover;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: proposalType
 // ====================================================
 

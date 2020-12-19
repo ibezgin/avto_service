@@ -2,7 +2,7 @@ import { AbstractRequestContextHelper } from "../../abstract-request-context-hel
 import { TransactionsEntity } from "../../../db/entities/transactions";
 
 export class TransactionsContextHelper extends AbstractRequestContextHelper {
-    public async allBrands() {
+    public async allTransactions() {
         return await this.context.helpers.database.getAll<TransactionsEntity>(
             TransactionsEntity,
         );

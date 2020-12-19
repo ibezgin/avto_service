@@ -1,25 +1,41 @@
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 import _ from "lodash";
 import moment from "moment";
+// import { ProposalStatus } from "service/enums/proposal-status";
 
 export class ReportTurnoverContextHelper extends AbstractRequestContextHelper {
     public async report() {
+        const allTransactions = await this.context.helpers.sections.transactions.allTransactions();
         const allProposals = await this.context.helpers.sections.proposal.allProposals();
+        const connectProposalsAndTransactions = allTransactions.map(elem => ({
+            ...elem,
+            proposal: allProposals.find(
+                proposal => String(proposal.id) === String(elem.proposalId),
+            ),
+        }));
         let result: any = [];
 
         _.forIn(
-            _.groupBy(allProposals, elem =>
-                moment(Number(elem.createTime) * 1000)
+            _.groupBy(connectProposalsAndTransactions, elem => {
+                const date = moment(Number(elem.proposal?.changeTime) * 1000)
                     .startOf("day")
-                    .format("YYYY-MM-DD"),
-            ),
+                    .format("YYYY-MM-DD");
+
+                console.log(elem.proposal);
+                return date;
+            }),
             (value, key) => {
+                let dayAmount = 0;
+                for (const transaction of value) {
+                    dayAmount += transaction.amount;
+                }
                 result = [
                     ...result,
                     {
                         date: key,
                         count: value.length,
-                        proposals: value.map(elem => ({
+                        dayAmount,
+                        transactions: value.map(elem => ({
                             ...elem,
                             key: String(elem.id),
                         })),

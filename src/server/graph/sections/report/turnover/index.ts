@@ -10,10 +10,10 @@ export const reportTurnoverSubSchema = new SubSchema(schema, {
     },
     ReportTurnoverQuery: {
         report: async (_obj, _props, { helpers }) =>
-            await helpers.sections.reportEveryDay.report(),
+            await helpers.sections.reportTurnover.report(),
     },
     ReportTurnoverMutation: {
         reportMutation: async (_obj, _props, { helpers }) =>
-            await helpers.sections.reportEveryDay.report(),
+            await helpers.sections.reportTurnover.report(),
     },
 });

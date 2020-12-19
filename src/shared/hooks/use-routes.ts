@@ -19,6 +19,7 @@ import { ProposalCarsHeader } from "view/backoffice/proposal/cars/header";
 import { ProposalClients } from "view/backoffice/proposal/clients";
 import { ProposalClientsHeader } from "view/backoffice/proposal/clients/header";
 import { ReportEveryDayComponent } from "view/backoffice/report/every-day";
+import { ReportTurnoverComponent } from "view/backoffice/report/turnover";
 
 export interface IRoute {
     name: string;
@@ -149,6 +150,13 @@ export function useRoutes() {
                             icon: FileOutlined,
                             access: AccessEnum.REPORT_EVERYDAY,
                             exact: true,
+                        },
+                        {
+                            name: "Отчет по оборотам",
+                            path: "/report/turnover",
+                            component: ReportTurnoverComponent,
+                            icon: FileOutlined,
+                            access: AccessEnum.REPORT_TURNOVER,
                         },
                     ],
                 },
