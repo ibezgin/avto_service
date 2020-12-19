@@ -2,12 +2,6 @@ import React, { useCallback, useMemo } from "react";
 import { Filter } from "components/filter";
 import EVERY_DAY from "./gql/every-day.gql";
 import {
-    AllUsers,
-    AllClients,
-    AllModels,
-    AllBrand,
-    AllCars,
-    ReportEveryDay_reportEveryDay_report_proposals,
     ReportTurnover,
     ReportTurnover_reportTurnover_report_transactions,
 } from "gql/types/operation-result-types";
@@ -22,15 +16,8 @@ import {
     Line,
 } from "recharts";
 import { Table, Spin } from "antd";
-import { useQuery } from "@apollo/client";
-import { Specialization } from "service/enums/specialization";
 import { TableDateTime } from "components/table-date-time";
 import { NumberFormatter } from "components/number-formatter";
-import ALL_USERS from "../../dictionary/users/gql/all-users.gql";
-import ALL_CLIENTS from "../../proposal/clients/gql/all-clients.gql";
-import ALL_MODELS from "../../dictionary/models/gql/all-models.gql";
-import All_BRAND from "../../dictionary/brand/gql/all-brands.gql";
-import ALL_CARS from "../../proposal/cars/gql/all-cars.gql";
 import { useHistory } from "react-router-dom";
 import { EditOutlined } from "@ant-design/icons";
 import { useHasWindow } from "hooks/use-has-window";
@@ -42,45 +29,10 @@ interface IProps {
 const ExpandableSubTable = React.memo((props: IProps) => {
     const history = useHistory();
 
-    const hasWindow = useHasWindow();
-
     const transactions = useMemo(() => props.transactions || [], [
         props.transactions,
     ]);
     const { addZeroToId } = useFormat();
-
-    const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
-
-    const allClientsQuery = useQuery<AllClients>(ALL_CLIENTS);
-
-    const allModelsQuery = useQuery<AllModels>(ALL_MODELS);
-
-    const allBrandsQuery = useQuery<AllBrand>(All_BRAND);
-
-    const allCarsQuery = useQuery<AllCars>(ALL_CARS);
-
-    const technicalUsers = useMemo(
-        () =>
-            allUsersQuery.data?.users.allUsers?.filter(
-                elem => elem?.position === Specialization.TECHNICAL,
-            ),
-        [allUsersQuery.data?.users.allUsers],
-    );
-
-    const allClients = useMemo(() => allClientsQuery.data?.clients.allClients, [
-        allClientsQuery.data?.clients.allClients,
-    ]);
-
-    const allModels = useMemo(() => allModelsQuery.data?.models.allModels, [
-        allModelsQuery.data?.models.allModels,
-    ]);
-    const allBrand = useMemo(() => allBrandsQuery.data?.brand.allBrands, [
-        allBrandsQuery.data?.brand.allBrands,
-    ]);
-
-    const allCars = useMemo(() => allCarsQuery.data?.cars.allCars, [
-        allCarsQuery.data?.cars.allCars,
-    ]);
 
     const columns = [
         {
@@ -116,26 +68,6 @@ const ExpandableSubTable = React.memo((props: IProps) => {
         },
     ];
 
-    const loading = useMemo(() => {
-        if (hasWindow) {
-            return (
-                allUsersQuery.loading ||
-                allClientsQuery.loading ||
-                allModelsQuery.loading ||
-                allBrandsQuery.loading ||
-                allCarsQuery.loading ||
-                allClientsQuery.loading
-            );
-        }
-        return false;
-    }, [
-        allBrandsQuery.loading,
-        allCarsQuery.loading,
-        allClientsQuery.loading,
-        allModelsQuery.loading,
-        allUsersQuery.loading,
-        hasWindow,
-    ]);
     return (
         <Table
             columns={columns}
@@ -145,7 +77,7 @@ const ExpandableSubTable = React.memo((props: IProps) => {
                 x: true,
             }}
             pagination={false}
-            loading={loading}
+            loading={false}
         />
     );
 });
