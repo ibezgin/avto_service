@@ -3,19 +3,22 @@
 query ReportTurnover {
     reportTurnover {
         report {
-            date
-            count
-            dayAmount
-            transactions {
-                key
-                proposal {
-                    ...proposalType
+            totalAmount
+            data {
+                date
+                count
+                dayAmount
+                transactions {
+                    key
+                    proposal {
+                        ...proposalType
+                    }
+                    id
+                    amount
+                    proposalId
                 }
-                id
-                amount
-                proposalId
+                key
             }
-            key
         }
     }
 }

@@ -3,7 +3,7 @@ import { Filter } from "components/filter";
 import EVERY_DAY from "./gql/every-day.gql";
 import {
     ReportTurnover,
-    ReportTurnover_reportTurnover_report_transactions,
+    ReportTurnover_reportTurnover_report_data_transactions,
 } from "gql/types/operation-result-types";
 import {
     LineChart,
@@ -24,7 +24,7 @@ import { useHasWindow } from "hooks/use-has-window";
 import { useFormat } from "hooks/use-format";
 
 interface IProps {
-    transactions: ReportTurnover_reportTurnover_report_transactions[];
+    transactions: ReportTurnover_reportTurnover_report_data_transactions[];
 }
 const ExpandableSubTable = React.memo((props: IProps) => {
     const history = useHistory();
@@ -102,7 +102,9 @@ export const ReportTurnoverComponent = React.memo(() => {
             fetchPolicy={"cache-and-network"}
         >
             {({ data, loading }, { pagination }) => {
-                const result = data?.reportTurnover.report || [];
+                const result = data?.reportTurnover.report?.data || [];
+                const totalAmount =
+                    data?.reportTurnover.report?.totalAmount || 0;
 
                 const columns = [
                     {
@@ -133,6 +135,12 @@ export const ReportTurnoverComponent = React.memo(() => {
                                 size="small"
                                 expandable={expandable}
                                 pagination={pagination}
+                                title={() => (
+                                    <>
+                                        Общая сумма по закрытым заявкам:{" "}
+                                        <NumberFormatter numb={totalAmount} />{" "}
+                                    </>
+                                )}
                             />
                             <ResponsiveContainer
                                 height="100%"
