@@ -899,7 +899,7 @@ export interface ReportEveryDay {
 // GraphQL query operation: ReportTurnover
 // ====================================================
 
-export interface ReportTurnover_reportTurnover_report_transactions_proposal {
+export interface ReportTurnover_reportTurnover_report_data_transactions_proposal {
     __typename: "ProposalType";
     id: string | null;
     proposal_id: number | null;
@@ -916,27 +916,33 @@ export interface ReportTurnover_reportTurnover_report_transactions_proposal {
     key: string | null;
 }
 
-export interface ReportTurnover_reportTurnover_report_transactions {
+export interface ReportTurnover_reportTurnover_report_data_transactions {
     __typename: "TransactionsTutnoverType";
     key: string | null;
-    proposal: ReportTurnover_reportTurnover_report_transactions_proposal | null;
+    proposal: ReportTurnover_reportTurnover_report_data_transactions_proposal | null;
     id: string | null;
     amount: number | null;
     proposalId: string | null;
 }
 
-export interface ReportTurnover_reportTurnover_report {
-    __typename: "ReportTurnoverType";
+export interface ReportTurnover_reportTurnover_report_data {
+    __typename: "TransactionTurnoverByDayType";
     date: string;
     count: number;
     dayAmount: number;
-    transactions: ReportTurnover_reportTurnover_report_transactions[];
+    transactions: ReportTurnover_reportTurnover_report_data_transactions[];
     key: string | null;
+}
+
+export interface ReportTurnover_reportTurnover_report {
+    __typename: "ReportTurnoverType";
+    totalAmount: number | null;
+    data: (ReportTurnover_reportTurnover_report_data | null)[] | null;
 }
 
 export interface ReportTurnover_reportTurnover {
     __typename: "ReportTurnoverQuery";
-    report: ReportTurnover_reportTurnover_report[];
+    report: ReportTurnover_reportTurnover_report | null;
 }
 
 export interface ReportTurnover {
