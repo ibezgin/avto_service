@@ -8,6 +8,8 @@ import { ProposalContextHelper } from "./proposal";
 import { ServiceContextHelper } from "./service";
 import { UsersContextHelper } from "./users";
 import { ReportEveryDayContextHelper } from "./report-every-day";
+import { TransactionsContextHelper } from "./transactions";
+import { ReportTurnoverContextHelper } from "./report-turnover";
 
 export class SectionsContextHelper extends AbstractRequestContextHelper {
     public get brand() {
@@ -36,5 +38,11 @@ export class SectionsContextHelper extends AbstractRequestContextHelper {
     }
     public get reportEveryDay() {
         return new ReportEveryDayContextHelper(this.context);
+    }
+    public get transactions() {
+        return new TransactionsContextHelper(this.context);
+    }
+    public get reportTurnover() {
+        return new ReportTurnoverContextHelper(this.context);
     }
 }

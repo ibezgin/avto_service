@@ -1,0 +1,21 @@
+#import "../../../../../gql/fragments/proposal-type.gql"
+
+query ReportTurnover {
+    reportTurnover {
+        report {
+            date
+            count
+            dayAmount
+            transactions {
+                key
+                proposal {
+                    ...proposalType
+                }
+                id
+                amount
+                proposalId
+            }
+            key
+        }
+    }
+}
