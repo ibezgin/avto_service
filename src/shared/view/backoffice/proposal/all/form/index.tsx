@@ -117,9 +117,6 @@ export const ProposalForm = React.memo(() => {
         [allServiceQuery.data?.service.allServices],
     );
 
-    // eslint-disable-next-line no-console
-    console.log(service);
-
     const recomendedWorkDatasourse = useMemo(
         () =>
             service && service?.length
