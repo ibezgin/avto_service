@@ -12,7 +12,7 @@ export const BackofficeMenu = React.memo(() => {
         <Menu theme="dark" mode="inline">
             {routes.map(
                 (category, categoryIndex) =>
-                    hasPermission(category.access) && (
+                    hasPermission(category.access, true) && (
                         <SubMenu
                             key={`menu-category-${categoryIndex}`}
                             icon={<category.icon />}
