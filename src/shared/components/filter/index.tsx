@@ -16,6 +16,7 @@ import { SC } from "./styled";
 import { useChangeFormik } from "../../hooks/use-change-formik";
 import { TablePaginationConfig } from "antd/lib/table";
 import moment from "moment";
+import { useLocation } from "react-router-dom";
 
 export interface ITypeFilterItems {
     periods?: Array<moment.Moment | string>;
@@ -51,6 +52,7 @@ interface IProps<P> extends IQueryComponentOptions<P> {
     ssr?: boolean;
     paginationItemRender?: any;
     withoutButton?: boolean;
+    pollInterval?: number;
 }
 const items = [
     {
@@ -123,6 +125,9 @@ const pageSize = 30;
 
 export function Filter<T>(props: IProps<T>) {
     const initialValues = useInitialValues();
+
+    const location = useLocation();
+
     const [skip, setSkip] = useState(
         typeof props.skip === "boolean" ? props.skip : true,
     );
@@ -213,9 +218,17 @@ export function Filter<T>(props: IProps<T>) {
         variables: queryVariables,
         fetchPolicy: props.fetchPolicy,
     });
+
+    useEffect(() => {
+        if (props.pollInterval) {
+            query.startPolling(props.pollInterval);
+        }
+    }, [props.pollInterval, query]);
+
     const loading = Boolean(
         hasWindow && (query.loading || query.networkStatus === 4),
     );
+
     return (
         <SC.Wrapper>
             <Formik

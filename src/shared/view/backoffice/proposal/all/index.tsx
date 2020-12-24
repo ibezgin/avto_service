@@ -22,6 +22,7 @@ import {
     AllProposals,
     AllUsers,
 } from "gql/types/operation-result-types";
+import { Filter } from "components/filter";
 
 export const ProposalAll = React.memo(() => {
     const history = useHistory();
@@ -29,10 +30,6 @@ export const ProposalAll = React.memo(() => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const { addZeroToId } = useFormat();
-
-    const allProposalsQuery = useQuery<AllProposals>(ALL_PROPOSALS, {
-        fetchPolicy: "network-only",
-    });
 
     const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
@@ -82,94 +79,117 @@ export const ProposalAll = React.memo(() => {
         allCarsQuery.data?.cars.allCars,
     ]);
 
-    useEffect(() => {
-        allProposalsQuery.startPolling(5000);
-    }, [allProposalsQuery]);
-    const columns = [
-        {
-            dataIndex: "proposal_id",
-            title: "Номер заявки",
-            render: (proposalId: any) => addZeroToId(String(proposalId) || ""),
-        },
-        {
-            dataIndex: "createTime",
-            title: "Дата создания",
-            render: (createTime: any) => (
-                <TableDateTime date={1000 * createTime} />
-            ),
-        },
-        {
-            dataIndex: "changeTime",
-            title: "Дата последнего изменения",
-            render: (changeTime: any) => (
-                <TableDateTime date={1000 * changeTime} />
-            ),
-        },
-        {
-            dataIndex: "status",
-            title: "Статус",
-            render: (status: any) => <StatusColorTag status={status} />,
-        },
-        {
-            dataIndex: "clientId",
-            title: "Клиент",
-            render: (clientId: any) => {
-                const client = allClients?.find(elem => elem.id === clientId);
+    return (
+        <Filter<AllProposals>
+            filterItems={[]}
+            query={ALL_PROPOSALS}
+            withoutButton={true}
+            pollInterval={3000}
+        >
+            {({ data }, { pagination }) => {
+                const allProposalsData = data?.proposal.allProposals || [];
+
+                const columns = [
+                    {
+                        dataIndex: "proposal_id",
+                        title: "Номер заявки",
+                        render: (proposalId: any) =>
+                            addZeroToId(String(proposalId) || ""),
+                    },
+                    {
+                        dataIndex: "createTime",
+                        title: "Дата создания",
+                        render: (createTime: any) => (
+                            <TableDateTime date={1000 * createTime} />
+                        ),
+                    },
+                    {
+                        dataIndex: "changeTime",
+                        title: "Дата последнего изменения",
+                        render: (changeTime: any) => (
+                            <TableDateTime date={1000 * changeTime} />
+                        ),
+                    },
+                    {
+                        dataIndex: "status",
+                        title: "Статус",
+                        render: (status: any) => (
+                            <StatusColorTag status={status} />
+                        ),
+                    },
+                    {
+                        dataIndex: "clientId",
+                        title: "Клиент",
+                        render: (clientId: any) => {
+                            const client = allClients?.find(
+                                elem => elem.id === clientId,
+                            );
+                            return (
+                                <TableClientInfo
+                                    nameAndLastName={`${client?.firstName} ${client?.lastName}`}
+                                    phoneNumber={client?.phone as string}
+                                />
+                            );
+                        },
+                    },
+                    {
+                        dataIndex: "carId",
+                        title: "Авто",
+                        render: (carId: any) => {
+                            const car = allCars?.find(
+                                elem => elem.id === carId,
+                            );
+                            const brand = allBrand?.find(
+                                elem => elem.id === car?.brandId,
+                            )?.title;
+                            const model = allModels?.find(
+                                elem => elem.id === car?.modelId,
+                            )?.title;
+                            return (
+                                <span>
+                                    {brand} {model}
+                                </span>
+                            );
+                        },
+                    },
+                    {
+                        dataIndex: "userId",
+                        title: "Технический специалист",
+                        render: (userId: any) => {
+                            const user = technicalUsers?.find(
+                                elem => elem?.id === userId,
+                            );
+
+                            return (
+                                <span>
+                                    {user?.firstname} {user?.lastname}
+                                </span>
+                            );
+                        },
+                    },
+                    {
+                        dataIndex: "edit",
+                        title: "",
+                        render: (_edit: any, record: any) => (
+                            <EditOutlined
+                                onClick={() => {
+                                    history.push(
+                                        `/proposal/form?id=${record.id}`,
+                                    );
+                                }}
+                            />
+                        ),
+                    },
+                ];
                 return (
-                    <TableClientInfo
-                        nameAndLastName={`${client?.firstName} ${client?.lastName}`}
-                        phoneNumber={client?.phone as string}
+                    <Table
+                        columns={columns}
+                        dataSource={allProposalsData}
+                        loading={loading}
+                        pagination={pagination}
                     />
                 );
-            },
-        },
-        {
-            dataIndex: "carId",
-            title: "Авто",
-            render: (carId: any) => {
-                const car = allCars?.find(elem => elem.id === carId);
-                const brand = allBrand?.find(elem => elem.id === car?.brandId)
-                    ?.title;
-                const model = allModels?.find(elem => elem.id === car?.modelId)
-                    ?.title;
-                return (
-                    <span>
-                        {brand} {model}
-                    </span>
-                );
-            },
-        },
-        {
-            dataIndex: "userId",
-            title: "Технический специалист",
-            render: (userId: any) => {
-                const user = technicalUsers?.find(elem => elem?.id === userId);
-
-                return (
-                    <span>
-                        {user?.firstname} {user?.lastname}
-                    </span>
-                );
-            },
-        },
-        {
-            dataIndex: "edit",
-            title: "",
-            render: (_edit: any, record: any) => (
-                <EditOutlined
-                    onClick={() => {
-                        history.push(`/proposal/form?id=${record.id}`);
-                    }}
-                />
-            ),
-        },
-    ];
-
-    const allProposals = useMemo(
-        () => allProposalsQuery.data?.proposal.allProposals || [],
-        [allProposalsQuery.data?.proposal.allProposals],
-    );
-    return (
-        <Table columns={columns} dataSource={allProposals} loading={loading} />
+            }}
+        </Filter>
     );
 });
