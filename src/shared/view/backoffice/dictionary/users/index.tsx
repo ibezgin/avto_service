@@ -7,7 +7,6 @@ import { useUsersHelper } from "./helper";
 import { ModalForm } from "../../../../components/modal-form";
 import ALL_USERS from "./gql/all-users.gql";
 import _ from "lodash";
-import { useUser } from "../../../../hooks/use-user";
 import { AllUsers } from "gql/types/operation-result-types";
 
 const { confirm } = Modal;
@@ -15,9 +14,6 @@ const { confirm } = Modal;
 export const DictionaryUsers = React.memo(() => {
     const styleUtils = useStyleUtils();
 
-    const user = useUser();
-    // eslint-disable-next-line no-console
-    console.log(user);
     const allUsersQuery = useQuery<AllUsers>(ALL_USERS);
 
     const allUsers = useMemo(() => allUsersQuery.data?.users.allUsers || [], [

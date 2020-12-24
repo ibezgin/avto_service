@@ -1,72 +1,64 @@
-import { IFormField } from "../components/modal-form";
 import { AccessEnum } from "../service/enums/access";
 
-export function useAccess(): IFormField[] {
+export function useAccess() {
     return [
         {
-            name: AccessEnum.DICTIONARY,
             title: "Справочники",
-            type: "checkboxField",
+            key: AccessEnum.DICTIONARY,
+            children: [
+                {
+                    title: "Пользователи",
+                    key: AccessEnum.DICTIONARY_USERS,
+                },
+                {
+                    title: "Марки автомобилей",
+                    key: AccessEnum.DICTIONARY_BRAND,
+                },
+                {
+                    title: "Модели автомобилей",
+                    key: AccessEnum.DICTIONARY_MODELS,
+                },
+                {
+                    title: "Услуги",
+                    key: AccessEnum.DICTIONARY_SERVICE,
+                },
+            ],
         },
         {
-            name: AccessEnum.DICTIONARY_USERS,
-            title: "Справочники.Пользователи",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.DICTIONARY_BRAND,
-            title: "Справочники.Марки автомобилей",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.DICTIONARY_MODELS,
-            title: "Справочники.Модели автомобилей",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.DICTIONARY_SERVICE,
-            title: "Справочники.Услуги",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.PROPOSAL,
             title: "Заявки",
-            type: "checkboxField",
+            key: AccessEnum.PROPOSAL,
+            children: [
+                {
+                    title: "Все заявки",
+                    key: AccessEnum.PROPOSAL_ALL,
+                },
+                {
+                    title: "Все заявки",
+                    key: AccessEnum.PROPOSAL_ADD,
+                },
+                {
+                    title: "Клиенты",
+                    key: AccessEnum.PROPOSAL_CLIENTS,
+                },
+                {
+                    title: "Обслуживаемые автомобили",
+                    key: AccessEnum.PROPOSAL_CARS,
+                },
+            ],
         },
         {
-            name: AccessEnum.PROPOSAL_ALL,
-            title: "Заявки.Все заявки",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.PROPOSAL_ADD,
-            title: "Заявки.Добавить заявку",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.PROPOSAL_CLIENTS,
-            title: "Заявки.Клиенты",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.PROPOSAL_CARS,
-            title: "Заявки.Обслуживаемые автомобили",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.REPORT,
             title: "Отчеты",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.REPORT_EVERYDAY,
-            title: "Отчеты.Отчет о постипивших заявках по дням",
-            type: "checkboxField",
-        },
-        {
-            name: AccessEnum.REPORT_TURNOVER,
-            title: "Отчеты.Обороты",
-            type: "checkboxField",
+            key: AccessEnum.REPORT,
+            children: [
+                {
+                    title: "Отчет о постипивших заявках по дням",
+                    key: AccessEnum.REPORT_EVERYDAY,
+                },
+                {
+                    title: "Обороты",
+                    key: AccessEnum.REPORT_TURNOVER,
+                },
+            ],
         },
     ];
 }

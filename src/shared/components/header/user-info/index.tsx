@@ -10,13 +10,12 @@ import LOGOUT from "../../../gql/authentication/logout.gql";
 import CURRENT_USER from "../../../gql/authentication/current-user.gql";
 import { Logout } from "gql/types/operation-result-types";
 import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { LanguageListModal } from "./language-list-modal";
 const { Text } = Typography;
 
 export const UserInfo = React.memo(() => {
     const user: any = useUser();
-    const { t } = useTranslation();
 
     const [visibleLanguageModal, setVisibleLanguageModal] = useState<boolean>(
         false,
@@ -34,7 +33,7 @@ export const UserInfo = React.memo(() => {
                 minWidth: 200,
             }}
         >
-            <Menu.Item
+            {/* <Menu.Item
                 onClick={() => {
                     setVisibleLanguageModal(true);
                 }}
@@ -43,7 +42,7 @@ export const UserInfo = React.memo(() => {
                     <SC.UserInfoTitle>{t("Язык")}</SC.UserInfoTitle>
                     <SC.UserInfoValue>{locale}</SC.UserInfoValue>
                 </div>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item
                 onClick={() => {
                     sendLogout();

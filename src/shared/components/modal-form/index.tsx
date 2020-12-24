@@ -4,7 +4,7 @@ import React, { ReactNode, useCallback, useMemo, useState } from "react";
 import * as FormikAntd from "formik-antd";
 import { Typography } from "antd";
 import _ from "lodash";
-
+import { ModalFormTree } from "./tree";
 import MaskedInput from "antd-mask-input";
 
 const { Title } = Typography;
@@ -16,7 +16,8 @@ type FormFieldType =
     | "checkboxField"
     | "phoneField"
     | "passwordField"
-    | "gosNumberField";
+    | "gosNumberField"
+    | "treeField";
 
 type IField = {
     [key in FormFieldType]: any;
@@ -31,6 +32,16 @@ interface IOptions {
     value: string | number;
 }
 
+interface IChildTree {
+    title: string;
+    key: string;
+}
+export interface ITreeData {
+    title: string;
+    key: string;
+    children: IChildTree[];
+}
+
 export interface IFormField {
     title: string;
     name: string;
@@ -39,6 +50,7 @@ export interface IFormField {
     settings?: {
         disabledIfEmpty?: string;
     };
+    treeData?: ITreeData[];
 }
 
 interface IProps {
@@ -142,7 +154,6 @@ export const ModalForm = React.memo((props: IProps) => {
                     />
                 </FormikAntd.FormItem>
             ),
-
             gosNumberField: (
                 <FormikAntd.FormItem name={field.name} label={field.title}>
                     <Field name={field.name}>
@@ -172,6 +183,12 @@ export const ModalForm = React.memo((props: IProps) => {
                         )}
                     </Field>
                 </FormikAntd.FormItem>
+            ),
+            treeField: (
+                <ModalFormTree
+                    name={field.name}
+                    treeData={field.treeData || []}
+                />
             ),
         };
 

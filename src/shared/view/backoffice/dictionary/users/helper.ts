@@ -19,6 +19,7 @@ import UPDATE_USER from "./gql/update-user.gql";
 
 export function useUsersHelper() {
     const access = useAccess();
+
     const positions = [
         {
             value: Specialization.ADMIN,
@@ -60,8 +61,12 @@ export function useUsersHelper() {
             name: "password",
             type: "passwordField",
         },
-
-        ...access.map(elem => ({ ...elem, name: `permission.${elem.name}` })),
+        {
+            title: "Тест доступы",
+            name: "permission",
+            type: "treeField",
+            treeData: access,
+        },
     ] as IFormField[];
 
     const options = useMutationOptions();
@@ -89,8 +94,6 @@ export function useUsersHelper() {
     >(UPDATE_USER, options);
 
     const sendAddUser = (data: UserInput) => {
-        // eslint-disable-next-line no-console
-        console.log(addUserHelper);
         addUser({
             variables: {
                 data,
