@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { List, Spin } from "antd";
+import { List, Spin, Typography } from "antd";
 import { Formik } from "formik";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -36,10 +36,15 @@ import {
 } from "gql/types/operation-result-types";
 import { Specialization } from "service/enums/specialization";
 import { ProposalStatus } from "service/enums/proposal-status";
+import { useFormat } from "hooks/use-format";
+
+const { Title } = Typography;
 
 export const ProposalForm = React.memo(() => {
     const history = useHistory();
     const { id } = useQueryParams();
+
+    const { addZeroToId } = useFormat();
 
     const [client, setClient] = useState("");
 
@@ -111,9 +116,6 @@ export const ProposalForm = React.memo(() => {
         () => allServiceQuery.data?.service.allServices,
         [allServiceQuery.data?.service.allServices],
     );
-
-    // eslint-disable-next-line no-console
-    console.log(service);
 
     const recomendedWorkDatasourse = useMemo(
         () =>
@@ -354,7 +356,29 @@ export const ProposalForm = React.memo(() => {
                     return (
                         <FormikAntd.Form>
                             <CardWrapper>
+                                {proposalById?.proposal_id && (
+                                    <Title level={3}>
+                                        Заявка №{" "}
+                                        {addZeroToId(
+                                            String(proposalById?.proposal_id),
+                                        )}
+                                    </Title>
+                                )}
                                 <CardInner>
+                                    {/* {proposalById?.proposal_id && (
+                                        <CardRow>
+                                            <CardCell>
+                                                <CardTitle>
+                                                    Заявки №{" "}
+                                                    {addZeroToId(
+                                                        String(
+                                                            proposalById?.proposal_id,
+                                                        ),
+                                                    )}
+                                                </CardTitle>
+                                            </CardCell>
+                                        </CardRow>
+                                    )} */}
                                     <CardRow>
                                         <CardCell>
                                             <CardTitle>
@@ -521,7 +545,6 @@ export const ProposalForm = React.memo(() => {
                                             <StatusColorTag
                                                 status={
                                                     proposalById?.status ||
-                                                    values?.status ||
                                                     ProposalStatus.ACCEPTED
                                                 }
                                             />

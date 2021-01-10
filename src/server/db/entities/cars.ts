@@ -1,17 +1,25 @@
-import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
+import mongoose, { Schema, Document } from "mongoose";
+import { IBrand } from "./brand";
+import { IClients } from "./clients";
+import { IModels } from "./models";
 
-@Entity({ name: "cars" })
-export class CarsEntity {
-    @ObjectIdColumn()
-    public id: ObjectID | string;
-    @Column()
-    public brandId: string;
-    @Column()
-    public modelId: string;
-    @Column()
-    public clientId: string;
-    @Column()
-    public gosNumber: string;
-    @Column()
-    public color: string;
+export interface ICars extends Document {
+    brandId: IBrand["_id"];
+    modelId: IModels["_id"];
+    clientId: IClients["_id"];
+    gosNumber: string;
+    color: string;
 }
+
+const schema: Schema = new Schema(
+    {
+        brandId: Schema.Types.ObjectId,
+        modelId: Schema.Types.ObjectId,
+        clientId: Schema.Types.ObjectId,
+        gosNumber: String,
+        color: String,
+    },
+    { collection: "cars" },
+);
+
+export const CarsModel = mongoose.model<ICars>("cars", schema);

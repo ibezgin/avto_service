@@ -572,7 +572,8 @@ export interface AddProposalVariables {
 
 export interface AllProposals_proposal_allProposals {
     __typename: "ProposalType";
-    id: string;
+    id: string | null;
+    proposal_id: number | null;
     createTime: string;
     changeTime: string;
     status: number;
@@ -583,6 +584,7 @@ export interface AllProposals_proposal_allProposals {
     technicalInspectionResult: string | null;
     recomendedWork: (string | null)[] | null;
     completedWork: any | null;
+    key: string | null;
 }
 
 export interface AllProposals_proposal {
@@ -605,7 +607,8 @@ export interface AllProposals {
 
 export interface ProposalById_proposal_proposalById {
     __typename: "ProposalType";
-    id: string;
+    id: string | null;
+    proposal_id: number | null;
     createTime: string;
     changeTime: string;
     status: number;
@@ -616,6 +619,7 @@ export interface ProposalById_proposal_proposalById {
     technicalInspectionResult: string | null;
     recomendedWork: (string | null)[] | null;
     completedWork: any | null;
+    key: string | null;
 }
 
 export interface ProposalById_proposal {
@@ -854,7 +858,8 @@ export interface UpdateClientVariables {
 
 export interface ReportEveryDay_reportEveryDay_report_proposals {
     __typename: "ProposalType";
-    id: string;
+    id: string | null;
+    proposal_id: number | null;
     createTime: string;
     changeTime: string;
     status: number;
@@ -865,22 +870,83 @@ export interface ReportEveryDay_reportEveryDay_report_proposals {
     technicalInspectionResult: string | null;
     recomendedWork: (string | null)[] | null;
     completedWork: any | null;
+    key: string | null;
 }
 
 export interface ReportEveryDay_reportEveryDay_report {
     __typename: "ReportEveryDayType";
     count: number;
     date: string;
-    proposals: (ReportEveryDay_reportEveryDay_report_proposals | null)[] | null;
+    proposals: ReportEveryDay_reportEveryDay_report_proposals[];
+    key: string | null;
 }
 
 export interface ReportEveryDay_reportEveryDay {
     __typename: "ReportEveryDayQuery";
-    report: (ReportEveryDay_reportEveryDay_report | null)[] | null;
+    report: ReportEveryDay_reportEveryDay_report[];
 }
 
 export interface ReportEveryDay {
     reportEveryDay: ReportEveryDay_reportEveryDay;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: ReportTurnover
+// ====================================================
+
+export interface ReportTurnover_reportTurnover_report_data_transactions_proposal {
+    __typename: "ProposalType";
+    id: string | null;
+    proposal_id: number | null;
+    createTime: string;
+    changeTime: string;
+    status: number;
+    clientId: string;
+    carId: string;
+    userId: string | null;
+    proposalReason: string | null;
+    technicalInspectionResult: string | null;
+    recomendedWork: (string | null)[] | null;
+    completedWork: any | null;
+    key: string | null;
+}
+
+export interface ReportTurnover_reportTurnover_report_data_transactions {
+    __typename: "TransactionsTutnoverType";
+    key: string | null;
+    proposal: ReportTurnover_reportTurnover_report_data_transactions_proposal | null;
+    id: string | null;
+    amount: number | null;
+    proposalId: string | null;
+}
+
+export interface ReportTurnover_reportTurnover_report_data {
+    __typename: "TransactionTurnoverByDayType";
+    date: string;
+    count: number;
+    dayAmount: number;
+    transactions: ReportTurnover_reportTurnover_report_data_transactions[];
+    key: string | null;
+}
+
+export interface ReportTurnover_reportTurnover_report {
+    __typename: "ReportTurnoverType";
+    totalAmount: number | null;
+    data: (ReportTurnover_reportTurnover_report_data | null)[] | null;
+}
+
+export interface ReportTurnover_reportTurnover {
+    __typename: "ReportTurnoverQuery";
+    report: ReportTurnover_reportTurnover_report | null;
+}
+
+export interface ReportTurnover {
+    reportTurnover: ReportTurnover_reportTurnover;
 }
 
 /* tslint:disable */
@@ -894,7 +960,8 @@ export interface ReportEveryDay {
 
 export interface proposalType {
     __typename: "ProposalType";
-    id: string;
+    id: string | null;
+    proposal_id: number | null;
     createTime: string;
     changeTime: string;
     status: number;
@@ -905,6 +972,7 @@ export interface proposalType {
     technicalInspectionResult: string | null;
     recomendedWork: (string | null)[] | null;
     completedWork: any | null;
+    key: string | null;
 }
 
 /* tslint:disable */

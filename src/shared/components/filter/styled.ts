@@ -1,12 +1,23 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const Wrapper = styled.div`
-    background: #e5e6e7;
+const Wrapper = styled.div<{ mode?: "white" }>`
+    ${props =>
+        props.mode === "white"
+            ? css`
+                  background: #fff;
+              `
+            : css`
+                  background: #e5e6e7;
+              `};
+    position: relative;
+    .ant-spin-nested-loading,
+    .ant-spin-container {
+        position: static;
+    }
     .ant-form {
-        float: left;
         width: calc(100% - 210px);
         position: relative;
-        z-index: 1;
+        z-index: 5;
         padding: 12px;
         min-height: 72px;
     }
@@ -17,9 +28,8 @@ const Wrapper = styled.div`
         margin-top: 24px;
         padding-right: 20px;
         position: absolute;
-        right: 20px;
-        z-index: 999;
-        top: -70px;
+        top: 0;
+        right: 0;
     }
     .form-item-switch {
         display: flex;
@@ -43,8 +53,12 @@ const Wrapper = styled.div`
         .ant-picker {
             padding: 0;
         }
-        position: relative;
-        z-index: 1;
+        td.ant-table-cell.ant-table-cell {
+            padding: 2px 4px 4px 4px;
+        }
+        tr.ant-table-expanded-row > td.ant-table-cell {
+            padding: 8px 8px;
+        }
     }
 `;
 

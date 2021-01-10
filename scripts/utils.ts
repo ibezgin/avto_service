@@ -1,19 +1,20 @@
-import chalk from 'chalk';
+import chalk from "chalk";
 
-export const logMessage = (message: any, level: string = 'info') => {
+export const logMessage = (message: any, level = "info") => {
     const color =
-        level === 'error'
-            ? 'red'
-            : level === 'warning'
-            ? 'yellow'
-            : level === 'info'
-            ? 'blue'
-            : 'white';
+        level === "error"
+            ? "red"
+            : level === "warning"
+            ? "yellow"
+            : level === "info"
+            ? "blue"
+            : "white";
+    // eslint-disable-next-line no-console
     console.log(`[${new Date().toISOString()}]`, chalk[color](message));
 };
 
 export const compilerPromise = (name: string, compiler: any) => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
         compiler.hooks.compile.tap(name, () => {
             logMessage(`[${name}] Compiling `);
         });
@@ -26,10 +27,12 @@ export const compilerPromise = (name: string, compiler: any) => {
     });
 };
 
-export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = (ms: number) =>
+    new Promise(resolve => setTimeout(resolve, ms));
 
-export const clientOnly = () => process.argv.includes('--client-only');
+export const clientOnly = () => process.argv.includes("--client-only");
 
+// eslint-disable-next-line import/no-default-export
 export default {
     clientOnly,
     compilerPromise,

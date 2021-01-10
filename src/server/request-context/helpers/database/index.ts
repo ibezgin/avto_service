@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { getMongoManager } from "typeorm";
+import { Document, Model } from "mongoose";
 
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
 
@@ -10,42 +10,44 @@ interface IValuesType {
 export class DatabaseContextHelper extends AbstractRequestContextHelper {
     // private isAuthorized = this.context.authentification.isAuthenticated;
 
-    public async getAll<T>(entity: new () => T) {
-        const manager = getMongoManager();
-        const result = await manager.find(entity);
+    public async getAll<T extends Document>(model: Model<T>) {
+        const result = await model.find();
         return result;
     }
 
-    public async getById<T>(entity: new () => T, id: string) {
+    public async getById<T extends Document>(model: Model<T>, id: string) {
         // eslint-disable-next-line no-console
-        console.log(id);
-        const manager = getMongoManager();
-        const result = await manager.findOne(entity, id);
-        // eslint-disable-next-line no-console
-        console.log(result);
+        const result = await model.findById(id);
 
         return result;
     }
 
-    public async add<T>(entity: new () => T, values: IValuesType) {
-        const newEntity: any = new entity();
-        // eslint-disable-next-line guard-for-in
-        for (const key in values) {
-            newEntity[key] = values[key];
-        }
-        const manager = getMongoManager();
-        const result = await manager.save(newEntity);
+    public async add<T extends Document>(model: Model<T>, values: IValuesType) {
+        // const newEntity: any = new entity();
+        // // eslint-disable-next-line guard-for-in
+        // for (const key in values) {
+        //     newEntity[key] = values[key];
+        // }
+        // const manager = getMongoManager();
+
+        const _model = new model(values);
+
+        const result = await _model.save();
         return !!result;
     }
-    public async delete<T>(entity: new () => T, id: string) {
-        const manager = getMongoManager();
-        const result = await manager.delete(entity, id);
+
+    public async delete<T extends Document>(model: Model<T>, id: string) {
+        const result = await model.deleteOne(id);
         return _.isEmpty(result);
     }
-    public async update<T>(entity: new () => T, id: string, values: T) {
-        const manager = getMongoManager();
-        const result = await manager.update(entity, id, values);
-        return !result.generatedMaps.length;
+
+    public async update<T extends Document>(
+        model: Model<T>,
+        id: string,
+        values: any,
+    ) {
+        const result = await model.findByIdAndUpdate(id, { ...values });
+        return !result;
     }
     // private checkAuth() {
     //     if (this.isAuthorized()) {

@@ -30,7 +30,7 @@ const babelLoader = {
                 },
             ],
         ],
-        cacheDirectory: true,
+        cacheDirectory: process.env.NODE_ENV === "production",
         cacheCompression: process.env.NODE_ENV === "production",
         compact: process.env.NODE_ENV === "production",
     },
