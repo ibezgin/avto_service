@@ -8,11 +8,14 @@ export interface IClients extends Document {
     createTime: string;
 }
 
-const schema: Schema = new Schema({
-    firstName: String,
-    lastName: String,
-    phone: String,
-    createTime: String,
-});
+const schema: Schema = new Schema(
+    {
+        firstName: String,
+        lastName: String,
+        phone: String,
+        createTime: String,
+    },
+    { collection: "clients" },
+);
 
 export const ClientsModel = mongoose.model<IClients>("clients", schema);

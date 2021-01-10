@@ -5,6 +5,9 @@ export interface ICarPart extends Document {
     price: number;
 }
 
-const schema: Schema = new Schema({ title: String, price: Number });
+const schema: Schema = new Schema(
+    { title: String, price: Number },
+    { collection: "car-part" },
+);
 
 export const CarPartModel = mongoose.model<ICarPart>("car-part", schema);

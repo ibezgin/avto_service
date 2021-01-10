@@ -12,13 +12,16 @@ export interface IUsers extends Document {
     permission: string;
 }
 
-const schema: Schema = new Schema({
-    firstname: String,
-    lastname: String,
-    username: { type: String, unique: true },
-    password: String,
-    position: String,
-    permission: String,
-});
+const schema: Schema = new Schema(
+    {
+        firstname: String,
+        lastname: String,
+        username: { type: String, unique: true },
+        password: String,
+        position: String,
+        permission: String,
+    },
+    { collection: "users" },
+);
 
 export const UsersModel = mongoose.model<IUsers>("users", schema);

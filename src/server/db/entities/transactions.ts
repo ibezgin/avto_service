@@ -7,10 +7,13 @@ export interface ITransactions extends Document {
     proposalId: IProposal["_id"];
 }
 
-const schema: Schema = new Schema({
-    amount: Number,
-    proposalId: Schema.Types.ObjectId,
-});
+const schema: Schema = new Schema(
+    {
+        amount: Number,
+        proposalId: Schema.Types.ObjectId,
+    },
+    { collection: "transactions" },
+);
 
 export const TransactionsModel = mongoose.model<ITransactions>(
     "transactions",

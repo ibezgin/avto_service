@@ -11,12 +11,15 @@ export interface ICars extends Document {
     color: string;
 }
 
-const schema: Schema = new Schema({
-    brandId: Schema.Types.ObjectId,
-    modelId: Schema.Types.ObjectId,
-    clientId: Schema.Types.ObjectId,
-    gosNumber: String,
-    color: String,
-});
+const schema: Schema = new Schema(
+    {
+        brandId: Schema.Types.ObjectId,
+        modelId: Schema.Types.ObjectId,
+        clientId: Schema.Types.ObjectId,
+        gosNumber: String,
+        color: String,
+    },
+    { collection: "cars" },
+);
 
 export const CarsModel = mongoose.model<ICars>("cars", schema);

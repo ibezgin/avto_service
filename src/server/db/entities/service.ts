@@ -6,6 +6,9 @@ export interface IService extends Document {
     price: number;
 }
 
-const schema = new Schema({ title: String, price: Number });
+const schema = new Schema(
+    { title: String, price: Number },
+    { collection: "service" },
+);
 
-export const ServiceModel = mongoose.model<IService>("services", schema);
+export const ServiceModel = mongoose.model<IService>("service", schema);

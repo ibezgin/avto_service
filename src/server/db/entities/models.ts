@@ -7,9 +7,12 @@ export interface IModels extends Document {
     title: string;
 }
 
-const schema: Schema = new Schema({
-    brandId: Schema.Types.ObjectId,
-    title: String,
-});
+const schema: Schema = new Schema(
+    {
+        brandId: Schema.Types.ObjectId,
+        title: String,
+    },
+    { collection: "models" },
+);
 
 export const ModelsModel = mongoose.model<IModels>("models", schema);

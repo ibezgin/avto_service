@@ -14,22 +14,25 @@ export interface IProposal extends Document {
     userId: IUsers["_id"];
     proposalReason: string;
     technicalInspectionResult: string;
-    recomendedWork: string;
+    recomendedWork: string[];
     completedWork: string;
 }
 
-const schema: Schema = new Schema({
-    proposal_id: Number,
-    createTime: String,
-    changeTime: String,
-    status: Number,
-    clientId: Schema.Types.ObjectId,
-    carId: Schema.Types.ObjectId,
-    userId: Schema.Types.ObjectId,
-    proposalReason: String,
-    technicalInspectionResult: String,
-    recomendedWork: String,
-    completedWork: String,
-});
+const schema: Schema = new Schema(
+    {
+        proposal_id: Number,
+        createTime: String,
+        changeTime: String,
+        status: Number,
+        clientId: Schema.Types.ObjectId,
+        carId: Schema.Types.ObjectId,
+        userId: Schema.Types.ObjectId,
+        proposalReason: String,
+        technicalInspectionResult: String,
+        recomendedWork: [String],
+        completedWork: String,
+    },
+    { collection: "proposal" },
+);
 
 export const ProposalModel = mongoose.model<IProposal>("proposal", schema);
