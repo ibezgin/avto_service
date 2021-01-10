@@ -15,12 +15,17 @@ import addStore from "./middleware/addStore";
 import webhookVerification from "./middleware/webhookVerification";
 import { i18nextXhr, refreshTranslations } from "./middleware/i18n";
 import { apolloServer } from "./graph";
-import { getOrCreateConnection } from "db";
+import { connectDatabase } from "db";
 import { passportAuth } from "./middleware/passport";
 import session from "express-session";
 import { v4 as uuidv4 } from "uuid";
+import connectMongo from "connect-mongo";
+// import cookieSession from "cookie-session";
+import { apiRouter } from "api";
 
 require("dotenv").config();
+
+const urljoin = require("url-join");
 
 const app = express();
 // const app = express.default();
@@ -34,7 +39,7 @@ app.use(
 );
 // }
 
-app.use(cors());
+app.use(cors({ credentials: true }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,31 +59,42 @@ app.use(
     }),
 );
 
+const MongoStore = connectMongo(session);
+
 // database connection
-(async () => {
-    await getOrCreateConnection();
-})();
+const mongoose = connectDatabase();
 
 // ===== Passport ====
 const passport = passportAuth();
 
 const SESSION_SECRECT = "qwerty_auto_service_qwerty";
-
+// app.use(
+//     cookieSession({
+//         name: "session",
+//         keys: ["key1", "key2"],
+//     }),
+// );
 app.use(
     session({
         genid: () => uuidv4(),
-        // genid: () => generateTemporyCode(),
         secret: SESSION_SECRECT,
         resave: false,
         saveUninitialized: false,
-        // use secure cookies for production meaning they will only be sent via https
-        // cookie: { secure: true }
+        store: new MongoStore({ mongooseConnection: mongoose.connection }),
+        cookie: {
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 1000 * 60 * 15,
+        },
     }),
 );
 
 app.use(passport.initialize());
 
 app.use(passport.session()); // will call the deserializeUser
+
+export const withBaseUrl = (url: string) => urljoin("/", url);
+
+app.use(withBaseUrl("web-api"), apiRouter);
 
 apolloServer.applyMiddleware({ app });
 

@@ -1,15 +1,18 @@
-import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
+import mongoose, { Schema, Document } from "mongoose";
 
-@Entity({ name: "clients" })
-export class ClientsEntity {
-    @ObjectIdColumn()
-    public id: ObjectID | string;
-    @Column()
-    public firstName: string;
-    @Column()
-    public lastName: string;
-    @Column()
-    public phone: string;
-    @Column()
-    public createTime: string;
+// @Entity({ name: "clients" })
+export interface IClients extends Document {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    createTime: string;
 }
+
+const schema: Schema = new Schema({
+    firstName: String,
+    lastName: String,
+    phone: String,
+    createTime: String,
+});
+
+export const ClientsModel = mongoose.model<IClients>("clients", schema);

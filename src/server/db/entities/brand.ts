@@ -1,9 +1,10 @@
-import { Entity, ObjectIdColumn, ObjectID, Column } from "typeorm";
+import mongoose, { Schema, Document } from "mongoose";
 
-@Entity({ name: "brand" })
-export class BrandEntity {
-    @ObjectIdColumn()
-    public id: ObjectID | string | undefined;
-    @Column()
-    public title: string | undefined;
+export interface IBrand extends Document {
+    title: string;
 }
+const schema: Schema = new Schema({
+    title: String,
+});
+
+export const BrandModel = mongoose.model<IBrand>("brand", schema);

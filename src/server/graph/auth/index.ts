@@ -55,7 +55,15 @@ export const authenticationSubSchema = new SubSchema(types, {
 
             return user;
         },
-        logout: async (_obj, _params, context) =>
-            context.authentification.logout(),
+        logout: async (_obj, _params, context) => {
+            context.request.session.destroy(error => {
+                if (error) {
+                    // eslint-disable-next-line no-console
+                    console.log(error);
+                }
+            });
+
+            context.authentification.logout();
+        },
     },
 });

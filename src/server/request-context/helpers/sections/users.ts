@@ -1,9 +1,11 @@
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
-import { UsersEntity } from "../../../db/entities/users";
+import { IUsers, UsersModel } from "../../../db/entities/users";
 import bcrypt from "bcryptjs";
 export class UsersContextHelper extends AbstractRequestContextHelper {
     public async allUsers() {
-        const result = await this.context.helpers.database.getAll(UsersEntity);
+        const result = await this.context.helpers.database.getAll<IUsers>(
+            UsersModel,
+        );
 
         return result;
     }
@@ -16,7 +18,7 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
         if (!checkUserName) {
             const password = await bcrypt.hash(data.password, 10);
 
-            return await this.context.helpers.database.add(UsersEntity, {
+            return await this.context.helpers.database.add<IUsers>(UsersModel, {
                 ...data,
                 password,
             });
@@ -25,16 +27,19 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
     }
 
     public async deleteUser(id: string) {
-        return await this.context.helpers.database.delete(UsersEntity, id);
+        return await this.context.helpers.database.delete<IUsers>(
+            UsersModel,
+            id,
+        );
     }
 
     public async updateUser(id: string, data: any) {
-        const user: any = await this.context.helpers.database.getById<UsersEntity>(
-            UsersEntity,
+        const user: any = await this.context.helpers.database.getById<IUsers>(
+            UsersModel,
             id,
         );
-        return await this.context.helpers.database.update<UsersEntity>(
-            UsersEntity,
+        return await this.context.helpers.database.update<IUsers>(
+            UsersModel,
             id,
             {
                 ...user,

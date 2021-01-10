@@ -28,6 +28,7 @@ const serverRenderer: any = () => (
             context: requestContext,
         }) as any,
         cache: new InMemoryCache(),
+        credentials: "same-origin",
     });
     const content = renderToString(
         <ApolloProvider client={client}>
