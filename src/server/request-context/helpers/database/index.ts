@@ -46,7 +46,7 @@ export class DatabaseContextHelper extends AbstractRequestContextHelper {
         id: string,
         values: any,
     ) {
-        const result = await model.findByIdAndUpdate(id, { ...values });
+        const result = await model.findByIdAndUpdate(id, values);
         return !result;
     }
     // private checkAuth() {

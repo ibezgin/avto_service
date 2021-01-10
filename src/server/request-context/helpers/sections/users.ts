@@ -38,11 +38,11 @@ export class UsersContextHelper extends AbstractRequestContextHelper {
             UsersModel,
             id,
         );
+
         return await this.context.helpers.database.update<IUsers>(
             UsersModel,
             id,
             {
-                ...user,
                 ...data,
                 password: data.password
                     ? await bcrypt.hash(data.password, 10)
