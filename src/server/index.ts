@@ -22,6 +22,7 @@ import { v4 as uuidv4 } from "uuid";
 import connectMongo from "connect-mongo";
 // import cookieSession from "cookie-session";
 import { apiRouter } from "api";
+import cookieParser from "cookie-parser";
 
 require("dotenv").config();
 
@@ -71,9 +72,13 @@ const SESSION_SECRECT = "qwerty_auto_service_qwerty";
 // app.use(
 //     cookieSession({
 //         name: "session",
-//         keys: ["key1", "key2"],
+//         keys: [SESSION_SECRECT],
+//         maxAge: 24 * 60 * 60 * 100,
 //     }),
 // );
+
+app.use(cookieParser());
+
 app.use(
     session({
         genid: () => uuidv4(),
@@ -83,7 +88,7 @@ app.use(
         store: new MongoStore({ mongooseConnection: mongoose.connection }),
         cookie: {
             secure: process.env.NODE_ENV === "production",
-            maxAge: 1000 * 60 * 15,
+            maxAge: 60 * 60 * 24 * 7, // 1 week
         },
     }),
 );
