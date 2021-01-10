@@ -16,6 +16,7 @@ import { SC } from "./styled";
 import { useChangeFormik } from "../../hooks/use-change-formik";
 import { TablePaginationConfig } from "antd/lib/table";
 import moment from "moment";
+import { useLocation } from "react-router-dom";
 
 export interface ITypeFilterItems {
     periods?: Array<moment.Moment | string>;
@@ -123,6 +124,9 @@ const pageSize = 30;
 
 export function Filter<T>(props: IProps<T>) {
     const initialValues = useInitialValues();
+
+    const location = useLocation();
+
     const [skip, setSkip] = useState(
         typeof props.skip === "boolean" ? props.skip : true,
     );
