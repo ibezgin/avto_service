@@ -7,11 +7,16 @@ export class RequestContext {
      *  Helpers
      */
     public readonly helpers: RequestContextHelpers;
-    public request: any;
+
+    public request: Request;
+
+    public response: Response;
+
     public authentification: Context<any>;
 
     constructor(request: Request, response: Response) {
         this.request = request;
+        this.response = response;
         this.helpers = new RequestContextHelpers(this);
         this.authentification = buildContext({ req: request, res: response });
     }

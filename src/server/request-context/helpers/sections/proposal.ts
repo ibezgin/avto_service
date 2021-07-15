@@ -1,41 +1,37 @@
 import { AbstractRequestContextHelper } from "../../abstract-request-context-helper";
-import { ProposalEntity } from "../../../db/entities/proposal";
+import { IProposal, ProposalModel } from "../../../db/entities/proposal";
 import { ProposalStatus } from "service/enums/proposal-status";
-import { getMongoManager } from "typeorm";
 
 export class ProposalContextHelper extends AbstractRequestContextHelper {
     public async allProposals() {
         return (
-            await this.context.helpers.database.getAll<ProposalEntity>(
-                ProposalEntity,
-            )
+            await this.context.helpers.database.getAll<IProposal>(ProposalModel)
         ).sort((a: any, b: any) => b.createTime - a.createTime);
     }
     public async getProposalById(id: string) {
-        return await this.context.helpers.database.getById<ProposalEntity>(
-            ProposalEntity,
+        return await this.context.helpers.database.getById<IProposal>(
+            ProposalModel,
             id,
         );
     }
 
     public async addProposal(data: any) {
-        const manager = getMongoManager();
-        const result = await manager.findOne(ProposalEntity, {
+        const result = await ProposalModel.findOne({
             order: { proposal_id: "DESC" },
         });
         const lastProposalId = result?.proposal_id || 0;
 
         data.proposal_id = lastProposalId + 1;
 
-        return await this.context.helpers.database.add<ProposalEntity>(
-            ProposalEntity,
+        return await this.context.helpers.database.add<IProposal>(
+            ProposalModel,
             data,
         );
     }
 
     public async deleteProposal(id: string) {
-        return await this.context.helpers.database.delete<ProposalEntity>(
-            ProposalEntity,
+        return await this.context.helpers.database.delete<IProposal>(
+            ProposalModel,
             id,
         );
     }
@@ -69,8 +65,8 @@ export class ProposalContextHelper extends AbstractRequestContextHelper {
                 amount,
             );
         }
-        return await this.context.helpers.database.update<ProposalEntity>(
-            ProposalEntity,
+        return await this.context.helpers.database.update<IProposal>(
+            ProposalModel,
             id,
             data,
         );
