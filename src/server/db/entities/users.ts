@@ -1,29 +1,25 @@
-import { Entity, ObjectIdColumn, ObjectID, Column, Index } from "typeorm";
+import mongoose, { Document, Schema } from "mongoose";
 
-interface IPermissionType {
-    [key: string]: boolean;
+// @Entity({ name: "users" })
+export interface IUsers extends Document {
+    firstname: string;
+    lastname: string;
+    username: string;
+    password: string;
+    position: string;
+    permission: any;
 }
-@Entity({ name: "users" })
-export class UsersEntity {
-    @ObjectIdColumn()
-    public id: ObjectID | string;
 
-    @Column()
-    public firstname: string | undefined;
+const schema: Schema = new Schema(
+    {
+        firstname: String,
+        lastname: String,
+        username: { type: String, unique: true },
+        password: String,
+        position: String,
+        permission: JSON,
+    },
+    { collection: "users" },
+);
 
-    @Column()
-    public lastname: string | undefined;
-
-    @Column()
-    @Index("username_unique_idx", { unique: true })
-    public username: string;
-
-    @Column()
-    public password: string | undefined;
-
-    @Column()
-    public position: string | undefined;
-
-    @Column()
-    public permission: IPermissionType;
-}
+export const UsersModel = mongoose.model<IUsers>("users", schema);
