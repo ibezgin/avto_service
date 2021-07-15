@@ -52,6 +52,7 @@ interface IProps<P> extends IQueryComponentOptions<P> {
     ssr?: boolean;
     paginationItemRender?: any;
     withoutButton?: boolean;
+    pollInterval?: number;
 }
 const items = [
     {
@@ -217,9 +218,17 @@ export function Filter<T>(props: IProps<T>) {
         variables: queryVariables,
         fetchPolicy: props.fetchPolicy,
     });
+
+    useEffect(() => {
+        if (props.pollInterval) {
+            query.startPolling(props.pollInterval);
+        }
+    }, [props.pollInterval, query]);
+
     const loading = Boolean(
         hasWindow && (query.loading || query.networkStatus === 4),
     );
+
     return (
         <SC.Wrapper>
             <Formik
